@@ -53,151 +53,120 @@ export default function VolunteerSection() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
           {/* First name and last name on the same line */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">First Name*</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" placeholder="Enter first name" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">Last Name*</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" placeholder="Enter last name" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
+          <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
+            <FormItem>
+              <FormLabel className="form-label">First Name*</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Enter first name" 
+                  {...form.register("firstName")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
+            <FormItem>
+              <FormLabel className="form-label">Last Name*</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Enter last name" 
+                  {...form.register("lastName")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
           </div>
 
-          {/* ZIP and Email on the same line */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <FormField
-              control={form.control}
-              name="zip"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">ZIP Code*</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" placeholder="Your ZIP code" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">Email*</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" type="email" placeholder="Enter email" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
+          {/* ZIP code and Email on the same line */}
+          <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
+            <FormItem>
+              <FormLabel className="form-label">ZIP Code*</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Your ZIP code" 
+                  {...form.register("zip")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
+            <FormItem>
+              <FormLabel className="form-label">Email*</FormLabel>
+              <FormControl>
+                <Input 
+                  type="email" 
+                  placeholder="Enter email" 
+                  {...form.register("email")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
           </div>
 
           {/* Phone field */}
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel className="form-label">Phone</FormLabel>
-                <FormControl>
-                  <Input className="form-input" type="tel" placeholder="Enter phone number" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
+          <FormItem className="mb-4">
+            <FormLabel className="form-label">Phone</FormLabel>
+            <FormControl>
+              <Input 
+                type="tel" 
+                placeholder="Enter phone number" 
+                {...form.register("phone")}
+                className="form-input"
+              />
+            </FormControl>
+            <FormMessage className="form-message" />
+          </FormItem>
 
           {/* Checkboxes in a row */}
           <div className="mb-4">
-            <h3 className="form-label mb-4">I am available to:</h3>
-            <div className="flex flex-row items-center gap-4">
-              <FormField
-                control={form.control}
-                name="phoneBank"
-                render={({ field }) => (
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="font-normal text-sm">Phone Bank</FormLabel>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="gatherSignatures"
-                render={({ field }) => (
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="font-normal text-sm">Gather Signatures</FormLabel>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="attendEvents"
-                render={({ field }) => (
-                  <FormItem className="flex items-center space-x-2">
-                    <FormControl>
-                      <Checkbox
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="font-normal text-sm">Attend Events</FormLabel>
-                  </FormItem>
-                )}
-              />
+            <h3 className="form-label">I am available to:</h3>
+            <div className="flex flex-row items-center gap-8 mt-2">
+              <FormItem className="flex items-center space-x-2">
+                <FormControl>
+                  <Checkbox
+                    checked={form.watch("phoneBank")}
+                    onCheckedChange={(checked) => form.setValue("phoneBank", checked)}
+                  />
+                </FormControl>
+                <FormLabel className="font-normal text-sm">Phone Bank</FormLabel>
+              </FormItem>
+              <FormItem className="flex items-center space-x-2">
+                <FormControl>
+                  <Checkbox
+                    checked={form.watch("gatherSignatures")}
+                    onCheckedChange={(checked) => form.setValue("gatherSignatures", checked)}
+                  />
+                </FormControl>
+                <FormLabel className="font-normal text-sm">Gather Signatures</FormLabel>
+              </FormItem>
+              <FormItem className="flex items-center space-x-2">
+                <FormControl>
+                  <Checkbox
+                    checked={form.watch("attendEvents")}
+                    onCheckedChange={(checked) => form.setValue("attendEvents", checked)}
+                  />
+                </FormControl>
+                <FormLabel className="font-normal text-sm">Attend Events</FormLabel>
+              </FormItem>
             </div>
           </div>
 
           {/* Message field */}
-          <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel className="form-label">Message</FormLabel>
-                <FormControl>
-                  <Textarea 
-                    className="form-input" 
-                    placeholder="Your message here"
-                    {...field}
-                    rows={4}
-                  />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
+          <FormItem className="mb-4">
+            <FormLabel className="form-label">Message</FormLabel>
+            <FormControl>
+              <Textarea 
+                placeholder="Your message here"
+                {...form.register("message")}
+                className="form-input"
+                rows={4}
+              />
+            </FormControl>
+            <FormMessage className="form-message" />
+          </FormItem>
+
           <Button type="submit" className="form-submit">
             Submit
           </Button>

@@ -54,128 +54,111 @@ export default function PetitionSection() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
           {/* First name and last name on the same line */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <FormField
-              control={form.control}
-              name="firstName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">First Name</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" placeholder="Enter first name" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="lastName"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">Last Name</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" placeholder="Enter last name" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
+          <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
+            <FormItem>
+              <FormLabel className="form-label">First Name</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Enter first name" 
+                  {...form.register("firstName")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
+            <FormItem>
+              <FormLabel className="form-label">Last Name</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Enter last name" 
+                  {...form.register("lastName")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
           </div>
 
           {/* Street address as full width */}
-          <FormField
-            control={form.control}
-            name="street"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel className="form-label">Address - Street</FormLabel>
-                <FormControl>
-                  <Input className="form-input" placeholder="Enter street address" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
+          <FormItem className="mb-4">
+            <FormLabel className="form-label">Address - Street</FormLabel>
+            <FormControl>
+              <Input 
+                placeholder="Enter street address" 
+                {...form.register("street")}
+                className="form-input"
+              />
+            </FormControl>
+            <FormMessage className="form-message" />
+          </FormItem>
 
-          {/* City and ZIP code on the same line */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
-            <FormField
-              control={form.control}
-              name="city"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">City/Town</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" placeholder="Enter city" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="zip"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">ZIP Code</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" placeholder="Enter ZIP code" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
+          {/* City and Zip on the same line */}
+          <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
+            <FormItem>
+              <FormLabel className="form-label">City/Town</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Enter city" 
+                  {...form.register("city")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
+            <FormItem>
+              <FormLabel className="form-label">ZIP Code</FormLabel>
+              <FormControl>
+                <Input 
+                  placeholder="Enter ZIP code" 
+                  {...form.register("zip")}
+                  className="form-input"
+                />
+              </FormControl>
+              <FormMessage className="form-message" />
+            </FormItem>
           </div>
 
           {/* Email field on its own line */}
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel className="form-label">Email</FormLabel>
-                <FormControl>
-                  <Input className="form-input" type="email" placeholder="Enter email" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
+          <FormItem className="mb-4">
+            <FormLabel className="form-label">Email</FormLabel>
+            <FormControl>
+              <Input 
+                type="email" 
+                placeholder="Enter email" 
+                {...form.register("email")}
+                className="form-input"
+              />
+            </FormControl>
+            <FormMessage className="form-message" />
+          </FormItem>
 
-          {/* Phone and Message fields */}
-          <FormField
-            control={form.control}
-            name="phone"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel className="form-label">Phone (Optional)</FormLabel>
-                <FormControl>
-                  <Input className="form-input" type="tel" placeholder="Enter phone number" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
+          {/* Phone field */}
+          <FormItem className="mb-4">
+            <FormLabel className="form-label">Phone (Optional)</FormLabel>
+            <FormControl>
+              <Input 
+                type="tel" 
+                placeholder="Enter phone number" 
+                {...form.register("phone")}
+                className="form-input"
+              />
+            </FormControl>
+            <FormMessage className="form-message" />
+          </FormItem>
 
-          <FormField
-            control={form.control}
-            name="message"
-            render={({ field }) => (
-              <FormItem className="mb-4">
-                <FormLabel className="form-label">Your Message (Optional)</FormLabel>
-                <FormControl>
-                  <Textarea 
-                    className="form-input" 
-                    placeholder="Your message here"
-                    {...field}
-                    rows={4}
-                  />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
+          {/* Message field */}
+          <FormItem className="mb-4">
+            <FormLabel className="form-label">Your Message (Optional)</FormLabel>
+            <FormControl>
+              <Textarea 
+                placeholder="Your message here"
+                {...form.register("message")}
+                className="form-input"
+                rows={4}
+              />
+            </FormControl>
+            <FormMessage className="form-message" />
+          </FormItem>
 
           <Button type="submit" className="form-submit">
             Sign Petition
