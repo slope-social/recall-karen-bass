@@ -4,7 +4,6 @@ import DonateSection from "@/components/donate-section";
 import VolunteerSection from "@/components/volunteer-section";
 import InformationSection from "@/components/information-section";
 import ContactSection from "@/components/contact-section";
-import PetitionSection from "@/components/petition-section";
 import PetitionForm from "@/components/petition-form";
 import { useState } from "react";
 
@@ -30,10 +29,6 @@ export default function Home() {
 
         <section id="get-informed" className="min-h-[100vh] flex items-center">
           <InformationSection />
-        </section>
-
-        <section className="min-h-[100vh] flex items-center">
-          <PetitionSection onPetitionClick={() => setPetitionOpen(true)} />
         </section>
 
         <section id="contact" className="min-h-[100vh] flex items-center">

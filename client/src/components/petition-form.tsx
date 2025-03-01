@@ -9,6 +9,7 @@ import { InsertPetition, insertPetitionSchema } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useEffect } from "react";
 
 interface Props {
   open: boolean;
@@ -26,6 +27,25 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
       comment: "",
     },
   });
+
+  // Handle background transition
+  useEffect(() => {
+    const body = document.body;
+    if (open) {
+      body.style.backgroundImage = 'url("/assets/RKB-FB-Cover.png")';
+      body.style.backgroundSize = 'cover';
+      body.style.backgroundPosition = 'center';
+      body.style.transition = 'background-image 0.5s ease-in-out';
+    } else {
+      body.style.backgroundImage = '';
+    }
+    return () => {
+      body.style.backgroundImage = '';
+      body.style.backgroundSize = '';
+      body.style.backgroundPosition = '';
+      body.style.transition = '';
+    };
+  }, [open]);
 
   const mutation = useMutation({
     mutationFn: (data: InsertPetition) =>
