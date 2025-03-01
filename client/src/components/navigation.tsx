@@ -1,33 +1,25 @@
-import { Link, useLocation } from "wouter";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-export default function Navigation() {
+interface Props {
+  onPetitionClick: () => void;
+}
+
+export default function Navigation({ onPetitionClick }: Props) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
-  const [location] = useLocation();
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const landingHeight = window.innerHeight;
-      const scrollPosition = window.scrollY;
-
-      if (scrollPosition > landingHeight * 0.5) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check initial position
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+    setIsMenuOpen(false);
+  };
 
   return (
-    <nav className={`nav ${!isVisible ? 'hidden' : ''}`}>
+    <nav className="nav">
       <div className="nav-container">
         <div className="nav-menu-wrapper">
           {/* Logo */}
@@ -50,41 +42,81 @@ export default function Navigation() {
 
           {/* Desktop menu */}
           <div className="nav-links">
-            <a href="#donate" className="nav-link">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={() => scrollToSection('donate')}
+            >
               DONATE
-            </a>
-            <a href="#volunteer" className="nav-link">
+            </Button>
+            <Button 
+              variant="ghost"
+              size="sm"
+              onClick={() => scrollToSection('volunteer')}
+            >
               VOLUNTEER
-            </a>
-            <a href="#get-informed" className="nav-link">
+            </Button>
+            <Button 
+              variant="ghost"
+              size="sm"
+              onClick={() => scrollToSection('get-informed')}
+            >
               GET INFORMED
-            </a>
-            <Link href="/petition" className={`nav-link ${location === '/petition' ? 'active' : ''}`}>
+            </Button>
+            <Button 
+              variant="secondary"
+              size="sm"
+              onClick={onPetitionClick}
+            >
               SIGN THE PETITION
-            </Link>
-            <a href="#contact" className="nav-link">
+            </Button>
+            <Button 
+              variant="ghost"
+              size="sm"
+              onClick={() => scrollToSection('contact')}
+            >
               CONTACT
-            </a>
+            </Button>
           </div>
         </div>
 
         {/* Mobile menu */}
         <div className={`nav-mobile ${isMenuOpen ? 'active' : ''}`}>
-          <a href="#donate" className="nav-mobile-link">
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('donate')}
+          >
             DONATE
-          </a>
-          <a href="#volunteer" className="nav-mobile-link">
+          </Button>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('volunteer')}
+          >
             VOLUNTEER
-          </a>
-          <a href="#get-informed" className="nav-mobile-link">
+          </Button>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('get-informed')}
+          >
             GET INFORMED
-          </a>
-          <Link href="/petition" className="nav-mobile-link">
+          </Button>
+          <Button 
+            variant="secondary"
+            className="nav-mobile-link"
+            onClick={onPetitionClick}
+          >
             SIGN THE PETITION
-          </Link>
-          <a href="#contact" className="nav-mobile-link">
+          </Button>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('contact')}
+          >
             CONTACT
-          </a>
+          </Button>
         </div>
       </div>
     </nav>

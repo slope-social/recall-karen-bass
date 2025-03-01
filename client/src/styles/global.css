@@ -7,7 +7,6 @@
   --card-bg: rgba(30, 30, 30, 0.85);
   --border: rgba(255, 255, 255, 0.15);
   --accent: rgba(255, 255, 255, 0.1);
-  --foreground: white; /* Added for body text color */
 }
 
 /* Reset and base styles */
@@ -15,19 +14,15 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  border-color: var(--border);
 }
 
 html {
   scroll-behavior: smooth;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background-color: var(--background);
-  color: var(--foreground);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
   overflow-x: hidden;
   background-image: url('/assets/header.jpg');
   background-size: cover;
@@ -35,68 +30,6 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   min-height: 100vh;
-}
-
-/* Landing page */
-.landing-section {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.landing-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  z-index: 1;
-}
-
-.landing-content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4rem;
-  padding: 2rem;
-}
-
-.landing-logo {
-  width: min(80vw, 800px);
-  height: auto;
-  filter: drop-shadow(0 0 2rem rgba(255, 255, 255, 0.1));
-  animation: fadeInScale 1.5s ease-out;
-  transition: transform 0.3s ease;
-}
-
-.landing-section:hover .landing-logo {
-  transform: scale(1.02);
-}
-
-.landing-actions {
-  animation: fadeInUp 1s ease-out 0.5s both;
-}
-
-.landing-button {
-  font-size: clamp(1rem, 2.5vmin, 1.5rem);
-  padding: 1rem 2rem;
-  background: transparent;
-  border: 2px solid white;
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: all 0.3s ease;
-}
-
-.landing-button:hover {
-  background: white;
-  color: black;
 }
 
 /* Navigation */
@@ -110,14 +43,6 @@ body {
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
   z-index: 50;
-  transform: translateY(0);
-  transition: transform 0.5s ease, opacity 0.5s ease;
-  opacity: 1;
-}
-
-.nav.hidden {
-  transform: translateY(-100%);
-  opacity: 0;
 }
 
 .nav-container {
@@ -136,11 +61,6 @@ body {
 .nav-logo {
   height: 3.5rem;
   width: auto;
-  transition: opacity 0.3s ease;
-}
-
-.nav-logo:hover {
-  opacity: 0.8;
 }
 
 .nav-mobile-menu {
@@ -148,12 +68,6 @@ body {
   background-color: transparent;
   border: 1px solid var(--border);
   color: var(--text);
-  transition: all 0.3s ease;
-}
-
-.nav-mobile-menu:hover {
-  background: var(--accent);
-  border-color: var(--text);
 }
 
 .nav-menu-icon {
@@ -168,43 +82,66 @@ body {
   margin-left: auto;
 }
 
-.nav-link {
-  padding: 0.5rem 1rem;
-  color: var(--text-muted);
-  text-decoration: none;
-  font-weight: 500;
-  transition: all 0.3s ease;
-  position: relative;
-}
-
-.nav-link::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--primary);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
-}
-
-.nav-link:hover {
+.nav-links button,
+.nav-mobile button {
+  background-color: transparent;
+  border: 1px solid var(--border);
   color: var(--text);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  transition: all 0.2s ease;
 }
 
-.nav-link:hover::after {
+.nav-links button:hover,
+.nav-mobile button:hover {
+  background-color: var(--accent);
+  border-color: var(--text-muted);
+}
+
+.nav-links button:last-child,
+.nav-mobile button:nth-child(4) {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: white;
+}
+
+.nav-links button:last-child:hover,
+.nav-mobile button:nth-child(4):hover {
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
+}
+
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  border-top: 1px solid var(--border);
+}
+
+.nav-mobile.active {
+  display: flex;
+}
+
+.nav-mobile-link {
   width: 100%;
+  justify-content: flex-start;
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid var(--border);
 }
 
-.nav-link.active {
-  color: var(--text);
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-mobile-menu {
+    display: block;
+  }
 }
 
-.nav-link.active::after {
-  width: 100%;
-}
-
+/* Typography */
 .heading-1 {
   font-size: clamp(2rem, 6vmin, 4rem);
   font-weight: 700;
@@ -243,16 +180,12 @@ body {
   margin-left: 0.5em;
 }
 
+/* Section Layout */
 main {
   height: 100vh;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   -webkit-overflow-scrolling: touch;
-}
-
-section {
-  scroll-snap-align: start;
-  min-height: 100vh;
 }
 
 .section {
@@ -266,10 +199,12 @@ section {
   padding-top: 4rem;
 }
 
+/* Content sections */
 .section:not(.hero) {
   background: rgba(0, 0, 0, 0.75);
 }
 
+/* Section content */
 .section-content {
   width: 100%;
   max-width: 1200px;
@@ -277,6 +212,7 @@ section {
   padding: 2rem;
 }
 
+/* Card styles */
 .card {
   background: var(--card-bg);
   border: 1px solid var(--border);
@@ -298,6 +234,7 @@ section {
   width: 100%;
 }
 
+/* Form styles */
 .form-content {
   padding: 2rem;
 }
@@ -364,6 +301,7 @@ section {
   cursor: not-allowed;
 }
 
+/* Dialog styles */
 .form-dialog {
   background: rgba(0, 0, 0, 0.95);
   border: 1px solid var(--border);
@@ -383,6 +321,7 @@ section {
   color: var(--text);
 }
 
+/* Hero specific styles */
 .hero-content {
   position: relative;
   max-width: min(80vmin, 800px);
@@ -412,37 +351,4 @@ section {
 
 .hero-button:hover {
   background: hsl(0 0% 100% / 0.9);
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .nav-mobile-menu {
-    display: block;
-  }
-}
-
-/* Added animation keyframes */
-@keyframes fadeInScale {
-  0% {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
