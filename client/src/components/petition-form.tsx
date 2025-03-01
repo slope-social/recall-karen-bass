@@ -9,7 +9,7 @@ import { InsertPetition, insertPetitionSchema } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   open: boolean;
@@ -18,6 +18,8 @@ interface Props {
 
 export default function PetitionForm({ open, onOpenChange }: Props) {
   const { toast } = useToast();
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
   const form = useForm<InsertPetition>({
     resolver: zodResolver(insertPetitionSchema),
     defaultValues: {
@@ -30,21 +32,14 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
 
   // Handle background transition
   useEffect(() => {
-    const body = document.body;
     if (open) {
-      body.style.backgroundImage = 'url("/assets/RKB-FB-Cover.png")';
-      body.style.backgroundSize = 'cover';
-      body.style.backgroundPosition = 'center';
-      body.style.transition = 'background-image 0.5s ease-in-out';
+      setIsTransitioning(true);
     } else {
-      body.style.backgroundImage = '';
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 500); // Match this with CSS transition duration
+      return () => clearTimeout(timer);
     }
-    return () => {
-      body.style.backgroundImage = '';
-      body.style.backgroundSize = '';
-      body.style.backgroundPosition = '';
-      body.style.transition = '';
-    };
   }, [open]);
 
   const mutation = useMutation({
@@ -68,75 +63,92 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
   });
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[90vmin]">
-        <DialogHeader>
-          <DialogTitle className="text-[3vmin] font-bold">Sign the Petition</DialogTitle>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-[2vmin]">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[1.8vmin]">Full Name</FormLabel>
-                  <FormControl>
-                    <Input className="text-[1.8vmin]" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-[1.6vmin]" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[1.8vmin]">Email</FormLabel>
-                  <FormControl>
-                    <Input className="text-[1.8vmin]" type="email" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-[1.6vmin]" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="location"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[1.8vmin]">Location</FormLabel>
-                  <FormControl>
-                    <Input className="text-[1.8vmin]" {...field} />
-                  </FormControl>
-                  <FormMessage className="text-[1.6vmin]" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="comment"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-[1.8vmin]">Comment (Optional)</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      className="text-[1.8vmin]" 
-                      {...field}
-                      rows={4}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-[1.6vmin]" />
-                </FormItem>
-              )}
-            />
-            <Button type="submit" className="w-full text-[1.8vmin]">
-              Sign Petition
-            </Button>
-          </form>
-        </Form>
-      </DialogContent>
-    </Dialog>
+    <>
+      {/* Background overlay with transition */}
+      <div 
+        className={`fixed inset-0 z-40 bg-cover bg-center transition-opacity duration-500 pointer-events-none ${
+          open ? 'opacity-100' : 'opacity-0'
+        } ${isTransitioning ? '' : 'hidden'}`}
+        style={{ 
+          backgroundImage: 'url("/assets/RKB-FB-Cover.png")',
+        }}
+      />
+      <div 
+        className={`fixed inset-0 z-40 transition-opacity duration-500 pointer-events-none ${
+          open ? 'bg-black/50 opacity-100' : 'opacity-0'
+        } ${isTransitioning ? '' : 'hidden'}`}
+      />
+
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogContent className="sm:max-w-[90vmin] z-50">
+          <DialogHeader>
+            <DialogTitle className="text-[3vmin] font-bold">Sign the Petition</DialogTitle>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-[2vmin]">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[1.8vmin]">Full Name</FormLabel>
+                    <FormControl>
+                      <Input className="text-[1.8vmin]" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-[1.6vmin]" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[1.8vmin]">Email</FormLabel>
+                    <FormControl>
+                      <Input className="text-[1.8vmin]" type="email" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-[1.6vmin]" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="location"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[1.8vmin]">Location</FormLabel>
+                    <FormControl>
+                      <Input className="text-[1.8vmin]" {...field} />
+                    </FormControl>
+                    <FormMessage className="text-[1.6vmin]" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="comment"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-[1.8vmin]">Comment (Optional)</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        className="text-[1.8vmin]" 
+                        {...field}
+                        rows={4}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-[1.6vmin]" />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full text-[1.8vmin]">
+                Sign Petition
+              </Button>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 }
