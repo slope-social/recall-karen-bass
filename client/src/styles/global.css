@@ -370,11 +370,14 @@ main {
   z-index: 10;
 }
 
+/*Modified heading-3*/
 .heading-3 {
   font-size: clamp(1.25rem, 2.5vmin, 2rem);
   font-weight: 600;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .text-body {
@@ -430,4 +433,77 @@ main {
   margin-bottom: 2rem;
   text-align: center;
   color: var(--text);
+}
+
+/* Information Section Styles */
+.heading-3 {
+  font-size: clamp(1.25rem, 2.5vmin, 2rem);
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: var(--text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Accordion Styles */
+.accordion-item {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.accordion-trigger {
+  width: 100%;
+  padding: 1.25rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: var(--text);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+.accordion-trigger:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accordion-content {
+  padding: 0 1.25rem 1.25rem;
+  font-size: 0.875rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.accordion-content a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  font-size: 0.75rem;
+  opacity: 0.8;
+}
+
+.accordion-content a:hover {
+  color: var(--text);
+  opacity: 1;
+}
+
+/* Override shadcn accordion styles */
+.accordion-item[data-state="open"] {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.accordion-item[data-state="open"] .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-icon {
+  transition: transform 0.2s ease;
 }

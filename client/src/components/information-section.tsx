@@ -29,16 +29,15 @@ export default function InformationSection() {
 
       <Accordion type="single" collapsible className="w-full max-w-3xl mx-auto">
         {FACTS.map((fact, index) => (
-          <AccordionItem key={index} value={`item-${index}`} className="mb-4">
-            <AccordionTrigger className="text-left font-semibold">
+          <AccordionItem key={index} value={`item-${index}`} className="accordion-item">
+            <AccordionTrigger className="accordion-trigger">
               {fact.title}
             </AccordionTrigger>
-            <AccordionContent>
+            <AccordionContent className="accordion-content">
               <a 
                 href={fact.source}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:text-primary-hover underline text-sm"
               >
                 Source: {fact.source}
               </a>
