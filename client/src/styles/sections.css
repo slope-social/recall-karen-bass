@@ -50,7 +50,7 @@
 .petition-background {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: 1;
   background-size: cover;
   background-position: center;
   opacity: 0;
@@ -68,7 +68,7 @@
 .petition-overlay {
   position: fixed;
   inset: 0;
-  z-index: 40;
+  z-index: 2;
   background: rgba(0, 0, 0, 0.3);
   opacity: 0;
   pointer-events: none;

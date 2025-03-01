@@ -12,9 +12,9 @@ import { useToast } from "@/hooks/use-toast";
 const volunteerFormSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
-  zipCode: z.string().min(5, "Valid zip code is required"),
   email: z.string().email("Valid email is required"),
   phone: z.string().optional(),
+  zipCode: z.string().min(5, "Valid zip code is required"),
   availability: z.array(z.string()).min(1, "Please select at least one option"),
   message: z.string().optional(),
 });
@@ -34,9 +34,9 @@ export default function VolunteerSection() {
     defaultValues: {
       firstName: "",
       lastName: "",
-      zipCode: "",
       email: "",
       phone: "",
+      zipCode: "",
       availability: [],
       message: "",
     },
@@ -56,7 +56,7 @@ export default function VolunteerSection() {
       <h2 className="heading-2">Join Our Community</h2>
       <div className="card-grid">
         <Card>
-          <CardContent className="form-content">
+          <CardContent>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="form-fields">
                 <div className="flex gap-4">
@@ -65,25 +65,24 @@ export default function VolunteerSection() {
                     name="firstName"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel className="form-label">First Name*</FormLabel>
+                        <FormLabel>First Name*</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter first name" className="form-input" {...field} />
+                          <Input placeholder="Enter first name" {...field} />
                         </FormControl>
-                        <FormMessage className="form-message" />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="lastName"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel className="form-label">Last Name*</FormLabel>
+                        <FormLabel>Last Name*</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter last name" className="form-input" {...field} />
+                          <Input placeholder="Enter last name" {...field} />
                         </FormControl>
-                        <FormMessage className="form-message" />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
@@ -94,11 +93,11 @@ export default function VolunteerSection() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="form-label">Email*</FormLabel>
+                      <FormLabel>Email*</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter email" type="email" className="form-input" {...field} />
+                        <Input placeholder="Enter email" type="email" {...field} />
                       </FormControl>
-                      <FormMessage className="form-message" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
@@ -109,32 +108,31 @@ export default function VolunteerSection() {
                     name="phone"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel className="form-label">Phone</FormLabel>
+                        <FormLabel>Phone</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter phone" type="tel" className="form-input" {...field} />
+                          <Input placeholder="Enter phone" type="tel" {...field} />
                         </FormControl>
-                        <FormMessage className="form-message" />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
-
                   <FormField
                     control={form.control}
                     name="zipCode"
                     render={({ field }) => (
                       <FormItem className="flex-1">
-                        <FormLabel className="form-label">Zip Code*</FormLabel>
+                        <FormLabel>Zip Code*</FormLabel>
                         <FormControl>
-                          <Input placeholder="Your Zip Code" className="form-input" {...field} />
+                          <Input placeholder="Your Zip Code" {...field} />
                         </FormControl>
-                        <FormMessage className="form-message" />
+                        <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
 
                 <FormItem>
-                  <FormLabel className="form-label">I am available to:</FormLabel>
+                  <FormLabel>I am available to:</FormLabel>
                   <div className="flex items-center gap-6">
                     {availabilityOptions.map((option) => (
                       <FormField
@@ -142,7 +140,7 @@ export default function VolunteerSection() {
                         control={form.control}
                         name="availability"
                         render={({ field }) => (
-                          <FormItem key={option.id} className="flex items-center space-x-2">
+                          <FormItem className="flex items-center space-x-2">
                             <FormControl>
                               <Checkbox
                                 checked={field.value?.includes(option.id)}
@@ -154,13 +152,15 @@ export default function VolunteerSection() {
                                 }}
                               />
                             </FormControl>
-                            <FormLabel className="font-normal">{option.label}</FormLabel>
+                            <FormLabel className="text-sm font-normal">
+                              {option.label}
+                            </FormLabel>
                           </FormItem>
                         )}
                       />
                     ))}
                   </div>
-                  <FormMessage className="form-message" />
+                  <FormMessage />
                 </FormItem>
 
                 <FormField
@@ -168,16 +168,16 @@ export default function VolunteerSection() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="form-label">Message</FormLabel>
+                      <FormLabel>Message</FormLabel>
                       <FormControl>
-                        <Textarea className="form-input" {...field} />
+                        <Textarea {...field} />
                       </FormControl>
-                      <FormMessage className="form-message" />
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
 
-                <Button type="submit" className="form-submit">
+                <Button type="submit" className="w-full">
                   Submit
                 </Button>
               </form>
