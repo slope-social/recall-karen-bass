@@ -197,6 +197,7 @@ main {
   scroll-snap-align: start;
   position: relative;
   padding-top: 4rem;
+  transition: background-image 1s ease-out; /* Added transition */
 }
 
 /* Content sections */
@@ -328,27 +329,57 @@ main {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 2rem;
-  text-align: center;
-}
-
-.hero-actions {
-  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 1.5rem;
+  padding: 2rem;
 }
 
-.hero-button {
-  font-size: clamp(0.875rem, 2.2vmin, 1.25rem);
+.hero-logo {
+  width: min(70vmin, 600px);
   height: auto;
-  padding: 1rem 2rem;
-  background: white;
-  color: black;
-  border-radius: 0.5rem;
-  transition: background-color 0.2s ease;
+  animation: fadeInScale 1s ease-out;
 }
 
-.hero-button:hover {
-  background: hsl(0 0% 100% / 0.9);
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Section transitions */
+
+#petition {
+  background-image: url('/assets/RKB-FB-Cover.png');
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+#petition::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+/* Ensure petition content is above the overlay */
+#petition > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Intersection Observer styles */
+.section.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.section:not(.in-view) {
+  opacity: 0.7;
+  transform: translateY(20px);
 }

@@ -3,11 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import { useState } from "react";
 
-interface Props {
-  onPetitionClick: () => void;
-}
-
-export default function Navigation({ onPetitionClick }: Props) {
+export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const scrollToSection = (id: string) => {
@@ -45,9 +41,9 @@ export default function Navigation({ onPetitionClick }: Props) {
             <Button 
               variant="ghost" 
               size="sm"
-              onClick={() => scrollToSection('donate')}
+              onClick={() => scrollToSection('petition')}
             >
-              DONATE
+              SIGN THE PETITION
             </Button>
             <Button 
               variant="ghost"
@@ -59,16 +55,16 @@ export default function Navigation({ onPetitionClick }: Props) {
             <Button 
               variant="ghost"
               size="sm"
+              onClick={() => scrollToSection('donate')}
+            >
+              DONATE
+            </Button>
+            <Button 
+              variant="ghost"
+              size="sm"
               onClick={() => scrollToSection('get-informed')}
             >
               GET INFORMED
-            </Button>
-            <Button 
-              variant="secondary"
-              size="sm"
-              onClick={onPetitionClick}
-            >
-              SIGN THE PETITION
             </Button>
             <Button 
               variant="ghost"
@@ -85,9 +81,9 @@ export default function Navigation({ onPetitionClick }: Props) {
           <Button 
             variant="ghost"
             className="nav-mobile-link"
-            onClick={() => scrollToSection('donate')}
+            onClick={() => scrollToSection('petition')}
           >
-            DONATE
+            SIGN THE PETITION
           </Button>
           <Button 
             variant="ghost"
@@ -99,16 +95,16 @@ export default function Navigation({ onPetitionClick }: Props) {
           <Button 
             variant="ghost"
             className="nav-mobile-link"
+            onClick={() => scrollToSection('donate')}
+          >
+            DONATE
+          </Button>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
             onClick={() => scrollToSection('get-informed')}
           >
             GET INFORMED
-          </Button>
-          <Button 
-            variant="secondary"
-            className="nav-mobile-link"
-            onClick={onPetitionClick}
-          >
-            SIGN THE PETITION
           </Button>
           <Button 
             variant="ghost"

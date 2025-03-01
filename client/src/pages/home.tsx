@@ -4,27 +4,28 @@ import DonateSection from "@/components/donate-section";
 import VolunteerSection from "@/components/volunteer-section";
 import InformationSection from "@/components/information-section";
 import ContactSection from "@/components/contact-section";
-import PetitionForm from "@/components/petition-form";
-import { useState } from "react";
+import PetitionSection from "@/components/petition-section";
 
 export default function Home() {
-  const [petitionOpen, setPetitionOpen] = useState(false);
-
   return (
     <>
-      <Navigation onPetitionClick={() => setPetitionOpen(true)} />
+      <Navigation />
 
       <main>
         <section className="section">
           <HeroSection />
         </section>
 
-        <section id="donate" className="section">
-          <DonateSection />
+        <section id="petition" className="section">
+          <PetitionSection />
         </section>
 
         <section id="volunteer" className="section">
           <VolunteerSection />
+        </section>
+
+        <section id="donate" className="section">
+          <DonateSection />
         </section>
 
         <section id="get-informed" className="section">
@@ -35,11 +36,6 @@ export default function Home() {
           <ContactSection />
         </section>
       </main>
-
-      <PetitionForm 
-        open={petitionOpen} 
-        onOpenChange={setPetitionOpen}
-      />
     </>
   );
 }
