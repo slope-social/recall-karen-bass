@@ -13,20 +13,24 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+  height: 100%;
+  overflow: hidden;
+}
+
 body {
   font-family: system-ui, -apple-system, sans-serif;
   background: var(--background);
   color: var(--text);
-  min-height: 100vh;
-  overflow-y: auto;
+  height: 100%;
+  overflow: auto;
   scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
-/* Layout */
-.container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+main {
+  height: 100%;
 }
 
 /* Navigation */
@@ -86,6 +90,7 @@ body {
   scroll-snap-stop: always;
   background: var(--background);
   position: relative;
+  padding-top: 4rem; /* Account for fixed header */
 }
 
 .section-content {

@@ -11,7 +11,7 @@ export default function Home() {
   const [petitionOpen, setPetitionOpen] = useState(false);
 
   return (
-    <div className="min-h-screen w-full">
+    <>
       <Navigation onPetitionClick={() => setPetitionOpen(true)} />
 
       <main>
@@ -40,6 +40,6 @@ export default function Home() {
         open={petitionOpen} 
         onOpenChange={setPetitionOpen}
       />
-    </div>
+    </>
   );
 }
