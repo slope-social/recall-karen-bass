@@ -12,10 +12,10 @@ export default function HeroSection() {
         </p>
         <div className="hero-actions">
           <Button 
-            className="hero-button"
             onClick={() => {
               document.getElementById('donate')?.scrollIntoView({ behavior: 'smooth' });
             }}
+            className="hero-button"
           >
             Donate Now
           </Button>
