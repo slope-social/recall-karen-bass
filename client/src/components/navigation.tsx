@@ -20,54 +20,50 @@ export default function Navigation({ onPetitionClick }: Props) {
 
   return (
     <nav className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-lg z-50 border-b">
-      <div className="container mx-auto px-[2vmin]">
-        <div className="flex items-center justify-between h-[12vmin]">
-          <div className="logo text-[4vmin] font-bold">
-            {/* Logo will be added here */}
-          </div>
-
+      <div className="container mx-auto">
+        <div className="flex items-center justify-between h-[12vmin] px-4">
           {/* Mobile menu button */}
           <Button 
             variant="ghost" 
             className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <Menu className="h-[3vmin] w-[3vmin]" />
+            <Menu className="h-6 w-6" />
           </Button>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center gap-[1vmin]">
+          <div className="hidden md:flex items-center justify-center flex-1 gap-4">
             <Button 
               variant="ghost" 
-              className="text-[2.5vmin]"
+              size="sm"
               onClick={() => scrollToSection('donate')}
             >
               DONATE
             </Button>
             <Button 
               variant="ghost"
-              className="text-[2.5vmin]"
+              size="sm"
               onClick={() => scrollToSection('volunteer')}
             >
               VOLUNTEER
             </Button>
             <Button 
               variant="ghost"
-              className="text-[2.5vmin]"
+              size="sm"
               onClick={() => scrollToSection('get-informed')}
             >
               GET INFORMED
             </Button>
             <Button 
               variant="secondary"
-              className="text-[2.5vmin]"
+              size="sm"
               onClick={onPetitionClick}
             >
               SIGN THE PETITION
             </Button>
             <Button 
               variant="ghost"
-              className="text-[2.5vmin]"
+              size="sm"
               onClick={() => scrollToSection('contact')}
             >
               CONTACT
@@ -77,39 +73,39 @@ export default function Navigation({ onPetitionClick }: Props) {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-[2vmin] border-t">
-            <div className="flex flex-col gap-[2vmin]">
+          <div className="md:hidden py-2 px-4 border-t">
+            <div className="flex flex-col gap-2">
               <Button 
-                variant="ghost" 
-                className="text-[2.5vmin]"
+                variant="ghost"
+                className="justify-start"
                 onClick={() => scrollToSection('donate')}
               >
                 DONATE
               </Button>
               <Button 
                 variant="ghost"
-                className="text-[2.5vmin]"
+                className="justify-start"
                 onClick={() => scrollToSection('volunteer')}
               >
                 VOLUNTEER
               </Button>
               <Button 
                 variant="ghost"
-                className="text-[2.5vmin]"
+                className="justify-start"
                 onClick={() => scrollToSection('get-informed')}
               >
                 GET INFORMED
               </Button>
               <Button 
                 variant="secondary"
-                className="text-[2.5vmin]"
+                className="justify-start"
                 onClick={onPetitionClick}
               >
                 SIGN THE PETITION
               </Button>
               <Button 
                 variant="ghost"
-                className="text-[2.5vmin]"
+                className="justify-start"
                 onClick={() => scrollToSection('contact')}
               >
                 CONTACT
