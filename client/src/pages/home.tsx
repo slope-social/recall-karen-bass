@@ -14,22 +14,24 @@ export default function Home() {
     <div className="min-h-screen w-full">
       <Navigation onPetitionClick={() => setPetitionOpen(true)} />
 
-      <main className="pt-16">
-        <HeroSection />
+      <main>
+        <section className="min-h-[100vh] flex items-center">
+          <HeroSection />
+        </section>
 
-        <section id="donate" className="min-h-screen">
+        <section id="donate" className="min-h-[100vh] flex items-center">
           <DonateSection />
         </section>
 
-        <section id="volunteer" className="min-h-screen">
+        <section id="volunteer" className="min-h-[100vh] flex items-center">
           <VolunteerSection />
         </section>
 
-        <section id="get-informed" className="min-h-screen">
+        <section id="get-informed" className="min-h-[100vh] flex items-center">
           <InformationSection />
         </section>
 
-        <section id="contact" className="min-h-screen">
+        <section id="contact" className="min-h-[100vh] flex items-center">
           <ContactSection />
         </section>
       </main>

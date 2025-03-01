@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react";
 
 export default function DonateSection() {
   return (
-    <div className="container mx-auto py-[8vmin] px-[4vmin]">
+    <div className="w-full container mx-auto py-[8vmin] px-[4vmin]">
       <h2 className="text-[4vmin] font-bold mb-[4vmin]">Support Our Cause</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[3vmin]">
         <Card>
