@@ -5,31 +5,33 @@ import { useState, useEffect } from "react";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScroll, setLastScroll] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
   const [location] = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentScroll = window.scrollY;
-      if (currentScroll > lastScroll && currentScroll > 100) {
-        setIsVisible(false);
-      } else {
+      const landingHeight = window.innerHeight;
+      const scrollPosition = window.scrollY;
+
+      if (scrollPosition > landingHeight * 0.5) {
         setIsVisible(true);
+      } else {
+        setIsVisible(false);
       }
-      setLastScroll(currentScroll);
     };
 
     window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check initial position
+
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScroll]);
+  }, []);
 
   return (
     <nav className={`nav ${!isVisible ? 'hidden' : ''}`}>
       <div className="nav-container">
         <div className="nav-menu-wrapper">
           {/* Logo */}
-          <Link href="/home">
+          <Link href="/">
             <img 
               src="/assets/RKB-Logo-Primary.png" 
               alt="RKB Logo" 
@@ -48,47 +50,41 @@ export default function Navigation() {
 
           {/* Desktop menu */}
           <div className="nav-links">
-            <Link href="/home" className={`nav-link ${location === '/home' ? 'active' : ''}`}>
-              HOME
-            </Link>
-            <Link href="/home#donate" className="nav-link">
+            <a href="#donate" className="nav-link">
               DONATE
-            </Link>
-            <Link href="/home#volunteer" className="nav-link">
+            </a>
+            <a href="#volunteer" className="nav-link">
               VOLUNTEER
-            </Link>
-            <Link href="/home#get-informed" className="nav-link">
+            </a>
+            <a href="#get-informed" className="nav-link">
               GET INFORMED
-            </Link>
+            </a>
             <Link href="/petition" className={`nav-link ${location === '/petition' ? 'active' : ''}`}>
               SIGN THE PETITION
             </Link>
-            <Link href="/home#contact" className="nav-link">
+            <a href="#contact" className="nav-link">
               CONTACT
-            </Link>
+            </a>
           </div>
         </div>
 
         {/* Mobile menu */}
         <div className={`nav-mobile ${isMenuOpen ? 'active' : ''}`}>
-          <Link href="/home" className="nav-mobile-link">
-            HOME
-          </Link>
-          <Link href="/home#donate" className="nav-mobile-link">
+          <a href="#donate" className="nav-mobile-link">
             DONATE
-          </Link>
-          <Link href="/home#volunteer" className="nav-mobile-link">
+          </a>
+          <a href="#volunteer" className="nav-mobile-link">
             VOLUNTEER
-          </Link>
-          <Link href="/home#get-informed" className="nav-mobile-link">
+          </a>
+          <a href="#get-informed" className="nav-mobile-link">
             GET INFORMED
-          </Link>
+          </a>
           <Link href="/petition" className="nav-mobile-link">
             SIGN THE PETITION
           </Link>
-          <Link href="/home#contact" className="nav-mobile-link">
+          <a href="#contact" className="nav-mobile-link">
             CONTACT
-          </Link>
+          </a>
         </div>
       </div>
     </nav>
