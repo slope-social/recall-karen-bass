@@ -29,76 +29,95 @@ export default function Navigation({ onPetitionClick }: Props) {
           {/* Mobile menu button */}
           <Button 
             variant="ghost" 
-            className="lg:hidden"
+            className="md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             <Menu className="h-[3vmin] w-[3vmin]" />
           </Button>
 
           {/* Desktop menu */}
-          <div className="hidden lg:flex items-center gap-[2vmin]">
-            <NavItems onPetitionClick={onPetitionClick} />
+          <div className="hidden md:flex items-center gap-[1vmin]">
+            <Button 
+              variant="ghost" 
+              className="text-[2.5vmin]"
+              onClick={() => scrollToSection('donate')}
+            >
+              DONATE
+            </Button>
+            <Button 
+              variant="ghost"
+              className="text-[2.5vmin]"
+              onClick={() => scrollToSection('volunteer')}
+            >
+              VOLUNTEER
+            </Button>
+            <Button 
+              variant="ghost"
+              className="text-[2.5vmin]"
+              onClick={() => scrollToSection('get-informed')}
+            >
+              GET INFORMED
+            </Button>
+            <Button 
+              variant="secondary"
+              className="text-[2.5vmin]"
+              onClick={onPetitionClick}
+            >
+              SIGN THE PETITION
+            </Button>
+            <Button 
+              variant="ghost"
+              className="text-[2.5vmin]"
+              onClick={() => scrollToSection('contact')}
+            >
+              CONTACT
+            </Button>
           </div>
         </div>
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="lg:hidden py-[2vmin] border-t">
+          <div className="md:hidden py-[2vmin] border-t">
             <div className="flex flex-col gap-[2vmin]">
-              <NavItems onPetitionClick={onPetitionClick} />
+              <Button 
+                variant="ghost" 
+                className="text-[2.5vmin]"
+                onClick={() => scrollToSection('donate')}
+              >
+                DONATE
+              </Button>
+              <Button 
+                variant="ghost"
+                className="text-[2.5vmin]"
+                onClick={() => scrollToSection('volunteer')}
+              >
+                VOLUNTEER
+              </Button>
+              <Button 
+                variant="ghost"
+                className="text-[2.5vmin]"
+                onClick={() => scrollToSection('get-informed')}
+              >
+                GET INFORMED
+              </Button>
+              <Button 
+                variant="secondary"
+                className="text-[2.5vmin]"
+                onClick={onPetitionClick}
+              >
+                SIGN THE PETITION
+              </Button>
+              <Button 
+                variant="ghost"
+                className="text-[2.5vmin]"
+                onClick={() => scrollToSection('contact')}
+              >
+                CONTACT
+              </Button>
             </div>
           </div>
         )}
       </div>
     </nav>
-  );
-}
-
-function NavItems({ onPetitionClick }: Props) {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  return (
-    <>
-      <Button 
-        variant="ghost" 
-        className="text-[2.5vmin]"
-        onClick={() => scrollToSection('donate')}
-      >
-        DONATE
-      </Button>
-      <Button 
-        variant="ghost"
-        className="text-[2.5vmin]"
-        onClick={() => scrollToSection('volunteer')}
-      >
-        VOLUNTEER
-      </Button>
-      <Button 
-        variant="ghost"
-        className="text-[2.5vmin]"
-        onClick={() => scrollToSection('get-informed')}
-      >
-        GET INFORMED
-      </Button>
-      <Button 
-        variant="secondary"
-        className="text-[2.5vmin]"
-        onClick={onPetitionClick}
-      >
-        SIGN THE PETITION
-      </Button>
-      <Button 
-        variant="ghost"
-        className="text-[2.5vmin]"
-        onClick={() => scrollToSection('contact')}
-      >
-        CONTACT
-      </Button>
-    </>
   );
 }
