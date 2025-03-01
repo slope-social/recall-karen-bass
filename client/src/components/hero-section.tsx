@@ -7,12 +7,12 @@ export default function HeroSection() {
         <h1 className="text-[6vmin] font-bold leading-tight">
           Making a Difference Together
         </h1>
-        <p className="text-[2vmin] text-muted-foreground max-w-[60vmin] mx-auto">
+        <p className="text-[2.5vmin] text-muted-foreground max-w-[60vmin] mx-auto">
           Join our movement to create positive change in our community through collective action and shared purpose.
         </p>
         <div className="flex justify-center gap-[2vmin]">
           <Button 
-            className="text-[1.8vmin] px-[3vmin] py-[1.5vmin] h-auto"
+            className="text-[2.2vmin] px-[3vmin] py-[1.5vmin] h-auto"
             onClick={() => {
               document.getElementById('donate')?.scrollIntoView({ behavior: 'smooth' });
             }}

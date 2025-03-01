@@ -8,7 +8,7 @@ export default function InformationSection() {
         <Card>
           <CardContent className="p-[3vmin]">
             <h3 className="text-[2.5vmin] font-semibold mb-[2vmin]">Latest Updates</h3>
-            <p className="text-[2vmin] text-muted-foreground">
+            <p className="text-[2.5vmin] text-muted-foreground">
               Stay informed about our initiatives and impact in the community.
             </p>
           </CardContent>
