@@ -1,0 +1,206 @@
+const PetitionForm = () => {
+  return (
+    <form data-component-name="form" className="form-fields">
+      {/* First name and last name on the same line */}
+      <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
+        <div data-component-name="FormItem" className="space-y-2">
+          <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="firstName-form-item">
+            First Name
+          </label>
+          <input
+            data-component-name="Input"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+            placeholder="Enter first name"
+            name="firstName"
+            id="firstName-form-item"
+            aria-describedby="firstName-form-item-description"
+            aria-invalid="false"
+            value=""
+          />
+        </div>
+        <div data-component-name="FormItem" className="space-y-2">
+          <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="lastName-form-item">
+            Last Name
+          </label>
+          <input
+            data-component-name="Input"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+            placeholder="Enter last name"
+            name="lastName"
+            id="lastName-form-item"
+            aria-describedby="lastName-form-item-description"
+            aria-invalid="false"
+            value=""
+          />
+        </div>
+      </div>
+
+      {/* Street address as full width */}
+      <div data-component-name="FormItem" className="space-y-2 mb-4">
+        <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="street-form-item">
+          Address - Street
+        </label>
+        <input
+          data-component-name="Input"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+          placeholder="Enter street address"
+          name="street"
+          id="street-form-item"
+          aria-describedby="street-form-item-description"
+          aria-invalid="false"
+          value=""
+        />
+      </div>
+
+      {/* City and state on one line */}
+      <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
+        <div data-component-name="FormItem" className="space-y-2">
+          <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="city-form-item">
+            City/Town
+          </label>
+          <input
+            data-component-name="Input"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+            placeholder="Enter city"
+            name="city"
+            id="city-form-item"
+            aria-describedby="city-form-item-description"
+            aria-invalid="false"
+            value=""
+          />
+        </div>
+        <div data-component-name="FormItem" className="space-y-2">
+          <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="state-form-item">
+            State
+          </label>
+          <input
+            data-component-name="Input"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+            placeholder="Enter state"
+            name="state"
+            id="state-form-item"
+            aria-describedby="state-form-item-description"
+            aria-invalid="false"
+            value=""
+          />
+        </div>
+      </div>
+
+      {/* ZIP code and phone on the same line */}
+      <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
+        <div data-component-name="FormItem" className="space-y-2">
+          <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="zip-form-item">
+            ZIP Code
+          </label>
+          <input
+            data-component-name="Input"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+            placeholder="Enter ZIP code"
+            name="zip"
+            id="zip-form-item"
+            aria-describedby="zip-form-item-description"
+            aria-invalid="false"
+            value=""
+          />
+        </div>
+        <div data-component-name="FormItem" className="space-y-2">
+          <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="phone-form-item">
+            Phone (Optional)
+          </label>
+          <input
+            data-component-name="Input"
+            type="tel"
+            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+            placeholder="Enter phone number"
+            name="phone"
+            id="phone-form-item"
+            aria-describedby="phone-form-item-description"
+            aria-invalid="false"
+            value=""
+          />
+        </div>
+      </div>
+
+      {/* Email field full width */}
+      <div data-component-name="FormItem" className="space-y-2 mb-4">
+        <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="email-form-item">
+          Email
+        </label>
+        <input
+          data-component-name="Input"
+          type="email"
+          className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+          placeholder="Enter email"
+          name="email"
+          id="email-form-item"
+          aria-describedby="email-form-item-description"
+          aria-invalid="false"
+          value=""
+        />
+      </div>
+
+      {/* Checkboxes all on the same line */}
+      <div className="flex flex-row items-center gap-4 mb-4">
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="subscribe-newsletter"
+            name="subscribe"
+            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+          />
+          <label htmlFor="subscribe-newsletter" className="ml-2 text-sm">
+            Subscribe to newsletter
+          </label>
+        </div>
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="volunteer"
+            name="volunteer"
+            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+          />
+          <label htmlFor="volunteer" className="ml-2 text-sm">
+            I want to volunteer
+          </label>
+        </div>
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="terms"
+            name="terms"
+            className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
+          />
+          <label htmlFor="terms" className="ml-2 text-sm">
+            I agree to terms
+          </label>
+        </div>
+      </div>
+
+      {/* Message field */}
+      <div data-component-name="FormItem" className="space-y-2 mb-4">
+        <label data-component-name="FormLabel" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 form-label" htmlFor="message-form-item">
+          Your Message (Optional)
+        </label>
+        <textarea
+          data-component-name="Textarea"
+          className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 form-input"
+          placeholder="Your message here"
+          name="message"
+          rows="4"
+          id="message-form-item"
+          aria-describedby="message-form-item-description"
+          aria-invalid="false"
+        ></textarea>
+      </div>
+
+      {/* Submit button */}
+      <button
+        data-component-name="Button"
+        className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 form-submit"
+        type="submit"
+      >
+        Sign Petition
+      </button>
+    </form>
+  );
+};

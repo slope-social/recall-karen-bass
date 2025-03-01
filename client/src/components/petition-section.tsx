@@ -53,7 +53,8 @@ export default function PetitionSection() {
       </p>
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* First name and last name on the same line */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
             <FormField
               control={form.control}
               name="firstName"
@@ -82,11 +83,12 @@ export default function PetitionSection() {
             />
           </div>
 
+          {/* Street address as full width */}
           <FormField
             control={form.control}
             name="street"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-4">
                 <FormLabel className="form-label">Address - Street</FormLabel>
                 <FormControl>
                   <Input className="form-input" placeholder="Enter street address" {...field} />
@@ -96,7 +98,8 @@ export default function PetitionSection() {
             )}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* City and ZIP code on the same line */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
             <FormField
               control={form.control}
               name="city"
@@ -125,40 +128,41 @@ export default function PetitionSection() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">Email</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" type="email" placeholder="Enter email" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="form-label">Phone (Optional)</FormLabel>
-                  <FormControl>
-                    <Input className="form-input" type="tel" placeholder="Enter phone number" {...field} />
-                  </FormControl>
-                  <FormMessage className="form-message" />
-                </FormItem>
-              )}
-            />
-          </div>
+          {/* Email field on its own line */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem className="mb-4">
+                <FormLabel className="form-label">Email</FormLabel>
+                <FormControl>
+                  <Input className="form-input" type="email" placeholder="Enter email" {...field} />
+                </FormControl>
+                <FormMessage className="form-message" />
+              </FormItem>
+            )}
+          />
+
+          {/* Phone and Message fields */}
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem className="mb-4">
+                <FormLabel className="form-label">Phone (Optional)</FormLabel>
+                <FormControl>
+                  <Input className="form-input" type="tel" placeholder="Enter phone number" {...field} />
+                </FormControl>
+                <FormMessage className="form-message" />
+              </FormItem>
+            )}
+          />
 
           <FormField
             control={form.control}
             name="message"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-4">
                 <FormLabel className="form-label">Your Message (Optional)</FormLabel>
                 <FormControl>
                   <Textarea 
@@ -172,6 +176,7 @@ export default function PetitionSection() {
               </FormItem>
             )}
           />
+
           <Button type="submit" className="form-submit">
             Sign Petition
           </Button>

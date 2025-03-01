@@ -52,7 +52,8 @@ export default function VolunteerSection() {
       <h2 className="heading-2">Join Our Movement</h2>
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* First name and last name on the same line */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
             <FormField
               control={form.control}
               name="firstName"
@@ -81,7 +82,8 @@ export default function VolunteerSection() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* ZIP and Email on the same line */}
+          <div className="grid grid-cols-2 gap-4 mb-4">
             <FormField
               control={form.control}
               name="zip"
@@ -110,11 +112,12 @@ export default function VolunteerSection() {
             />
           </div>
 
+          {/* Phone field */}
           <FormField
             control={form.control}
             name="phone"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-4">
                 <FormLabel className="form-label">Phone</FormLabel>
                 <FormControl>
                   <Input className="form-input" type="tel" placeholder="Enter phone number" {...field} />
@@ -124,60 +127,64 @@ export default function VolunteerSection() {
             )}
           />
 
-          <div className="space-y-4">
-            <h3 className="form-label mb-2">I am available to:</h3>
-            <FormField
-              control={form.control}
-              name="phoneBank"
-              render={({ field }) => (
-                <FormItem className="flex items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className="font-normal text-sm">Phone Bank</FormLabel>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="gatherSignatures"
-              render={({ field }) => (
-                <FormItem className="flex items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className="font-normal text-sm">Gather Signatures</FormLabel>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="attendEvents"
-              render={({ field }) => (
-                <FormItem className="flex items-start space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel className="font-normal text-sm">Attend Events</FormLabel>
-                </FormItem>
-              )}
-            />
+          {/* Checkboxes in a row */}
+          <div className="mb-4">
+            <h3 className="form-label mb-4">I am available to:</h3>
+            <div className="flex flex-row items-center gap-4">
+              <FormField
+                control={form.control}
+                name="phoneBank"
+                render={({ field }) => (
+                  <FormItem className="flex items-center space-x-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="font-normal text-sm">Phone Bank</FormLabel>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="gatherSignatures"
+                render={({ field }) => (
+                  <FormItem className="flex items-center space-x-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="font-normal text-sm">Gather Signatures</FormLabel>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="attendEvents"
+                render={({ field }) => (
+                  <FormItem className="flex items-center space-x-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel className="font-normal text-sm">Attend Events</FormLabel>
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
 
+          {/* Message field */}
           <FormField
             control={form.control}
             name="message"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mb-4">
                 <FormLabel className="form-label">Message</FormLabel>
                 <FormControl>
                   <Textarea 
