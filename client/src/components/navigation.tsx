@@ -1,29 +1,35 @@
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-interface Props {
-  onPetitionClick: () => void;
-}
-
-export default function Navigation({ onPetitionClick }: Props) {
+export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScroll, setLastScroll] = useState(0);
+  const [location] = useLocation();
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMenuOpen(false);
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScroll = window.scrollY;
+      if (currentScroll > lastScroll && currentScroll > 100) {
+        setIsVisible(false);
+      } else {
+        setIsVisible(true);
+      }
+      setLastScroll(currentScroll);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScroll]);
 
   return (
-    <nav className="nav">
+    <nav className={`nav ${!isVisible ? 'hidden' : ''}`}>
       <div className="nav-container">
         <div className="nav-menu-wrapper">
           {/* Logo */}
-          <Link href="/">
+          <Link href="/home">
             <img 
               src="/assets/RKB-Logo-Primary.png" 
               alt="RKB Logo" 
@@ -42,81 +48,47 @@ export default function Navigation({ onPetitionClick }: Props) {
 
           {/* Desktop menu */}
           <div className="nav-links">
-            <Button 
-              variant="ghost" 
-              size="sm"
-              onClick={() => scrollToSection('donate')}
-            >
+            <Link href="/home" className={`nav-link ${location === '/home' ? 'active' : ''}`}>
+              HOME
+            </Link>
+            <Link href="/home#donate" className="nav-link">
               DONATE
-            </Button>
-            <Button 
-              variant="ghost"
-              size="sm"
-              onClick={() => scrollToSection('volunteer')}
-            >
+            </Link>
+            <Link href="/home#volunteer" className="nav-link">
               VOLUNTEER
-            </Button>
-            <Button 
-              variant="ghost"
-              size="sm"
-              onClick={() => scrollToSection('get-informed')}
-            >
+            </Link>
+            <Link href="/home#get-informed" className="nav-link">
               GET INFORMED
-            </Button>
-            <Button 
-              variant="secondary"
-              size="sm"
-              onClick={onPetitionClick}
-            >
+            </Link>
+            <Link href="/petition" className={`nav-link ${location === '/petition' ? 'active' : ''}`}>
               SIGN THE PETITION
-            </Button>
-            <Button 
-              variant="ghost"
-              size="sm"
-              onClick={() => scrollToSection('contact')}
-            >
+            </Link>
+            <Link href="/home#contact" className="nav-link">
               CONTACT
-            </Button>
+            </Link>
           </div>
         </div>
 
         {/* Mobile menu */}
         <div className={`nav-mobile ${isMenuOpen ? 'active' : ''}`}>
-          <Button 
-            variant="ghost"
-            className="nav-mobile-link"
-            onClick={() => scrollToSection('donate')}
-          >
+          <Link href="/home" className="nav-mobile-link">
+            HOME
+          </Link>
+          <Link href="/home#donate" className="nav-mobile-link">
             DONATE
-          </Button>
-          <Button 
-            variant="ghost"
-            className="nav-mobile-link"
-            onClick={() => scrollToSection('volunteer')}
-          >
+          </Link>
+          <Link href="/home#volunteer" className="nav-mobile-link">
             VOLUNTEER
-          </Button>
-          <Button 
-            variant="ghost"
-            className="nav-mobile-link"
-            onClick={() => scrollToSection('get-informed')}
-          >
+          </Link>
+          <Link href="/home#get-informed" className="nav-mobile-link">
             GET INFORMED
-          </Button>
-          <Button 
-            variant="secondary"
-            className="nav-mobile-link"
-            onClick={onPetitionClick}
-          >
+          </Link>
+          <Link href="/petition" className="nav-mobile-link">
             SIGN THE PETITION
-          </Button>
-          <Button 
-            variant="ghost"
-            className="nav-mobile-link"
-            onClick={() => scrollToSection('contact')}
-          >
+          </Link>
+          <Link href="/home#contact" className="nav-mobile-link">
             CONTACT
-          </Button>
+          </Link>
         </div>
       </div>
     </nav>
