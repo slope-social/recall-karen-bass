@@ -64,18 +64,20 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
 
   return (
     <>
-      {/* Background overlay with transition */}
+      {/* Background image with transition */}
       <div 
-        className={`fixed inset-0 z-40 bg-cover bg-center transition-opacity duration-500 pointer-events-none ${
-          open ? 'opacity-100' : 'opacity-0'
+        className={`fixed inset-0 z-40 bg-cover bg-center transition-all duration-700 ease-in-out ${
+          open ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
         } ${isTransitioning ? '' : 'hidden'}`}
         style={{ 
           backgroundImage: 'url("/assets/RKB-FB-Cover.png")',
         }}
       />
+
+      {/* Subtle overlay */}
       <div 
-        className={`fixed inset-0 z-40 transition-opacity duration-500 pointer-events-none ${
-          open ? 'bg-black/50 opacity-100' : 'opacity-0'
+        className={`fixed inset-0 z-40 bg-black transition-opacity duration-500 ease-in-out ${
+          open ? 'opacity-30' : 'opacity-0'
         } ${isTransitioning ? '' : 'hidden'}`}
       />
 
