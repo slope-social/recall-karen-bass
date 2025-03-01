@@ -1,0 +1,112 @@
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Slanted Image Layout (80% Height, Dynamic Resizing)</title>
+  <style>
+    * {
+      margin: 0; 
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #000;
+      height: 100vh;
+      overflow: hidden; /* Prevent scrolling */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .image-container {
+      position: relative;
+      width: 100vw;
+      height: 80vh; /* Ensures images take up 80% of the viewport height */
+      display: flex;
+      overflow: hidden;
+    }
+
+    .image {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      transition: clip-path 0.4s ease-out, flex 0.4s ease-out;
+    }
+
+    /* Default slanted clip-path settings */
+    .image:nth-child(1) {
+      background-image: url('https://assets.codepen.io/6541166/burn.png');
+      z-index: 3;
+      clip-path: polygon(0 0, 45% 0, 35% 100%, 0 100%);
+    }
+    .image:nth-child(2) {
+      background-image: url('https://assets.codepen.io/6541166/middle.png');
+      z-index: 2;
+      clip-path: polygon(25% 0, 75% 0, 65% 100%, 15% 100%);
+    }
+    .image:nth-child(3) {
+      background-image: url('https://assets.codepen.io/6541166/car.png');
+      z-index: 1;
+      clip-path: polygon(55% 0, 100% 0, 100% 100%, 50% 100%);
+    }
+
+    /* Hover Expansions */
+    .image-container:hover .image {
+      transition: clip-path 0.3s ease-out, flex 0.3s ease-out;
+    }
+
+    .image-container:hover .image:nth-child(1):hover {
+      clip-path: polygon(0 0, 55% 0, 45% 100%, 0 100%);
+    }
+    .image-container:hover .image:nth-child(1):hover ~ .image:nth-child(2) {
+      clip-path: polygon(45% 0, 85% 0, 75% 100%, 35% 100%);
+    }
+    .image-container:hover .image:nth-child(1):hover ~ .image:nth-child(3) {
+      clip-path: polygon(65% 0, 100% 0, 100% 100%, 75% 100%);
+    }
+
+    .image-container:hover .image:nth-child(2):hover {
+      clip-path: polygon(20% 0, 80% 0, 70% 100%, 10% 100%);
+    }
+    .image-container:hover .image:nth-child(2):hover ~ .image:nth-child(1) {
+      clip-path: polygon(0 0, 40% 0, 30% 100%, 0 100%);
+    }
+    .image-container:hover .image:nth-child(2):hover ~ .image:nth-child(3) {
+      clip-path: polygon(60% 0, 100% 0, 100% 100%, 50% 100%);
+    }
+
+    .image-container:hover .image:nth-child(3):hover {
+      clip-path: polygon(45% 0, 100% 0, 100% 100%, 55% 100%);
+    }
+    .image-container:hover .image:nth-child(3):hover ~ .image:nth-child(1) {
+      clip-path: polygon(0 0, 35% 0, 25% 100%, 0 100%);
+    }
+    .image-container:hover .image:nth-child(3):hover ~ .image:nth-child(2) {
+      clip-path: polygon(35% 0, 65% 0, 55% 100%, 25% 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="image-container">
+    <div class="image"></div>
+    <div class="image"></div>
+    <div class="image"></div>
+  </div>
+
+  <script>
+    function setContainerHeight() {
+      const container = document.querySelector('.image-container');
+      container.style.height = `${window.innerHeight * 0.8}px`; // 80% of viewport height
+    }
+
+    window.addEventListener('resize', setContainerHeight);
+    setContainerHeight(); // Set height on initial load
+  </script>
+
+</body>
+</html>
