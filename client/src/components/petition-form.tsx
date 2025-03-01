@@ -5,25 +5,20 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { InsertPetition, insertPetitionSchema } from "@shared/schema";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-const petitionSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().email("Please enter a valid email address"),
-  location: z.string().min(1, "Location is required"),
-  comment: z.string().optional(),
-});
-
-type PetitionFormData = z.infer<typeof petitionSchema>;
-
 export default function PetitionForm({ open, onOpenChange }: Props) {
-  const form = useForm<PetitionFormData>({
-    resolver: zodResolver(petitionSchema),
+  const { toast } = useToast();
+  const form = useForm<InsertPetition>({
+    resolver: zodResolver(insertPetitionSchema),
     defaultValues: {
       name: "",
       email: "",
@@ -32,11 +27,25 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
     },
   });
 
-  const onSubmit = (data: PetitionFormData) => {
-    console.log(data);
-    // TODO: Handle petition submission
-    onOpenChange(false);
-  };
+  const mutation = useMutation({
+    mutationFn: (data: InsertPetition) =>
+      apiRequest("POST", "/api/petitions", data),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Thank you for signing the petition!",
+      });
+      form.reset();
+      onOpenChange(false);
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -45,7 +54,7 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
           <DialogTitle className="text-[3vmin] font-bold">Sign the Petition</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-[2vmin]">
+          <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-[2vmin]">
             <FormField
               control={form.control}
               name="name"
