@@ -59,47 +59,36 @@ export default function VolunteerSection() {
           <CardContent className="form-content">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="form-fields">
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">First Name*</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter first name" className="form-input" {...field} />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
+                {/* Name Fields Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="firstName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="form-label">First Name*</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter first name" className="form-input" {...field} />
+                        </FormControl>
+                        <FormMessage className="form-message" />
+                      </FormItem>
+                    )}
+                  />
 
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">Last Name*</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter last name" className="form-input" {...field} />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="zipCode"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">Zip Code*</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Your Zip Code" className="form-input" {...field} />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
+                  <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="form-label">Last Name*</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter last name" className="form-input" {...field} />
+                        </FormControl>
+                        <FormMessage className="form-message" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <FormField
                   control={form.control}
@@ -115,45 +104,64 @@ export default function VolunteerSection() {
                   )}
                 />
 
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">Phone</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Enter phone" type="tel" className="form-input" {...field} />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
+                {/* Phone and Zip Code Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="form-label">Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter phone" type="tel" className="form-input" {...field} />
+                        </FormControl>
+                        <FormMessage className="form-message" />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="zipCode"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="form-label">Zip Code*</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Your Zip Code" className="form-input" {...field} />
+                        </FormControl>
+                        <FormMessage className="form-message" />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
                 <FormItem>
                   <FormLabel className="form-label">I am available to:</FormLabel>
-                  {availabilityOptions.map((option) => (
-                    <FormField
-                      key={option.id}
-                      control={form.control}
-                      name="availability"
-                      render={({ field }) => (
-                        <FormItem key={option.id} className="flex flex-row items-start space-x-3 space-y-0">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value?.includes(option.id)}
-                              onCheckedChange={(checked) => {
-                                const updatedValue = checked
-                                  ? [...(field.value || []), option.id]
-                                  : field.value?.filter((value) => value !== option.id) || [];
-                                field.onChange(updatedValue);
-                              }}
-                            />
-                          </FormControl>
-                          <FormLabel className="font-normal">{option.label}</FormLabel>
-                        </FormItem>
-                      )}
-                    />
-                  ))}
+                  <div className="flex items-center gap-6">
+                    {availabilityOptions.map((option) => (
+                      <FormField
+                        key={option.id}
+                        control={form.control}
+                        name="availability"
+                        render={({ field }) => (
+                          <FormItem key={option.id} className="flex items-center space-x-2">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value?.includes(option.id)}
+                                onCheckedChange={(checked) => {
+                                  const updatedValue = checked
+                                    ? [...(field.value || []), option.id]
+                                    : field.value?.filter((value) => value !== option.id) || [];
+                                  field.onChange(updatedValue);
+                                }}
+                              />
+                            </FormControl>
+                            <FormLabel className="font-normal">{option.label}</FormLabel>
+                          </FormItem>
+                        )}
+                      />
+                    ))}
+                  </div>
                   <FormMessage className="form-message" />
                 </FormItem>
 
