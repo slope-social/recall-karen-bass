@@ -61,6 +61,124 @@ body {
   z-index: 100;
 }
 
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.nav-menu-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 5rem;
+}
+
+.nav-logo {
+  height: 2.5rem;
+  width: auto;
+  transition: opacity 0.2s ease;
+}
+
+.nav-logo:hover {
+  opacity: 0.9;
+}
+
+.nav-mobile-menu {
+  display: none;
+  background-color: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 0.5rem;
+}
+
+.nav-menu-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-left: auto;
+}
+
+.nav-links button {
+  background-color: transparent;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 0.25rem;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+}
+
+.nav-links button:hover {
+  color: var(--text);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Make "Sign the Petition" button stand out */
+.nav-links button:nth-child(1),
+.nav-mobile button:nth-child(1) {
+  background-color: var(--primary);
+  color: white;
+}
+
+.nav-links button:nth-child(1):hover,
+.nav-mobile button:nth-child(1):hover {
+  background-color: var(--primary-hover);
+}
+
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.98);
+  border-top: 1px solid var(--border);
+}
+
+.nav-mobile.active {
+  display: flex;
+}
+
+.nav-mobile-link {
+  width: 100%;
+  text-align: left;
+  padding: 1rem;
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+  border: none;
+  background: transparent;
+}
+
+.nav-mobile-link:hover {
+  color: var(--text);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-mobile-menu {
+    display: block;
+  }
+
+  .nav-menu-wrapper {
+    height: 4rem;
+  }
+}
+
 /* Main content layout */
 main {
   position: relative;
@@ -79,6 +197,7 @@ main {
   justify-content: center;
   scroll-snap-align: start;
   position: relative;
+  z-index: 3;
 }
 
 /* Section content */
@@ -127,89 +246,6 @@ main {
   border: 1px solid var(--border);
   position: relative;
   z-index: 3;
-}
-
-.nav-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-.nav-menu-wrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 4rem;
-}
-
-.nav-logo {
-  height: 3.5rem;
-  width: auto;
-}
-
-.nav-mobile-menu {
-  display: none;
-  background-color: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-
-.nav-menu-icon {
-  height: 1.5rem;
-  width: 1.5rem;
-}
-
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-left: auto;
-}
-
-.nav-links button,
-.nav-mobile button {
-  background-color: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  transition: all 0.2s ease;
-}
-
-.nav-links button:hover,
-.nav-mobile button:hover {
-  background-color: var(--accent);
-  border-color: var(--text-muted);
-}
-
-.nav-mobile {
-  display: none;
-  flex-direction: column;
-  border-top: 1px solid var(--border);
-}
-
-.nav-mobile.active {
-  display: flex;
-}
-
-.nav-mobile-link {
-  width: 100%;
-  justify-content: flex-start;
-  padding: 0.75rem 1rem;
-  border-radius: 0;
-  border-left: none;
-  border-right: none;
-  border-bottom: 1px solid var(--border);
-}
-
-@media (max-width: 768px) {
-  .nav-links {
-    display: none;
-  }
-
-  .nav-mobile-menu {
-    display: block;
-  }
 }
 
 /* Section Layout */
