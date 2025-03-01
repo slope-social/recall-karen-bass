@@ -21,13 +21,13 @@ export default function Navigation({ onPetitionClick }: Props) {
   return (
     <nav className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-lg z-50 border-b">
       <div className="container mx-auto">
-        <div className="flex items-center justify-between h-16 px-4">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <Link href="/">
             <img 
               src="/assets/RKB-Logo-Primary.png" 
               alt="RKB Logo" 
-              className="h-10 w-auto"
+              className="h-16"
             />
           </Link>
 
@@ -82,39 +82,39 @@ export default function Navigation({ onPetitionClick }: Props) {
 
         {/* Mobile menu */}
         {isMenuOpen && (
-          <div className="md:hidden py-2 px-4 border-t">
-            <div className="flex flex-col gap-2">
+          <div className="md:hidden border-t">
+            <div className="flex flex-col">
               <Button 
                 variant="ghost"
-                className="justify-start"
+                className="justify-start rounded-none"
                 onClick={() => scrollToSection('donate')}
               >
                 DONATE
               </Button>
               <Button 
                 variant="ghost"
-                className="justify-start"
+                className="justify-start rounded-none"
                 onClick={() => scrollToSection('volunteer')}
               >
                 VOLUNTEER
               </Button>
               <Button 
                 variant="ghost"
-                className="justify-start"
+                className="justify-start rounded-none"
                 onClick={() => scrollToSection('get-informed')}
               >
                 GET INFORMED
               </Button>
               <Button 
                 variant="secondary"
-                className="justify-start"
+                className="justify-start rounded-none"
                 onClick={onPetitionClick}
               >
                 SIGN THE PETITION
               </Button>
               <Button 
                 variant="ghost"
-                className="justify-start"
+                className="justify-start rounded-none"
                 onClick={() => scrollToSection('contact')}
               >
                 CONTACT

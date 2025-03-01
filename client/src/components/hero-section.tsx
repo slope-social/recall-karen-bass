@@ -2,17 +2,20 @@ import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
   return (
-    <section className="min-h-screen flex items-center justify-center px-[4vmin] py-[8vmin]">
-      <div className="text-center space-y-[4vmin] max-w-[80vmin]">
-        <h1 className="text-[6vmin] font-bold leading-tight">
+    <section className="relative min-h-screen w-full flex items-center justify-center">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background/90 to-background/80" />
+
+      <div className="relative text-center space-y-8 max-w-[80vmin]">
+        <h1 className="text-[6vmin] font-bold leading-tight bg-gradient-to-r from-primary to-primary/80 bg-clip-text text-transparent">
           Making a Difference Together
         </h1>
         <p className="text-[2.5vmin] text-muted-foreground max-w-[60vmin] mx-auto">
           Join our movement to create positive change in our community through collective action and shared purpose.
         </p>
-        <div className="flex justify-center gap-[2vmin]">
+        <div className="flex justify-center gap-6">
           <Button 
-            className="text-[2.2vmin] px-[3vmin] py-[1.5vmin] h-auto"
+            className="text-[2.2vmin] h-auto bg-primary hover:bg-primary/90"
             onClick={() => {
               document.getElementById('donate')?.scrollIntoView({ behavior: 'smooth' });
             }}
