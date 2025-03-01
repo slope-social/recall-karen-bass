@@ -5,8 +5,11 @@ import VolunteerSection from "@/components/volunteer-section";
 import InformationSection from "@/components/information-section";
 import ContactSection from "@/components/contact-section";
 import PetitionSection from "@/components/petition-section";
+import { useSectionObserver } from "@/hooks/use-section-observer";
 
 export default function Home() {
+  useSectionObserver();
+
   return (
     <>
       <Navigation />
@@ -17,6 +20,7 @@ export default function Home() {
         </section>
 
         <section id="petition" className="section">
+          <div className="petition-background" />
           <PetitionSection />
         </section>
 
