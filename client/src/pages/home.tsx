@@ -15,23 +15,23 @@ export default function Home() {
       <Navigation onPetitionClick={() => setPetitionOpen(true)} />
 
       <main>
-        <section className="min-h-[100vh] flex items-center">
+        <section className="section">
           <HeroSection />
         </section>
 
-        <section id="donate" className="min-h-[100vh] flex items-center">
+        <section id="donate" className="section">
           <DonateSection />
         </section>
 
-        <section id="volunteer" className="min-h-[100vh] flex items-center">
+        <section id="volunteer" className="section">
           <VolunteerSection />
         </section>
 
-        <section id="get-informed" className="min-h-[100vh] flex items-center">
+        <section id="get-informed" className="section">
           <InformationSection />
         </section>
 
-        <section id="contact" className="min-h-[100vh] flex items-center">
+        <section id="contact" className="section">
           <ContactSection />
         </section>
       </main>

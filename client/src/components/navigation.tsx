@@ -19,7 +19,7 @@ export default function Navigation({ onPetitionClick }: Props) {
   };
 
   return (
-    <nav className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-lg z-50 border-b">
+    <nav className="nav">
       <div className="container mx-auto">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
