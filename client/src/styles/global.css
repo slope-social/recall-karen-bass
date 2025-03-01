@@ -55,7 +55,75 @@ body {
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
-  z-index: 50;
+  z-index: 100;
+}
+
+/* Main content layout */
+main {
+  position: relative;
+  z-index: 2;
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+.section {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+/* Section content */
+.section-content {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  position: relative;
+  z-index: 3;
+}
+
+/* Petition section specific styles */
+#petition {
+  position: relative;
+}
+
+.petition-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/RKB-FB-Cover.png');
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 0;
+}
+
+#petition.in-view .petition-background {
+  opacity: 1;
+}
+
+/* Form styles */
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 600px;
+  margin: 2rem auto;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 3;
 }
 
 .nav-container {
@@ -142,54 +210,11 @@ body {
 }
 
 /* Section Layout */
-main {
-  position: relative;
-  z-index: 2;
-  height: 100vh;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
-}
 
-.section {
-  min-height: 100vh;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  scroll-snap-align: start;
-  position: relative;
-}
-
-/* Content sections */
 .section:not(.hero) {
   background: rgba(0, 0, 0, 0.75);
 }
 
-/* Section content */
-.section-content {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 4rem 2rem;
-  position: relative;
-  z-index: 10;
-}
-
-/* Form styles */
-.form-fields {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  max-width: 600px;
-  margin: 2rem auto;
-  background: var(--card-bg);
-  padding: 2rem;
-  border-radius: 0.75rem;
-  border: 1px solid var(--border);
-  position: relative;
-  z-index: 10;
-}
 
 .form-label {
   font-size: clamp(0.875rem, 1.8vmin, 1.125rem);
@@ -277,27 +302,6 @@ main {
 }
 
 /* Section transitions */
-#petition {
-  position: relative;
-}
-
-.petition-background {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('/assets/RKB-FB-Cover.png');
-  background-size: cover;
-  background-position: center;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  z-index: 5;
-}
-
-#petition.in-view .petition-background {
-  opacity: 1;
-}
 
 /* Intersection Observer styles */
 .section {
