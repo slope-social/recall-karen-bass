@@ -45,7 +45,7 @@ export default function PetitionSection() {
     <div className="section-content">
       <h2 className="heading-2">Sign the Petition</h2>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields max-w-[600px] mx-auto">
+        <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
           <FormField
             control={form.control}
             name="name"

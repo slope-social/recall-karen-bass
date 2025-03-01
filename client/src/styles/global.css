@@ -197,7 +197,7 @@ main {
   scroll-snap-align: start;
   position: relative;
   padding-top: 4rem;
-  transition: background-image 1s ease-out; /* Added transition */
+  transition: background-image 1s ease-out;
 }
 
 /* Content sections */
@@ -244,6 +244,12 @@ main {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
 }
 
 .form-label {
