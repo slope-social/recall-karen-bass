@@ -20,28 +20,28 @@ export default function Navigation({ onPetitionClick }: Props) {
 
   return (
     <nav className="nav">
-      <div className="container mx-auto">
-        <div className="flex items-center justify-between h-16">
+      <div className="nav-container">
+        <div className="nav-menu-wrapper">
           {/* Logo */}
           <Link href="/">
             <img 
               src="/assets/RKB-Logo-Primary.png" 
               alt="RKB Logo" 
-              className="h-16"
+              className="nav-logo"
             />
           </Link>
 
           {/* Mobile menu button */}
           <Button 
             variant="ghost" 
-            className="md:hidden"
+            className="nav-mobile-menu"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
-            <Menu className="h-6 w-6" />
+            <Menu className="nav-menu-icon" />
           </Button>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center gap-4 ml-auto">
+          <div className="nav-links">
             <Button 
               variant="ghost" 
               size="sm"
@@ -81,47 +81,43 @@ export default function Navigation({ onPetitionClick }: Props) {
         </div>
 
         {/* Mobile menu */}
-        {isMenuOpen && (
-          <div className="md:hidden border-t">
-            <div className="flex flex-col">
-              <Button 
-                variant="ghost"
-                className="justify-start rounded-none"
-                onClick={() => scrollToSection('donate')}
-              >
-                DONATE
-              </Button>
-              <Button 
-                variant="ghost"
-                className="justify-start rounded-none"
-                onClick={() => scrollToSection('volunteer')}
-              >
-                VOLUNTEER
-              </Button>
-              <Button 
-                variant="ghost"
-                className="justify-start rounded-none"
-                onClick={() => scrollToSection('get-informed')}
-              >
-                GET INFORMED
-              </Button>
-              <Button 
-                variant="secondary"
-                className="justify-start rounded-none"
-                onClick={onPetitionClick}
-              >
-                SIGN THE PETITION
-              </Button>
-              <Button 
-                variant="ghost"
-                className="justify-start rounded-none"
-                onClick={() => scrollToSection('contact')}
-              >
-                CONTACT
-              </Button>
-            </div>
-          </div>
-        )}
+        <div className={`nav-mobile ${isMenuOpen ? 'active' : ''}`}>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('donate')}
+          >
+            DONATE
+          </Button>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('volunteer')}
+          >
+            VOLUNTEER
+          </Button>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('get-informed')}
+          >
+            GET INFORMED
+          </Button>
+          <Button 
+            variant="secondary"
+            className="nav-mobile-link"
+            onClick={onPetitionClick}
+          >
+            SIGN THE PETITION
+          </Button>
+          <Button 
+            variant="ghost"
+            className="nav-mobile-link"
+            onClick={() => scrollToSection('contact')}
+          >
+            CONTACT
+          </Button>
+        </div>
       </div>
     </nav>
   );

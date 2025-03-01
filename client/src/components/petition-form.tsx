@@ -22,14 +22,13 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
 
   useEffect(() => {
     if (open) {
-      // Delay the transition start slightly to avoid the flash
       requestAnimationFrame(() => {
         setIsTransitioning(true);
       });
     } else {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
-      }, 700); // Match this with CSS transition duration
+      }, 700);
       return () => clearTimeout(timer);
     }
   }, [open]);
@@ -75,22 +74,22 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="sm:max-w-[90vmin] z-50">
+        <DialogContent className="form-dialog">
           <DialogHeader>
-            <DialogTitle className="text-[3vmin] font-bold">Sign the Petition</DialogTitle>
+            <DialogTitle className="form-title">Sign the Petition</DialogTitle>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-[2vmin]">
+            <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[1.8vmin]">Full Name</FormLabel>
+                    <FormLabel className="form-label">Full Name</FormLabel>
                     <FormControl>
-                      <Input className="text-[1.8vmin]" {...field} />
+                      <Input className="form-input" {...field} />
                     </FormControl>
-                    <FormMessage className="text-[1.6vmin]" />
+                    <FormMessage className="form-message" />
                   </FormItem>
                 )}
               />
@@ -99,11 +98,11 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[1.8vmin]">Email</FormLabel>
+                    <FormLabel className="form-label">Email</FormLabel>
                     <FormControl>
-                      <Input className="text-[1.8vmin]" type="email" {...field} />
+                      <Input className="form-input" type="email" {...field} />
                     </FormControl>
-                    <FormMessage className="text-[1.6vmin]" />
+                    <FormMessage className="form-message" />
                   </FormItem>
                 )}
               />
@@ -112,11 +111,11 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
                 name="location"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[1.8vmin]">Location</FormLabel>
+                    <FormLabel className="form-label">Location</FormLabel>
                     <FormControl>
-                      <Input className="text-[1.8vmin]" {...field} />
+                      <Input className="form-input" {...field} />
                     </FormControl>
-                    <FormMessage className="text-[1.6vmin]" />
+                    <FormMessage className="form-message" />
                   </FormItem>
                 )}
               />
@@ -125,19 +124,19 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
                 name="comment"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-[1.8vmin]">Comment (Optional)</FormLabel>
+                    <FormLabel className="form-label">Comment (Optional)</FormLabel>
                     <FormControl>
                       <Textarea 
-                        className="text-[1.8vmin]" 
+                        className="form-input" 
                         {...field}
                         rows={4}
                       />
                     </FormControl>
-                    <FormMessage className="text-[1.6vmin]" />
+                    <FormMessage className="form-message" />
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full text-[1.8vmin]">
+              <Button type="submit" className="form-submit">
                 Sign Petition
               </Button>
             </form>

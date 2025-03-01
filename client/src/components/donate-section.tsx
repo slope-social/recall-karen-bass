@@ -8,13 +8,13 @@ export default function DonateSection() {
       <h2 className="heading-2">Support Our Cause</h2>
       <div className="card-grid">
         <Card>
-          <CardContent className="p-[3vmin]">
-            <h3 className="text-[2.5vmin] font-semibold mb-[2vmin]">Make a Donation</h3>
-            <p className="text-body mb-[3vmin]">
+          <CardContent className="form-content">
+            <h3 className="heading-3">Make a Donation</h3>
+            <p className="text-body">
               Your contribution helps support our mission. Make a secure donation through our trusted platform.
             </p>
             <Button 
-              className="w-full flex items-center justify-center gap-[1vmin] text-[2.2vmin]"
+              className="form-submit"
               asChild
             >
               <a 
@@ -22,7 +22,7 @@ export default function DonateSection() {
                 target="_blank" 
                 rel="noopener noreferrer"
               >
-                Donate Now <ExternalLink className="h-[2.2vmin] w-[2.2vmin]" />
+                Donate Now <ExternalLink className="button-icon" />
               </a>
             </Button>
           </CardContent>

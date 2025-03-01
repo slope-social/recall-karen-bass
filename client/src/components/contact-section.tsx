@@ -40,64 +40,62 @@ export default function ContactSection() {
   });
 
   return (
-    <div className="container mx-auto py-[8vmin] px-[4vmin] bg-muted/30">
-      <div className="max-w-[80vmin] mx-auto">
-        <h2 className="text-[4.5vmin] font-bold mb-[4vmin]">Contact Us</h2>
-        <Card>
-          <CardContent className="p-[3vmin]">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="space-y-[2vmin]">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[2.5vmin]">Name</FormLabel>
-                      <FormControl>
-                        <Input className="text-[2.5vmin]" {...field} />
-                      </FormControl>
-                      <FormMessage className="text-[2.2vmin]" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[2.5vmin]">Email</FormLabel>
-                      <FormControl>
-                        <Input className="text-[2.5vmin]" type="email" {...field} />
-                      </FormControl>
-                      <FormMessage className="text-[2.2vmin]" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="message"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-[2.5vmin]">Message</FormLabel>
-                      <FormControl>
-                        <Textarea 
-                          className="text-[2.5vmin]" 
-                          {...field}
-                          rows={4}
-                        />
-                      </FormControl>
-                      <FormMessage className="text-[2.2vmin]" />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" className="w-full text-[2.5vmin]" disabled={mutation.isPending}>
-                  {mutation.isPending ? "Sending..." : "Send Message"}
-                </Button>
-              </form>
-            </Form>
-          </CardContent>
-        </Card>
-      </div>
+    <div className="section-content">
+      <h2 className="heading-2">Contact Us</h2>
+      <Card>
+        <CardContent className="form-content">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="form-label">Name</FormLabel>
+                    <FormControl>
+                      <Input className="form-input" {...field} />
+                    </FormControl>
+                    <FormMessage className="form-message" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="form-label">Email</FormLabel>
+                    <FormControl>
+                      <Input className="form-input" type="email" {...field} />
+                    </FormControl>
+                    <FormMessage className="form-message" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="form-label">Message</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        className="form-input"
+                        {...field}
+                        rows={4}
+                      />
+                    </FormControl>
+                    <FormMessage className="form-message" />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="form-submit" disabled={mutation.isPending}>
+                {mutation.isPending ? "Sending..." : "Send Message"}
+              </Button>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
     </div>
   );
 }

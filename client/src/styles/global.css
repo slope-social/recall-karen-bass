@@ -41,6 +41,12 @@ body {
 }
 
 .nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.nav-menu-wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -50,6 +56,49 @@ body {
 .nav-logo {
   height: 4rem;
   width: auto;
+}
+
+.nav-mobile-menu {
+  display: none;
+}
+
+.nav-menu-icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  border-top: 1px solid hsl(0 0% 100% / 0.1);
+}
+
+.nav-mobile.active {
+  display: flex;
+}
+
+.nav-mobile-link {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 0.75rem 1rem;
+  border-radius: 0;
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .nav-mobile-menu {
+    display: block;
+  }
 }
 
 /* Typography */
@@ -68,10 +117,23 @@ body {
   margin-bottom: 2rem;
 }
 
+.heading-3 {
+  font-size: clamp(1.25rem, 2.5vmin, 2rem);
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
 .text-body {
   font-size: clamp(1rem, 2.5vmin, 1.5rem);
   line-height: 1.6;
   color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+.button-icon {
+  height: 1em;
+  width: 1em;
+  margin-left: 0.5em;
 }
 
 /* Section Layout */
@@ -148,4 +210,46 @@ main {
   opacity: 0;
   transform: scale(1.05);
   transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+}
+
+/* Form styles */
+.form-content {
+  padding: 2rem;
+}
+
+.form-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-label {
+  font-size: clamp(0.875rem, 1.8vmin, 1.25rem);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  font-size: clamp(0.875rem, 1.8vmin, 1.25rem);
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: border-color 0.2s ease;
+}
+
+.form-input:focus {
+  border-color: rgba(255, 255, 255, 0.2);
+  outline: none;
+}
+
+.form-message {
+  font-size: clamp(0.75rem, 1.6vmin, 1rem);
+  color: hsl(0 72% 51%);
+  margin-top: 0.25rem;
+}
+
+.form-submit {
+  width: 100%;
+  font-size: clamp(0.875rem, 1.8vmin, 1.25rem);
+  margin-top: 1rem;
 }
