@@ -21,7 +21,16 @@ export default function Navigation({ onPetitionClick }: Props) {
   return (
     <nav className="fixed top-0 left-0 w-full bg-background/80 backdrop-blur-lg z-50 border-b">
       <div className="container mx-auto">
-        <div className="flex items-center justify-between h-[12vmin] px-4">
+        <div className="flex items-center justify-between h-16 px-4">
+          {/* Logo */}
+          <Link href="/">
+            <img 
+              src="/assets/RKB-Logo-Primary.png" 
+              alt="RKB Logo" 
+              className="h-10 w-auto"
+            />
+          </Link>
+
           {/* Mobile menu button */}
           <Button 
             variant="ghost" 
@@ -32,7 +41,7 @@ export default function Navigation({ onPetitionClick }: Props) {
           </Button>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center justify-center flex-1 gap-4">
+          <div className="hidden md:flex items-center gap-4 ml-auto">
             <Button 
               variant="ghost" 
               size="sm"

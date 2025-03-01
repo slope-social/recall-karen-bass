@@ -14,7 +14,7 @@ export default function Home() {
     <div className="min-h-screen w-full">
       <Navigation onPetitionClick={() => setPetitionOpen(true)} />
 
-      <main className="pt-[8vmin]">
+      <main className="pt-16">
         <HeroSection />
 
         <section id="donate" className="min-h-screen">
