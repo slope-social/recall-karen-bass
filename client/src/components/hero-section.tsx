@@ -2,24 +2,23 @@ import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen w-full flex items-center justify-center">
-      {/* Background image with overlay */}
+    <section className="section hero">
       <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        className="hero-background"
         style={{ backgroundImage: 'url("/assets/header.jpg")' }}
       />
-      <div className="absolute inset-0 bg-black/60" /> {/* Dark overlay for text readability */}
+      <div className="hero-overlay" />
 
-      <div className="relative text-center space-y-8 max-w-[80vmin]">
-        <h1 className="text-[6vmin] font-bold leading-tight bg-gradient-to-r from-white to-white/80 bg-clip-text text-transparent">
+      <div className="hero-content">
+        <h1 className="heading-1">
           Making a Difference Together
         </h1>
-        <p className="text-[2.5vmin] text-white/80 max-w-[60vmin] mx-auto">
+        <p className="text-body">
           Join our movement to create positive change in our community through collective action and shared purpose.
         </p>
-        <div className="flex justify-center gap-6">
+        <div className="hero-actions">
           <Button 
-            className="text-[2.2vmin] h-auto bg-white text-black hover:bg-white/90"
+            className="hero-button"
             onClick={() => {
               document.getElementById('donate')?.scrollIntoView({ behavior: 'smooth' });
             }}

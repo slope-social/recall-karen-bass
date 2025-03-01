@@ -1,0 +1,117 @@
+:root {
+  --primary: hsl(222.2 84% 4.9%);
+  --text: hsl(0 0% 100%);
+  --text-muted: hsl(0 0% 100% / 0.8);
+  --background: hsl(222.2 84% 4.9%);
+  --background-muted: hsl(222.2 84% 4.9% / 0.5);
+}
+
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  min-height: 100vh;
+}
+
+/* Layout */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+/* Typography */
+.heading-1 {
+  font-size: clamp(2rem, 6vmin, 4rem);
+  font-weight: 700;
+  line-height: 1.2;
+  background: linear-gradient(to right, var(--text), var(--text-muted));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.heading-2 {
+  font-size: clamp(1.5rem, 4vmin, 3rem);
+  font-weight: 700;
+  margin-bottom: 2rem;
+}
+
+.text-body {
+  font-size: clamp(1rem, 2.5vmin, 1.5rem);
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* Navigation */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: var(--background-muted);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid hsl(0 0% 100% / 0.1);
+  z-index: 50;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4rem;
+}
+
+.nav-logo {
+  height: 4rem;
+  width: auto;
+}
+
+.nav-menu {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-left: auto;
+  }
+}
+
+/* Animations */
+.fade-scale-enter {
+  opacity: 0;
+  transform: scale(1.05);
+}
+
+.fade-scale-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 700ms ease-in-out, transform 700ms ease-in-out;
+}
+
+.fade-scale-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.fade-scale-exit-active {
+  opacity: 0;
+  transform: scale(1.05);
+  transition: opacity 500ms ease-in-out, transform 500ms ease-in-out;
+}

@@ -20,6 +20,20 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
   const { toast } = useToast();
   const [isTransitioning, setIsTransitioning] = useState(false);
 
+  useEffect(() => {
+    if (open) {
+      // Delay the transition start slightly to avoid the flash
+      requestAnimationFrame(() => {
+        setIsTransitioning(true);
+      });
+    } else {
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 700); // Match this with CSS transition duration
+      return () => clearTimeout(timer);
+    }
+  }, [open]);
+
   const form = useForm<InsertPetition>({
     resolver: zodResolver(insertPetitionSchema),
     defaultValues: {
@@ -29,18 +43,6 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
       comment: "",
     },
   });
-
-  // Handle background transition
-  useEffect(() => {
-    if (open) {
-      setIsTransitioning(true);
-    } else {
-      const timer = setTimeout(() => {
-        setIsTransitioning(false);
-      }, 500); // Match this with CSS transition duration
-      return () => clearTimeout(timer);
-    }
-  }, [open]);
 
   const mutation = useMutation({
     mutationFn: (data: InsertPetition) =>
@@ -64,21 +66,12 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
 
   return (
     <>
-      {/* Background image with transition */}
       <div 
-        className={`fixed inset-0 z-40 bg-cover bg-center transition-all duration-700 ease-in-out ${
-          open ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
-        } ${isTransitioning ? '' : 'hidden'}`}
-        style={{ 
-          backgroundImage: 'url("/assets/RKB-FB-Cover.png")',
-        }}
+        className={`petition-background ${open ? 'active' : ''} ${isTransitioning ? '' : 'hidden'}`}
+        style={{ backgroundImage: 'url("/assets/RKB-FB-Cover.png")' }}
       />
-
-      {/* Subtle overlay */}
       <div 
-        className={`fixed inset-0 z-40 bg-black transition-opacity duration-500 ease-in-out ${
-          open ? 'opacity-30' : 'opacity-0'
-        } ${isTransitioning ? '' : 'hidden'}`}
+        className={`petition-overlay ${open ? 'active' : ''} ${isTransitioning ? '' : 'hidden'}`}
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>

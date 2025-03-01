@@ -1,0 +1,81 @@
+/* Hero Section */
+.hero {
+  position: relative;
+  justify-content: center;
+  text-align: center;
+}
+
+.hero-background {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+  position: relative;
+  max-width: min(80vmin, 800px);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.hero-button {
+  font-size: clamp(0.875rem, 2.2vmin, 1.25rem);
+  height: auto;
+  background: white;
+  color: black;
+}
+
+.hero-button:hover {
+  background: hsl(0 0% 100% / 0.9);
+}
+
+/* Petition Form Background */
+.petition-background {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.petition-background.active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 700ms ease-out, transform 700ms ease-out;
+}
+
+.petition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.petition-overlay.active {
+  opacity: 1;
+  transition: opacity 500ms ease-out 200ms;
+}
