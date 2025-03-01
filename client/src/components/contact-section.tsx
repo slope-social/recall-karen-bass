@@ -42,7 +42,7 @@ export default function ContactSection() {
   return (
     <div className="container mx-auto py-[8vmin] px-[4vmin] bg-muted/30">
       <div className="max-w-[80vmin] mx-auto">
-        <h2 className="text-[4vmin] font-bold mb-[4vmin]">Contact Us</h2>
+        <h2 className="text-[4.5vmin] font-bold mb-[4vmin]">Contact Us</h2>
         <Card>
           <CardContent className="p-[3vmin]">
             <Form {...form}>
@@ -52,11 +52,11 @@ export default function ContactSection() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[1.8vmin]">Name</FormLabel>
+                      <FormLabel className="text-[2.5vmin]">Name</FormLabel>
                       <FormControl>
-                        <Input className="text-[1.8vmin]" {...field} />
+                        <Input className="text-[2.5vmin]" {...field} />
                       </FormControl>
-                      <FormMessage className="text-[1.6vmin]" />
+                      <FormMessage className="text-[2.2vmin]" />
                     </FormItem>
                   )}
                 />
@@ -65,11 +65,11 @@ export default function ContactSection() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[1.8vmin]">Email</FormLabel>
+                      <FormLabel className="text-[2.5vmin]">Email</FormLabel>
                       <FormControl>
-                        <Input className="text-[1.8vmin]" type="email" {...field} />
+                        <Input className="text-[2.5vmin]" type="email" {...field} />
                       </FormControl>
-                      <FormMessage className="text-[1.6vmin]" />
+                      <FormMessage className="text-[2.2vmin]" />
                     </FormItem>
                   )}
                 />
@@ -78,19 +78,19 @@ export default function ContactSection() {
                   name="message"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="text-[1.8vmin]">Message</FormLabel>
+                      <FormLabel className="text-[2.5vmin]">Message</FormLabel>
                       <FormControl>
                         <Textarea 
-                          className="text-[1.8vmin]" 
+                          className="text-[2.5vmin]" 
                           {...field}
                           rows={4}
                         />
                       </FormControl>
-                      <FormMessage className="text-[1.6vmin]" />
+                      <FormMessage className="text-[2.2vmin]" />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full text-[1.8vmin]" disabled={mutation.isPending}>
+                <Button type="submit" className="w-full text-[2.5vmin]" disabled={mutation.isPending}>
                   {mutation.isPending ? "Sending..." : "Send Message"}
                 </Button>
               </form>
