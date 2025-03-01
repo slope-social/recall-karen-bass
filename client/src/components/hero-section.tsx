@@ -3,12 +3,6 @@ import { Button } from "@/components/ui/button";
 export default function HeroSection() {
   return (
     <section className="section hero">
-      <div 
-        className="hero-background"
-        style={{ backgroundImage: 'url("/assets/header.jpg")' }}
-      />
-      <div className="hero-overlay" />
-
       <div className="hero-content">
         <h1 className="heading-1">
           Making a Difference Together
