@@ -53,7 +53,7 @@ export default function VolunteerSection() {
       <Form {...form}>
         <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
           {/* First name and last name on the same line */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
             <FormItem>
               <FormLabel className="form-label">First Name*</FormLabel>
               <FormControl>
@@ -79,7 +79,7 @@ export default function VolunteerSection() {
           </div>
 
           {/* ZIP code and Email on the same line */}
-          <div className="grid grid-cols-2 gap-4 mb-4">
+          <div data-component-name="div" className="grid grid-cols-2 gap-4 mb-4">
             <FormItem>
               <FormLabel className="form-label">ZIP Code*</FormLabel>
               <FormControl>
@@ -119,7 +119,7 @@ export default function VolunteerSection() {
             <FormMessage className="form-message" />
           </FormItem>
 
-          {/* Checkboxes in a single row */}
+          {/* Checkboxes in a row */}
           <div className="mb-4">
             <h3 className="form-label">I am available to:</h3>
             <div className="flex flex-row items-center gap-8 mt-2">

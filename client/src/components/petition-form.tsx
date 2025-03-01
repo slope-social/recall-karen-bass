@@ -1,17 +1,5 @@
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
@@ -48,12 +36,9 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
   const form = useForm<InsertPetition>({
     resolver: zodResolver(insertPetitionSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      name: "",
       email: "",
       location: "",
-      zip: "",
-      phone: "",
       comment: "",
     },
   });
@@ -80,12 +65,12 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
 
   return (
     <>
-      <div
-        className={`petition-background ${open ? "active" : ""} ${isTransitioning ? "" : "hidden"}`}
+      <div 
+        className={`petition-background ${open ? 'active' : ''} ${isTransitioning ? '' : 'hidden'}`}
         style={{ backgroundImage: 'url("/assets/RKB-FB-Cover.png")' }}
       />
-      <div
-        className={`petition-overlay ${open ? "active" : ""} ${isTransitioning ? "" : "hidden"}`}
+      <div 
+        className={`petition-overlay ${open ? 'active' : ''} ${isTransitioning ? '' : 'hidden'}`}
       />
 
       <Dialog open={open} onOpenChange={onOpenChange}>
@@ -94,138 +79,55 @@ export default function PetitionForm({ open, onOpenChange }: Props) {
             <DialogTitle className="form-title">Sign the Petition</DialogTitle>
           </DialogHeader>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit((data) => mutation.mutate(data))}
-              className="form-fields"
-            >
-              {/* First name and last name on the same line */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <FormField
-                  control={form.control}
-                  name="firstName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">First Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="form-input"
-                          placeholder="Enter first name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="lastName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">Last Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="form-input"
-                          placeholder="Enter last name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
+            <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="form-label">Full Name</FormLabel>
+                    <FormControl>
+                      <Input className="form-input" {...field} />
+                    </FormControl>
+                    <FormMessage className="form-message" />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
                 render={({ field }) => (
-                  <FormItem className="mb-4">
+                  <FormItem>
                     <FormLabel className="form-label">Email</FormLabel>
                     <FormControl>
-                      <Input
-                        className="form-input"
-                        type="email"
-                        placeholder="Enter email"
-                        {...field}
-                      />
+                      <Input className="form-input" type="email" {...field} />
                     </FormControl>
                     <FormMessage className="form-message" />
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="location"
                 render={({ field }) => (
-                  <FormItem className="mb-4">
+                  <FormItem>
                     <FormLabel className="form-label">Location</FormLabel>
                     <FormControl>
-                      <Input
-                        className="form-input"
-                        placeholder="Enter location"
-                        {...field}
-                      />
+                      <Input className="form-input" {...field} />
                     </FormControl>
                     <FormMessage className="form-message" />
                   </FormItem>
                 )}
               />
-
-              {/* Zip code and phone on the same line */}
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <FormField
-                  control={form.control}
-                  name="zip"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">ZIP Code</FormLabel>
-                      <FormControl>
-                        <Input
-                          className="form-input"
-                          placeholder="Enter ZIP code"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="phone"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="form-label">
-                        Phone (Optional)
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          className="form-input"
-                          type="tel"
-                          placeholder="Enter phone number"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage className="form-message" />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
               <FormField
                 control={form.control}
                 name="comment"
                 render={({ field }) => (
-                  <FormItem className="mb-4">
-                    <FormLabel className="form-label">
-                      Comment (Optional)
-                    </FormLabel>
+                  <FormItem>
+                    <FormLabel className="form-label">Comment (Optional)</FormLabel>
                     <FormControl>
-                      <Textarea
-                        className="form-input"
-                        placeholder="Your comment here"
+                      <Textarea 
+                        className="form-input" 
                         {...field}
                         rows={4}
                       />
