@@ -59,13 +59,12 @@ export default function VolunteerSection() {
           <CardContent className="form-content">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="form-fields">
-                {/* Name Fields Grid */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="flex gap-4">
                   <FormField
                     control={form.control}
                     name="firstName"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex-1">
                         <FormLabel className="form-label">First Name*</FormLabel>
                         <FormControl>
                           <Input placeholder="Enter first name" className="form-input" {...field} />
@@ -79,7 +78,7 @@ export default function VolunteerSection() {
                     control={form.control}
                     name="lastName"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex-1">
                         <FormLabel className="form-label">Last Name*</FormLabel>
                         <FormControl>
                           <Input placeholder="Enter last name" className="form-input" {...field} />
@@ -104,13 +103,12 @@ export default function VolunteerSection() {
                   )}
                 />
 
-                {/* Phone and Zip Code Grid */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="flex gap-4">
                   <FormField
                     control={form.control}
                     name="phone"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex-1">
                         <FormLabel className="form-label">Phone</FormLabel>
                         <FormControl>
                           <Input placeholder="Enter phone" type="tel" className="form-input" {...field} />
@@ -124,7 +122,7 @@ export default function VolunteerSection() {
                     control={form.control}
                     name="zipCode"
                     render={({ field }) => (
-                      <FormItem>
+                      <FormItem className="flex-1">
                         <FormLabel className="form-label">Zip Code*</FormLabel>
                         <FormControl>
                           <Input placeholder="Your Zip Code" className="form-input" {...field} />
