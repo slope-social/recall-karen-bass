@@ -15,22 +15,13 @@
 
 html {
   scroll-behavior: smooth;
-  height: 100%;
-  overflow: hidden;
 }
 
 body {
   font-family: system-ui, -apple-system, sans-serif;
   background: var(--background);
   color: var(--text);
-  height: 100%;
-  overflow: auto;
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-}
-
-main {
-  height: 100%;
+  overflow-x: hidden;
 }
 
 /* Navigation */
@@ -80,6 +71,13 @@ main {
 }
 
 /* Section Layout */
+main {
+  height: 100vh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
 .section {
   min-height: 100vh;
   width: 100%;
@@ -87,8 +85,6 @@ main {
   align-items: center;
   justify-content: center;
   scroll-snap-align: start;
-  scroll-snap-stop: always;
-  background: var(--background);
   position: relative;
   padding-top: 4rem; /* Account for fixed header */
 }
@@ -118,6 +114,40 @@ main {
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   width: 100%;
+}
+
+/* Petition Form Background Transitions */
+.petition-background {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-size: cover;
+  background-position: center;
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.petition-background.active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 700ms ease-out, transform 700ms ease-out;
+}
+
+.petition-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.petition-overlay.active {
+  opacity: 1;
+  transition: opacity 500ms ease-out 200ms;
 }
 
 /* Animations */
