@@ -226,17 +226,11 @@ main {
   background-position: center;
   opacity: 0;
   transition: opacity 0.5s ease;
-  z-index: 1;
+  z-index: 0;
 }
 
 #petition.in-view .petition-background {
   opacity: 1;
-}
-
-/* Make sure the petition content is above the background */
-#petition .section-content {
-  z-index: 2;
-  position: relative;
 }
 
 /* Form styles */

@@ -4,59 +4,54 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
+import { InsertPetition, insertPetitionSchema } from "@shared/schema";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-
-const petitionFormSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  streetAddress: z.string().min(1, "Street address is required"),
-  city: z.string().min(1, "City/Town is required"),
-  zip: z.string().min(5, "Valid zip code is required"),
-  email: z.string().email("Valid email is required"),
-  phone: z.string().optional(),
-  message: z.string().optional(),
-});
-
-type PetitionFormData = z.infer<typeof petitionFormSchema>;
 
 export default function PetitionSection() {
   const { toast } = useToast();
 
-  const form = useForm<PetitionFormData>({
-    resolver: zodResolver(petitionFormSchema),
+  const form = useForm<InsertPetition>({
+    resolver: zodResolver(insertPetitionSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      streetAddress: "",
-      city: "",
-      zip: "",
+      name: "",
       email: "",
-      phone: "",
-      message: "",
+      location: "",
+      comment: "",
     },
   });
 
-  const onSubmit = (data: PetitionFormData) => {
-    console.log(data);
-    toast({
-      title: "Success",
-      description: "Thank you for signing the petition!",
-    });
-    form.reset();
-  };
+  const mutation = useMutation({
+    mutationFn: (data: InsertPetition) =>
+      apiRequest("POST", "/api/petitions", data),
+    onSuccess: () => {
+      toast({
+        title: "Success",
+        description: "Thank you for signing the petition!",
+      });
+      form.reset();
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   return (
     <div className="section-content">
-      <h2 className="heading-2">Recall Karen Bass</h2>
+      <h2 className="heading-2">Sign the Petition</h2>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="form-fields">
+        <form onSubmit={form.handleSubmit((data) => mutation.mutate(data))} className="form-fields">
           <FormField
             control={form.control}
-            name="firstName"
+            name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="form-label">First Name</FormLabel>
+                <FormLabel className="form-label">Full Name</FormLabel>
                 <FormControl>
                   <Input className="form-input" {...field} />
                 </FormControl>
@@ -64,63 +59,6 @@ export default function PetitionSection() {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={form.control}
-            name="lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="form-label">Last Name</FormLabel>
-                <FormControl>
-                  <Input className="form-input" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="streetAddress"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="form-label">Address - Street</FormLabel>
-                <FormControl>
-                  <Input className="form-input" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="city"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="form-label">City/Town</FormLabel>
-                <FormControl>
-                  <Input className="form-input" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="zip"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="form-label">ZIP</FormLabel>
-                <FormControl>
-                  <Input className="form-input" {...field} />
-                </FormControl>
-                <FormMessage className="form-message" />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={form.control}
             name="email"
@@ -134,35 +72,36 @@ export default function PetitionSection() {
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
-            name="phone"
+            name="location"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="form-label">Phone</FormLabel>
+                <FormLabel className="form-label">Location</FormLabel>
                 <FormControl>
-                  <Input className="form-input" type="tel" {...field} />
+                  <Input className="form-input" {...field} />
                 </FormControl>
                 <FormMessage className="form-message" />
               </FormItem>
             )}
           />
-
           <FormField
             control={form.control}
-            name="message"
+            name="comment"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="form-label">Your Message Here</FormLabel>
+                <FormLabel className="form-label">Comment (Optional)</FormLabel>
                 <FormControl>
-                  <Textarea className="form-input" {...field} rows={4} />
+                  <Textarea 
+                    className="form-input" 
+                    {...field}
+                    rows={4}
+                  />
                 </FormControl>
                 <FormMessage className="form-message" />
               </FormItem>
             )}
           />
-
           <Button type="submit" className="form-submit">
             Sign Petition
           </Button>
