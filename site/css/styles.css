@@ -1409,6 +1409,30 @@ textarea.form-input {
   font-size: 12px;
 }
 
+.footer-address {
+  margin-top: 0.5rem;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.footer-disclaimer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.disclaimer-box {
+  border: 1px solid #ffffff;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  margin: 0 auto;
+}
+
+.disclaimer-line {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
 @media (max-width: 768px) {
   .footer-content {
     gap: 20px;
@@ -1421,6 +1445,14 @@ textarea.form-input {
   
   .footer-separator {
     display: none;
+  }
+  
+  .disclaimer-box {
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .disclaimer-line {
+    font-size: 0.8rem;
   }
   
   /* Mobile form fixes */
