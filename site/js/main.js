@@ -579,6 +579,9 @@ function handlePetitionSubmit(e) {
       // Reset form on success
       form.reset();
       console.log('Petition form data:', data);
+      
+      // Show the thank you modal
+      showThankYouPetitionModal();
     })
     .catch(error => {
       console.error('Error submitting petition:', error);
@@ -1022,4 +1025,55 @@ function initScrollHelper() {
       rect.bottom >= 0
     );
   }
-} 
+}
+
+// Add these functions for the thank you petition modal
+function showThankYouPetitionModal() {
+  const modal = document.getElementById('thankYouPetitionModal');
+  if (!modal) return;
+  
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+  
+  // Fade in
+  setTimeout(() => {
+    modal.style.opacity = '1';
+  }, 10);
+}
+
+function closeThankYouPetitionModal() {
+  const modal = document.getElementById('thankYouPetitionModal');
+  if (!modal) return;
+  
+  modal.style.opacity = '0';
+  
+  // Wait for transition to complete before hiding
+  setTimeout(() => {
+    modal.style.display = 'none';
+    document.body.style.overflow = ''; // Restore scrolling
+  }, 300);
+}
+
+// Initialize everything when the DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  // Thank you petition modal close buttons
+  const closeThankYouPetition = document.getElementById('closeThankYouPetition');
+  const closeThankYouButton = document.getElementById('closeThankYouButton');
+  const thankYouPetitionModal = document.getElementById('thankYouPetitionModal');
+  
+  if (closeThankYouPetition) {
+    closeThankYouPetition.addEventListener('click', closeThankYouPetitionModal);
+  }
+  
+  if (closeThankYouButton) {
+    closeThankYouButton.addEventListener('click', closeThankYouPetitionModal);
+  }
+  
+  if (thankYouPetitionModal) {
+    thankYouPetitionModal.addEventListener('click', (e) => {
+      if (e.target === thankYouPetitionModal) {
+        closeThankYouPetitionModal();
+      }
+    });
+  }
+}); 

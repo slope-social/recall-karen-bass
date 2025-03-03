@@ -1286,6 +1286,20 @@ textarea.form-input {
   padding-left: 20px;
 }
 
+.modal-content ul li {
+  margin-bottom: 0.5rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.modal-actions button {
+  min-width: 120px;
+}
+
 /* Cookie Banner Styles */
 .cookie-banner {
   position: fixed;
