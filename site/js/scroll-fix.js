@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isScrolling = false;
     let scrollTimeout;
     let lastScrollTime = 0;
-    const scrollCooldown = 800; // ms to wait before allowing another snap
+    const scrollCooldown = 500; // ms to wait before allowing another snap (reduced from 800ms)
     
     // Function to update backgrounds based on current section
     function updateBackgrounds(sectionId) {
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function smoothScrollTo(element, updateBackground = true) {
         if (!element) return;
         
-        // Disable snap during programmatic scrolling
+        // Temporarily disable snap during programmatic scrolling
         document.documentElement.classList.add('disable-snap');
         document.body.classList.add('disable-snap');
         
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof window.isAnimating !== 'undefined') {
                 window.isAnimating = false;
             }
-        }, 800);
+        }, 600); // Reduced from 800ms for faster re-enabling of snap
     }
     
     // Handle clicks on navigation buttons
@@ -215,10 +215,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const { section, distance } = findNearestSection();
         
-        // Only snap if we're close enough to a section
-        if (section && distance < window.innerHeight * 0.3) {
+        // Only snap if we're close enough to a section - increased threshold for more aggressive snapping
+        if (section && distance < window.innerHeight * 0.4) {
             // Update last scroll time
             lastScrollTime = Date.now();
+            
+            // Temporarily disable snap during programmatic scrolling
+            document.documentElement.classList.add('disable-snap');
+            document.body.classList.add('disable-snap');
             
             // Snap to the section
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -227,6 +231,12 @@ document.addEventListener('DOMContentLoaded', function() {
             if (section.id && section.id !== currentSection) {
                 updateBackgrounds(section.id);
             }
+            
+            // Re-enable snap after scrolling completes
+            setTimeout(() => {
+                document.documentElement.classList.remove('disable-snap');
+                document.body.classList.remove('disable-snap');
+            }, 600);
         }
     }
     
@@ -277,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Use more aggressive snapping
             snapToNearestSection();
-        }, 100); // Shorter timeout for more responsive snapping
+        }, 80); // Shorter timeout for more responsive snapping (reduced from 100ms)
     }, { passive: true });
     
     // Add wheel event listener for more responsive snapping
@@ -289,6 +299,6 @@ document.addEventListener('DOMContentLoaded', function() {
         scrollTimeout = setTimeout(function() {
             // Use more aggressive snapping
             snapToNearestSection();
-        }, 100);
+        }, 80); // Shorter timeout (reduced from 100ms)
     }, { passive: true });
 }); 

@@ -291,24 +291,31 @@ function scrollToSection(sectionId) {
   const section = document.getElementById(sectionId);
   if (!section) return;
   
-  // Set the global isAnimating flag
-  isAnimating = true;
+  // Set the animation flag to prevent other scroll handlers
+  window.isAnimating = true;
   
-  // Calculate target position with precision
+  // Temporarily disable snap during programmatic scrolling
+  document.documentElement.classList.add('disable-snap');
+  document.body.classList.add('disable-snap');
+  
+  // Get the position of the section
   const rect = section.getBoundingClientRect();
   const absoluteTop = window.scrollY + rect.top;
-  const targetPosition = absoluteTop;
   
   // Simple smooth scroll
   window.scrollTo({
-    top: targetPosition,
+    top: absoluteTop,
     behavior: 'smooth'
   });
   
   // Reset the animation flag after scrolling completes
   setTimeout(() => {
-    isAnimating = false;
-  }, 1000);
+    window.isAnimating = false;
+    
+    // Re-enable snap after scrolling completes
+    document.documentElement.classList.remove('disable-snap');
+    document.body.classList.remove('disable-snap');
+  }, 600);
 }
 
 // Intersection Observer for animations
@@ -991,9 +998,7 @@ function initScrollHelper() {
     document.documentElement.classList.add('mobile-scroll');
   }
   
-  // Completely disable scroll snapping
-  document.documentElement.classList.add('disable-snap');
-  document.body.classList.add('disable-snap');
+  // Enable scroll snapping - removed the disable-snap classes
   
   // Handle keyboard navigation
   document.addEventListener('keydown', function(e) {

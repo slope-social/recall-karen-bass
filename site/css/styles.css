@@ -1576,39 +1576,39 @@ textarea.form-input {
 
 /* Default scroll behavior - enable mandatory snap with stronger settings */
 html, body {
-  scroll-snap-type: y mandatory !important;
-  scroll-behavior: smooth !important;
-  overflow-y: auto !important;
-  height: 100vh !important;
-  overscroll-behavior: contain !important;
-  overflow-x: hidden !important;
-  scroll-padding: 0 !important;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  height: 100vh;
+  overscroll-behavior: contain;
+  overflow-x: hidden;
+  scroll-padding: 0;
 }
 
 .section {
-  scroll-snap-align: start !important;
-  scroll-snap-stop: always !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
   min-height: 100vh;
-  opacity: 1 !important;
-  transform: none !important;
-  transition: opacity 0.5s ease !important;
+  opacity: 1;
+  transform: none;
+  transition: opacity 0.5s ease;
 }
 
 /* Disable snap during programmatic scrolling */
 html.disable-snap,
 html.disable-snap body,
 body.disable-snap {
-  scroll-snap-type: none !important;
-  scroll-behavior: smooth !important;
-  overflow-y: auto !important;
-  height: 100vh !important;
-  overscroll-behavior: auto !important;
+  scroll-snap-type: none;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  height: 100vh;
+  overscroll-behavior: auto;
 }
 
 html.disable-snap .section,
 body.disable-snap .section {
-  scroll-snap-align: none !important;
-  scroll-snap-stop: normal !important;
+  scroll-snap-align: none;
+  scroll-snap-stop: normal;
 }
 
 /* Make sure backgrounds are visible */
@@ -1621,22 +1621,22 @@ body.disable-snap .section {
 
 body.petition-in-view .petition-fixed-background,
 body.volunteer-in-view .volunteer-fixed-background {
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 /* Mobile-specific settings */
 @media (max-width: 768px) {
   html, body {
-    scroll-snap-type: y mandatory !important;
-    scroll-behavior: smooth !important;
-    overflow-y: auto !important;
-    height: 100vh !important;
-    overscroll-behavior: contain !important;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    height: 100vh;
+    overscroll-behavior: contain;
   }
   
   .section {
-    scroll-snap-align: start !important;
-    scroll-snap-stop: always !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
     min-height: 100vh;
   }
 }
@@ -1644,16 +1644,16 @@ body.volunteer-in-view .volunteer-fixed-background {
 /* Desktop-specific settings */
 @media (min-width: 769px) {
   html, body {
-    scroll-snap-type: y mandatory !important;
-    scroll-behavior: smooth !important;
-    overflow-y: auto !important;
-    height: 100vh !important;
-    overscroll-behavior: contain !important;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    overflow-y: auto;
+    height: 100vh;
+    overscroll-behavior: contain;
   }
   
   .section {
-    scroll-snap-align: start !important;
-    scroll-snap-stop: always !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 }
 
@@ -1838,7 +1838,7 @@ body.volunteer-in-view .volunteer-fixed-background {
 
 body.petition-in-view .petition-fixed-background,
 body.volunteer-in-view .volunteer-fixed-background {
-  opacity: 1 !important;
+  opacity: 1;
 }
 
 /* Ensure the slanted background transitions smoothly */
@@ -2186,15 +2186,13 @@ body.menu-open::before {
 /* Mobile scroll enhancements */
 html.mobile-scroll,
 html.mobile-scroll body {
-  scroll-snap-type: none !important;
+  scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
-  overflow-y: auto !important;
-  height: auto !important;
 }
 
 html.mobile-scroll .section {
-  scroll-snap-align: none !important;
-  scroll-snap-stop: normal !important;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 /* Double-tap helper indicator */
@@ -2237,11 +2235,11 @@ html.disable-snap,
 html.disable-snap body,
 body.disable-snap,
 .disable-snap .section {
-  scroll-snap-type: none !important;
-  scroll-behavior: auto !important;
-  overflow-y: auto !important;
-  height: auto !important;
-  overscroll-behavior: auto !important;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  overflow-y: auto;
+  height: auto;
+  overscroll-behavior: auto;
 }
 
 /* Additional mobile form styling fixes */
@@ -2303,36 +2301,27 @@ body.disable-snap,
 /* Improve scroll behavior on desktop */
 @media (min-width: 769px) {
   html {
-    font-size: 18px;
     scroll-behavior: smooth;
-    /* Completely disable scroll snapping */
-    scroll-snap-type: none !important;
-    overscroll-behavior: auto !important;
-    height: auto !important;
-    overflow-y: auto !important;
+    /* Enable scroll snapping */
+    scroll-snap-type: y mandatory;
+    overscroll-behavior: contain;
   }
   
   body {
-    /* Completely disable scroll snapping */
-    scroll-snap-type: none !important;
-    overflow-y: auto !important;
-    height: auto !important;
+    /* Enable scroll snapping */
+    scroll-snap-type: y mandatory;
   }
   
   .section {
-    /* Completely disable scroll snapping */
-    scroll-snap-align: none !important;
-    scroll-snap-stop: normal !important;
+    /* Enable scroll snapping */
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
   
   /* Disable scroll snap during programmatic scrolling */
   html.disable-snap,
-  html.disable-snap body,
-  body.disable-snap,
-  .disable-snap .section {
-    scroll-snap-type: none !important;
-    scroll-behavior: auto !important;
-    overflow-y: auto !important;
-    height: auto !important;
+  html.disable-snap body {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
   }
 } 
