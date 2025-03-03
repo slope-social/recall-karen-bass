@@ -1080,6 +1080,7 @@ input[type="checkbox"] + label {
 
 /* Card styles */
 .card {
+  border: 1px solid rgba(255, 255, 255, 0.2);
   background-color: transparent;
   border-radius: 8px;
   padding: 0;
@@ -2105,8 +2106,6 @@ body.disable-snap,
   /* Style the inputs consistently */
   #contact-form .form-input {
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.2);
     color: white;
   }
   
