@@ -548,6 +548,8 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  backdrop-filter: blur(.3vmin);
+  -webkit-backdrop-filter: blur(.3vmin);
 }
 
 /* Petition section specific styles */
