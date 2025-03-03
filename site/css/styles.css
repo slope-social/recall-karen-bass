@@ -2307,12 +2307,20 @@ body.disable-snap,
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+.footer-content .disclaimer-box {
+  margin: 1.5rem auto;
+  background-color: rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .disclaimer-box p {
   margin: 0;
 }
 
 .disclaimer-box .disclaimer-line {
   display: block;
+  font-weight: 500;
 }
 
 @media (max-width: 768px) {
