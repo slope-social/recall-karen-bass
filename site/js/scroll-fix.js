@@ -1,14 +1,19 @@
 /**
- * Improved scroll handling for the Recall Karen Bass website
- * This script works with the existing scroll handling in main.js
+ * Simple scroll handling for the Recall Karen Bass website
+ * This script completely disables all scroll snapping and lets the browser handle scrolling naturally
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Flag to track if we're on a mobile device
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+    // Completely disable all scroll snapping
+    document.documentElement.style.scrollSnapType = 'none';
+    document.body.style.scrollSnapType = 'none';
     
-    // Add a class to the body for mobile-specific CSS
-    if (isMobile) {
+    // Add classes to disable scroll snapping
+    document.documentElement.classList.add('disable-snap');
+    document.body.classList.add('disable-snap');
+    
+    // Add mobile class if needed
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768) {
         document.body.classList.add('is-mobile-device');
         document.documentElement.classList.add('mobile-scroll');
     }
@@ -23,102 +28,21 @@ document.addEventListener('DOMContentLoaded', function() {
     setVhVariable();
     window.addEventListener('resize', setVhVariable);
     
-    // Variables to track scroll state
-    let isScrolling = false;
-    let scrollTimeout;
-    let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    let scrollDirection = null;
-    
-    // Completely disable scroll snapping by default
-    document.documentElement.classList.add('disable-snap');
-    document.body.classList.add('disable-snap');
-    
-    // Track scroll momentum
-    let scrollMomentum = 0;
-    let lastScrollY = window.scrollY;
-    let lastScrollTime = Date.now();
-    
-    // Handle scroll events with momentum detection
-    window.addEventListener('scroll', function() {
-        // Calculate scroll speed (momentum)
-        const currentScrollY = window.scrollY;
-        const currentTime = Date.now();
-        const deltaY = Math.abs(currentScrollY - lastScrollY);
-        const deltaTime = currentTime - lastScrollTime;
+    // Simple smooth scroll function for navigation links
+    function smoothScrollTo(element) {
+        if (!element) return;
         
-        // Only calculate momentum if we have a valid time difference
-        if (deltaTime > 0) {
-            scrollMomentum = deltaY / deltaTime;
-        }
-        
-        // Update last values
-        lastScrollY = currentScrollY;
-        lastScrollTime = currentTime;
-        
-        // Determine scroll direction
+        // Get the element's position
+        const rect = element.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        scrollDirection = scrollTop > lastScrollTop ? 'down' : 'up';
-        lastScrollTop = scrollTop;
+        const targetPosition = rect.top + scrollTop;
         
-        // Always disable snap during active scrolling
-        if (!isScrolling) {
-            isScrolling = true;
-            document.documentElement.classList.add('disable-snap');
-            document.body.classList.add('disable-snap');
-        }
-        
-        // Clear any existing timeout
-        clearTimeout(scrollTimeout);
-        
-        // Set a new timeout to detect when scrolling stops
-        scrollTimeout = setTimeout(function() {
-            // Only enable snap when momentum is very low (scrolling has almost stopped)
-            if (scrollMomentum < 0.05) {
-                isScrolling = false;
-                
-                // Find the section closest to the viewport center
-                const sections = document.querySelectorAll('.section');
-                let closestSection = null;
-                let closestDistance = Infinity;
-                
-                sections.forEach(section => {
-                    const rect = section.getBoundingClientRect();
-                    const distance = Math.abs(rect.top);
-                    
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestSection = section;
-                    }
-                });
-                
-                // Only snap if we're very close to a section (within 15% of viewport height)
-                if (closestSection && closestDistance < window.innerHeight * 0.15) {
-                    // Temporarily remove disable-snap to allow the snap to happen
-                    document.documentElement.classList.remove('disable-snap');
-                    document.body.classList.remove('disable-snap');
-                    
-                    // Smooth scroll to the section
-                    if (typeof window.scrollToSection === 'function') {
-                        window.scrollToSection(closestSection.id);
-                    } else {
-                        closestSection.scrollIntoView({ behavior: 'smooth' });
-                    }
-                    
-                    // Re-disable snap after the animation completes
-                    setTimeout(function() {
-                        document.documentElement.classList.add('disable-snap');
-                        document.body.classList.add('disable-snap');
-                    }, 1000);
-                }
-            } else {
-                // If momentum is still high, check again after a short delay
-                setTimeout(function() {
-                    // Reset momentum to a low value to allow snapping on the next check
-                    scrollMomentum = 0;
-                }, 300);
-            }
-        }, 100);
-    }, { passive: true });
+        // Scroll to the element with smooth behavior
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    }
     
     // Handle clicks on navigation buttons
     const navButtons = document.querySelectorAll('[data-target]');
@@ -126,15 +50,9 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('data-target');
-            
-            // Use the existing scrollToSection function if available
-            if (typeof window.scrollToSection === 'function') {
-                window.scrollToSection(targetId);
-            } else {
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                }
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                smoothScrollTo(targetElement);
             }
         });
     });
@@ -146,12 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetElement = document.querySelector(hash);
             if (targetElement) {
                 setTimeout(() => {
-                    // Use the existing scrollToSection function if available
-                    if (typeof window.scrollToSection === 'function') {
-                        window.scrollToSection(hash.substring(1));
-                    } else {
-                        targetElement.scrollIntoView({ behavior: 'smooth' });
-                    }
+                    smoothScrollTo(targetElement);
                 }, 100);
             }
         }
@@ -164,4 +77,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
+    
+    // Override the existing scrollToSection function
+    window.scrollToSection = function(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            smoothScrollTo(section);
+        }
+    };
+    
+    // Disable any existing scroll event listeners from main.js
+    const oldAddEventListener = window.addEventListener;
+    window.addEventListener = function(type, listener, options) {
+        if (type === 'scroll') {
+            // Don't add scroll event listeners
+            return;
+        }
+        oldAddEventListener.call(window, type, listener, options);
+    };
 }); 

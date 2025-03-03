@@ -294,73 +294,21 @@ function scrollToSection(sectionId) {
   // Set the global isAnimating flag
   isAnimating = true;
   
-  // Temporarily disable scroll snapping during the animation
-  const styleElement = document.createElement('style');
-  styleElement.textContent = `
-    html, body, .section {
-      scroll-snap-type: none !important;
-      scroll-snap-align: none !important;
-      scroll-snap-stop: normal !important;
-      scroll-behavior: auto !important;
-      overscroll-behavior: auto !important;
-    }
-  `;
-  document.head.appendChild(styleElement);
-  document.documentElement.classList.add('disable-snap');
-  
   // Calculate target position with precision
   const rect = section.getBoundingClientRect();
   const absoluteTop = window.scrollY + rect.top;
   const targetPosition = absoluteTop;
   
-  // Use requestAnimationFrame for smoother animation control
-  const startPosition = window.scrollY;
-  const distance = targetPosition - startPosition;
-  const duration = 800; // Longer duration for smoother animation
-  let startTime = null;
+  // Simple smooth scroll
+  window.scrollTo({
+    top: targetPosition,
+    behavior: 'smooth'
+  });
   
-  function easeOutQuint(t) {
-    return 1 - Math.pow(1 - t, 5);
-  }
-  
-  function step(timestamp) {
-    if (!startTime) startTime = timestamp;
-    const elapsed = timestamp - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const easeProgress = easeOutQuint(progress);
-    
-    // Calculate the exact position for this frame
-    const currentPosition = startPosition + distance * easeProgress;
-    window.scrollTo({
-      top: currentPosition,
-      behavior: 'auto' // Use 'auto' to prevent browser's smooth scrolling from interfering
-    });
-    
-    if (progress < 1) {
-      window.requestAnimationFrame(step);
-    } else {
-      // We've reached the end of the animation
-      // Make sure we're exactly at the target position
-      window.scrollTo({
-        top: targetPosition,
-        behavior: 'auto'
-      });
-      
-      // Keep snap disabled for a longer period to prevent the snap from causing a lurch
-      setTimeout(() => {
-        // Remove the style element and disable-snap class
-        document.head.removeChild(styleElement);
-        document.documentElement.classList.remove('disable-snap');
-        
-        // Reset the global isAnimating flag after animation is completely done
-        setTimeout(() => {
-          isAnimating = false;
-        }, 200);
-      }, 300); // Longer delay before re-enabling snap
-    }
-  }
-  
-  window.requestAnimationFrame(step);
+  // Reset the animation flag after scrolling completes
+  setTimeout(() => {
+    isAnimating = false;
+  }, 1000);
 }
 
 // Intersection Observer for animations
@@ -1150,116 +1098,35 @@ function initExpandableForms() {
 
 // Add this new function to help with scroll issues
 function initScrollHelper() {
-  let isScrolling = false;
-  let scrollTimeout;
-  let touchStartY = 0;
-  let touchEndY = 0;
-  const scrollThreshold = 50; // Minimum distance to consider a deliberate scroll
-  const petitionSection = document.getElementById('petition');
-  const volunteerSection = document.getElementById('volunteer');
+  // Detect mobile devices
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
   
-  // Temporarily disable snap during active scrolling
-  window.addEventListener('scroll', function() {
-    if (!isScrolling) {
-      document.documentElement.classList.add('disable-snap');
-      isScrolling = true;
-    }
-    
-    clearTimeout(scrollTimeout);
-    
-    // Re-enable snap after scrolling stops with a longer delay
-    scrollTimeout = setTimeout(function() {
-      // Only re-enable snap if we're not in a programmatic animation
-      if (!isAnimating) {
-        document.documentElement.classList.remove('disable-snap');
-        isScrolling = false;
-        
-        // Only snap to sections when user has stopped scrolling and we're not in the middle of a programmatic scroll
-        if (!isAnimating) {
-          // Find the section closest to the top of the viewport
-          const sections = document.querySelectorAll('.section');
-          let closestSection = null;
-          let closestDistance = Infinity;
-          
-          sections.forEach(section => {
-            const rect = section.getBoundingClientRect();
-            // Calculate distance from the top of the section to the top of the viewport
-            const distance = Math.abs(rect.top);
-            
-            if (distance < closestDistance) {
-              closestDistance = distance;
-              closestSection = section;
-            }
-          });
-          
-          // Only snap if we're not too far from a section (within 10% of viewport height)
-          // This makes the snap less aggressive
-          if (closestSection && closestDistance < window.innerHeight * 0.1) {
-            // Use a gentle scroll to the section
-            isAnimating = true; // Set flag to prevent recursive snapping
-            
-            // Use our custom scroll function instead of scrollIntoView
-            const sectionId = closestSection.id;
-            if (sectionId) {
-              scrollToSection(sectionId);
-            } else {
-              // Fallback to scrollIntoView if no ID
-              closestSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              
-              // Reset the flag after animation completes
-              setTimeout(() => {
-                isAnimating = false;
-              }, 1000);
-            }
-          }
-        }
-      }
-    }, 200); // Longer timeout for less aggressive snapping
-  });
+  // Add mobile class if needed
+  if (isMobile) {
+    document.body.classList.add('is-mobile-device');
+    document.documentElement.classList.add('mobile-scroll');
+  }
   
-  // Handle touch events for mobile
-  document.addEventListener('touchstart', function(e) {
-    touchStartY = e.touches[0].clientY;
-  }, { passive: true });
+  // Completely disable scroll snapping
+  document.documentElement.classList.add('disable-snap');
+  document.body.classList.add('disable-snap');
   
-  document.addEventListener('touchend', function(e) {
-    touchEndY = e.changedTouches[0].clientY;
-    const touchDiff = touchEndY - touchStartY;
-    
-    // If we detect a significant swipe between petition and volunteer sections
-    if (Math.abs(touchDiff) > scrollThreshold && !isAnimating) {
-      // Check if we're near the boundary between petition and volunteer
-      const petitionRect = petitionSection.getBoundingClientRect();
-      const volunteerRect = volunteerSection.getBoundingClientRect();
-      const viewportHeight = window.innerHeight;
-      
-      // If petition section is partially visible at bottom and user is swiping up
-      if (petitionRect.bottom > 0 && petitionRect.bottom < viewportHeight && touchDiff < 0) {
-        scrollToSection('volunteer');
-      }
-      
-      // If volunteer section is partially visible at top and user is swiping down
-      if (volunteerRect.top < viewportHeight && volunteerRect.top > 0 && touchDiff > 0) {
-        scrollToSection('petition');
-      }
-    }
-  }, { passive: true });
-  
-  // Add a helper for keyboard navigation
+  // Handle keyboard navigation
   document.addEventListener('keydown', function(e) {
     // If arrow down is pressed while petition is visible
-    if (e.key === 'ArrowDown' && isElementInView(petitionSection)) {
+    if (e.key === 'ArrowDown' && isElementInView(document.getElementById('petition'))) {
       scrollToSection('volunteer');
     }
     
     // If arrow up is pressed while volunteer is visible
-    if (e.key === 'ArrowUp' && isElementInView(volunteerSection)) {
+    if (e.key === 'ArrowUp' && isElementInView(document.getElementById('volunteer'))) {
       scrollToSection('petition');
     }
   });
   
   // Helper function to check if element is in view
   function isElementInView(element) {
+    if (!element) return false;
     const rect = element.getBoundingClientRect();
     return (
       rect.top <= window.innerHeight &&

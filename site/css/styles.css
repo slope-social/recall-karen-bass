@@ -1535,27 +1535,74 @@ textarea.form-input {
   }
 }
 
-/* Utility class to disable scroll snapping - more comprehensive selectors */
-html.disable-snap,
-html.disable-snap body,
-body.disable-snap,
-.disable-snap .section {
+/* Completely disable all scroll snapping */
+html, body {
   scroll-snap-type: none !important;
-  scroll-behavior: auto !important;
+  scroll-behavior: smooth;
   overflow-y: auto !important;
   height: auto !important;
   overscroll-behavior: auto !important;
 }
 
-/* Class to enable scroll snapping only when needed */
-html.enable-snap {
-  scroll-snap-type: y proximity !important;
-  scroll-behavior: smooth !important;
+.section {
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+  min-height: 100vh;
 }
 
-html.enable-snap .section {
-  scroll-snap-align: start !important;
+/* Remove all existing scroll snap classes */
+html.disable-snap,
+html.disable-snap body,
+body.disable-snap,
+html.enable-snap,
+html.enable-snap body,
+html.mobile-scroll,
+html.mobile-scroll body {
+  scroll-snap-type: none !important;
+  scroll-behavior: smooth;
+  overflow-y: auto !important;
+  height: auto !important;
+  overscroll-behavior: auto !important;
+}
+
+html.disable-snap .section,
+html.enable-snap .section,
+html.mobile-scroll .section {
+  scroll-snap-align: none !important;
   scroll-snap-stop: normal !important;
+}
+
+/* Ensure mobile devices have proper scrolling */
+@media (max-width: 768px) {
+  html, body {
+    scroll-snap-type: none !important;
+    scroll-behavior: smooth;
+    overflow-y: auto !important;
+    height: auto !important;
+    overscroll-behavior: auto !important;
+  }
+  
+  .section {
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+    min-height: 100vh;
+  }
+}
+
+/* Override any min-width media queries that might re-enable scroll snapping */
+@media (min-width: 769px) {
+  html, body {
+    scroll-snap-type: none !important;
+    scroll-behavior: smooth;
+    overflow-y: auto !important;
+    height: auto !important;
+    overscroll-behavior: auto !important;
+  }
+  
+  .section {
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+  }
 }
 
 /* Checkbox container and fields */
