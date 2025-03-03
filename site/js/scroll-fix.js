@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSection = '';
     let isScrolling = false;
     let scrollTimeout;
+    let lastScrollY = window.scrollY;
+    let scrollMomentum = 0;
     
     // Function to update backgrounds based on current section
     function updateBackgrounds(sectionId) {
@@ -102,13 +104,18 @@ document.addEventListener('DOMContentLoaded', function() {
         // Re-enable snap after scrolling completes
         setTimeout(() => {
             document.documentElement.classList.remove('disable-snap');
-            document.body.classList.remove('disable-snap');
+            document.body.classList.add('enable-snap');
             
             // Reset the global isAnimating flag if it exists
             if (typeof window.isAnimating !== 'undefined') {
                 window.isAnimating = false;
             }
-        }, 1000);
+            
+            // After a short delay, remove the enable-snap class
+            setTimeout(() => {
+                document.body.classList.remove('enable-snap');
+            }, 500);
+        }, 800); // Reduced from 1000ms for more responsiveness
     }
     
     // Handle clicks on navigation buttons
@@ -189,11 +196,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // Don't process if we're already handling a programmatic scroll
         if (typeof window.isAnimating !== 'undefined' && window.isAnimating) return;
         
+        // Calculate scroll momentum (how fast user is scrolling)
+        const currentScrollY = window.scrollY;
+        const scrollDelta = Math.abs(currentScrollY - lastScrollY);
+        scrollMomentum = scrollMomentum * 0.8 + scrollDelta * 0.2; // Weighted average
+        lastScrollY = currentScrollY;
+        
         // Temporarily disable snap during active scrolling
         if (!isScrolling) {
             isScrolling = true;
             document.documentElement.classList.add('disable-snap');
-            document.body.classList.add('disable-snap');
+            document.body.classList.remove('enable-snap');
         }
         
         // Clear any existing timeout
@@ -226,17 +239,44 @@ document.addEventListener('DOMContentLoaded', function() {
         // Re-enable snap after scrolling stops
         scrollTimeout = setTimeout(function() {
             isScrolling = false;
-            document.documentElement.classList.remove('disable-snap');
-            document.body.classList.remove('disable-snap');
             
-            // Snap to the most visible section
-            if (mostVisibleSection) {
-                const rect = mostVisibleSection.getBoundingClientRect();
-                // Only snap if we're close to the section (within 20% of viewport height)
-                if (Math.abs(rect.top) < window.innerHeight * 0.2) {
-                    mostVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Only enable snap if momentum is low (user has almost stopped scrolling)
+            if (scrollMomentum < 3) { // Lower threshold for more responsive snapping
+                document.documentElement.classList.remove('disable-snap');
+                document.documentElement.classList.add('enable-snap');
+                
+                // Snap to the most visible section
+                if (mostVisibleSection) {
+                    const rect = mostVisibleSection.getBoundingClientRect();
+                    // More responsive threshold - snap if within 25% of viewport height
+                    if (Math.abs(rect.top) < window.innerHeight * 0.25) {
+                        mostVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
                 }
+                
+                // Remove enable-snap class after snapping completes
+                setTimeout(() => {
+                    document.documentElement.classList.remove('enable-snap');
+                }, 500);
+            } else {
+                // If momentum is still high, check again shortly
+                scrollTimeout = setTimeout(() => {
+                    if (scrollMomentum < 3) {
+                        document.documentElement.classList.remove('disable-snap');
+                        document.documentElement.classList.add('enable-snap');
+                        
+                        // Snap to the most visible section
+                        if (mostVisibleSection) {
+                            mostVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }
+                        
+                        // Remove enable-snap class after snapping completes
+                        setTimeout(() => {
+                            document.documentElement.classList.remove('enable-snap');
+                        }, 500);
+                    }
+                }, 100);
             }
-        }, 150);
+        }, 120); // Reduced from 150ms for more responsiveness
     }, { passive: true });
 }); 
