@@ -4,7 +4,7 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Enhanced scroll handling initialized');
+    console.log('Enhanced scroll handling initialized with mandatory snap');
     
     // Fix for iOS Safari 100vh issue
     function setVhVariable() {
@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 petitionFixedBackground.style.opacity = '1';
             }
             document.body.classList.add('petition-in-view');
+            console.log('Petition section in view, updated backgrounds');
         } else if (sectionId === 'volunteer') {
             if (slantedBackground) {
                 slantedBackground.style.opacity = '0.2';
@@ -62,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 volunteerFixedBackground.style.opacity = '1';
             }
             document.body.classList.add('volunteer-in-view');
+            console.log('Volunteer section in view, updated backgrounds');
         }
         
         // Update current section
@@ -151,6 +153,36 @@ document.addEventListener('DOMContentLoaded', function() {
             smoothScrollTo(section);
         }
     };
+    
+    // Initial background update based on current position
+    function updateInitialBackground() {
+        // Find which section is most visible
+        const sections = document.querySelectorAll('.section');
+        let mostVisibleSection = null;
+        let maxVisibility = 0;
+        
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Calculate how much of the section is visible
+            const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+            const visibilityRatio = visibleHeight / rect.height;
+            
+            if (visibilityRatio > maxVisibility) {
+                maxVisibility = visibilityRatio;
+                mostVisibleSection = section;
+            }
+        });
+        
+        // Update backgrounds for the most visible section
+        if (mostVisibleSection && mostVisibleSection.id) {
+            updateBackgrounds(mostVisibleSection.id);
+        }
+    }
+    
+    // Call initial background update
+    updateInitialBackground();
     
     // Monitor scroll position to update backgrounds and handle snapping
     window.addEventListener('scroll', function() {

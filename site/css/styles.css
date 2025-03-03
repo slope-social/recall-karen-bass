@@ -896,8 +896,8 @@ input[type="checkbox"] + label {
   text-align: center;
 }
 
-.text-body {
-  font-size: clamp(1rem, 2vmin, 1.25rem);
+text-body {
+  font-size: clamp(1rem, 1vmin, 1.25rem);
   line-height: 1.6;
   margin-bottom: 1.5rem;
   color: var(--text-muted);
@@ -1538,19 +1538,19 @@ textarea.form-input {
   }
 }
 
-/* Default scroll behavior - enable snap */
+/* Default scroll behavior - enable mandatory snap */
 html, body {
-  scroll-snap-type: y proximity !important;
+  scroll-snap-type: y mandatory !important;
   scroll-behavior: smooth !important;
   overflow-y: auto !important;
-  height: auto !important;
+  height: 100vh !important;
   overscroll-behavior: auto !important;
   overflow-x: hidden !important;
 }
 
 .section {
   scroll-snap-align: start !important;
-  scroll-snap-stop: normal !important;
+  scroll-snap-stop: always !important;
   min-height: 100vh;
   opacity: 1 !important;
   transform: none !important;
@@ -1563,28 +1563,42 @@ body.disable-snap {
   scroll-snap-type: none !important;
   scroll-behavior: smooth !important;
   overflow-y: auto !important;
-  height: auto !important;
+  height: 100vh !important;
   overscroll-behavior: auto !important;
 }
 
 html.disable-snap .section,
 body.disable-snap .section {
   scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
+}
+
+/* Make sure backgrounds are visible */
+.petition-fixed-background, 
+.volunteer-fixed-background {
+  opacity: 0;
+  transition: opacity 0.7s ease;
+  z-index: 1;
+}
+
+body.petition-in-view .petition-fixed-background,
+body.volunteer-in-view .volunteer-fixed-background {
+  opacity: 1 !important;
 }
 
 /* Mobile-specific settings */
 @media (max-width: 768px) {
   html, body {
-    scroll-snap-type: y proximity !important;
+    scroll-snap-type: y mandatory !important;
     scroll-behavior: smooth !important;
     overflow-y: auto !important;
-    height: auto !important;
+    height: 100vh !important;
     overscroll-behavior: auto !important;
   }
   
   .section {
     scroll-snap-align: start !important;
-    scroll-snap-stop: normal !important;
+    scroll-snap-stop: always !important;
     min-height: 100vh;
   }
 }
@@ -1592,16 +1606,16 @@ body.disable-snap .section {
 /* Desktop-specific settings */
 @media (min-width: 769px) {
   html, body {
-    scroll-snap-type: y proximity !important;
+    scroll-snap-type: y mandatory !important;
     scroll-behavior: smooth !important;
     overflow-y: auto !important;
-    height: auto !important;
+    height: 100vh !important;
     overscroll-behavior: auto !important;
   }
   
   .section {
     scroll-snap-align: start !important;
-    scroll-snap-stop: normal !important;
+    scroll-snap-stop: always !important;
   }
 }
 
