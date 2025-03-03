@@ -30,11 +30,16 @@ html {
   overscroll-behavior: auto !important;
   height: auto !important;
   overflow-y: auto !important;
+  scroll-snap-type: y mandatory !important;
+  scroll-behavior: smooth !important;
+  overflow-y: scroll !important;
+  height: 100% !important;
+  overscroll-behavior: none !important;
 }
 
 body {
-  margin: 0;
-  padding: 0;
+  margin: 0 !important;
+  padding: 0 !important;
   background-color: #000;
   color: white;
   font-family: 'Montserrat', sans-serif;
@@ -42,7 +47,8 @@ body {
   /* Completely disable scroll snapping */
   scroll-snap-type: none !important;
   overflow-y: auto !important;
-  height: auto !important;
+  height: 100% !important;
+  overflow: hidden !important;
 }
 
 /* Slanted Background */
@@ -506,6 +512,11 @@ main {
   padding-top: 0;
   margin: 0;
   overflow-x: hidden;
+  height: 100vh !important;
+  overflow-y: scroll !important;
+  scroll-snap-type: y mandatory !important;
+  scroll-behavior: smooth !important;
+  overscroll-behavior: none !important;
 }
 
 /* Section styles */
@@ -525,6 +536,9 @@ main {
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+  min-height: 100vh !important;
 }
 
 .section.in-view {
@@ -1538,34 +1552,31 @@ textarea.form-input {
   }
 }
 
-/* Enable proper scroll snapping */
+/* Force scroll snapping - no exceptions */
 html, body {
-  scroll-snap-type: y mandatory;
-  scroll-behavior: smooth;
-  overflow-y: auto;
-  height: 100%;
-  overscroll-behavior: auto;
-  overflow-x: hidden;
+  scroll-snap-type: y mandatory !important;
+  scroll-behavior: smooth !important;
+  overflow-y: auto !important;
+  height: 100% !important;
+  overscroll-behavior: none !important;
+  overflow-x: hidden !important;
 }
 
 .section {
-  scroll-snap-align: start;
-  scroll-snap-stop: always;
-  min-height: 100vh;
+  scroll-snap-align: start !important;
+  scroll-snap-stop: always !important;
+  min-height: 100vh !important;
   opacity: 1 !important;
   transform: none !important;
   transition: none !important;
 }
 
-/* Disable snap during navigation */
+/* Only disable snap during navigation */
 html.disable-snap,
 html.disable-snap body,
 body.disable-snap {
   scroll-snap-type: none !important;
   scroll-behavior: auto !important;
-  overflow-y: auto !important;
-  height: auto !important;
-  overscroll-behavior: auto !important;
 }
 
 html.disable-snap .section {
@@ -1576,33 +1587,33 @@ html.disable-snap .section {
 /* Mobile-specific adjustments */
 @media (max-width: 768px) {
   html, body {
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    overflow-y: auto;
-    height: 100%;
-    overscroll-behavior: auto;
+    scroll-snap-type: y mandatory !important;
+    scroll-behavior: smooth !important;
+    overflow-y: auto !important;
+    height: 100% !important;
+    overscroll-behavior: none !important;
   }
   
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-    min-height: 100vh;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
+    min-height: 100vh !important;
   }
 }
 
 /* Override for larger screens */
 @media (min-width: 769px) {
   html, body {
-    scroll-snap-type: y mandatory;
-    scroll-behavior: smooth;
-    overflow-y: auto;
-    height: 100%;
-    overscroll-behavior: auto;
+    scroll-snap-type: y mandatory !important;
+    scroll-behavior: smooth !important;
+    overflow-y: auto !important;
+    height: 100% !important;
+    overscroll-behavior: none !important;
   }
   
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    scroll-snap-align: start !important;
+    scroll-snap-stop: always !important;
   }
 }
 
