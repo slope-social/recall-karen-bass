@@ -1484,18 +1484,10 @@ textarea.form-input {
 /* Utility class to disable scroll snapping - more comprehensive selectors */
 html.disable-snap,
 html.disable-snap body,
-html.disable-snap .section,
 body.disable-snap,
-.section.disable-snap,
-.disable-snap * {
+.disable-snap .section {
   scroll-snap-type: none !important;
-  scroll-snap-type: unset !important;
-  -ms-scroll-snap-type: none !important;
-  -webkit-scroll-snap-type: none !important;
   scroll-behavior: auto !important;
-  scroll-snap-align: none !important;
-  scroll-snap-stop: normal !important;
-  overscroll-behavior: auto !important;
 }
 
 /* Checkbox container and fields */
@@ -2069,6 +2061,7 @@ body.disable-snap,
 
 /* Additional mobile form styling fixes */
 @media (max-width: 768px) {
+  /* Ensure the section content has the right background */
   #contact .section-content {
     width: 90%;
     max-width: 800px;
@@ -2078,30 +2071,29 @@ body.disable-snap,
     margin: 0 auto;
   }
   
+  /* Remove any background from the card */
   #contact .card {
-    background-color: transparent;
-    padding: 0;
+    background: none;
     box-shadow: none;
     border: none;
+    padding: 0;
     margin: 0;
     width: 100%;
   }
   
+  /* Remove any background from the form content */
   #contact .form-content {
+    background: none;
     padding: 0;
-    background: transparent;
-    width: 100%;
-  }
-  
-  #contact-form {
-    width: 100%;
     margin: 0;
-    padding: 0;
+    width: 100%;
   }
   
+  /* Ensure form fields are properly styled */
   #contact-form .form-row {
     flex-direction: column;
     margin-bottom: 0;
+    padding: 0;
   }
   
   #contact-form .form-field {
@@ -2110,24 +2102,19 @@ body.disable-snap,
     flex: 1 1 100%;
   }
   
+  /* Style the inputs consistently */
   #contact-form .form-input {
     width: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
   }
   
+  /* Ensure the submit button is properly styled */
   #contact-form .form-submit {
     width: 100%;
     margin-top: 1rem;
-  }
-  
-  #contact-form .form-label {
-    color: white;
-    margin-bottom: 0.5rem;
-  }
-  
-  #contact-form textarea.form-input {
-    min-height: 120px;
+    background-color: #e63946;
   }
 }
 
