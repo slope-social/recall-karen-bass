@@ -548,8 +548,6 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  backdrop-filter: blur(.3vmin);
-  -webkit-backdrop-filter: blur(.3vmin);
 }
 
 /* Petition section specific styles */
@@ -1008,6 +1006,8 @@ text-body {
   position: relative;
   z-index: 3;
   overflow-x: hidden;
+  backdrop-filter: blur(.3vmin);
+  -webkit-backdrop-filter: blur(.3vmin);
 }
 
 #donate .heading-2 {
