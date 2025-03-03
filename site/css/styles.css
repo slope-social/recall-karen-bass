@@ -1085,20 +1085,25 @@ input[type="checkbox"] + label {
   padding: 2rem;
   width: 100%;
   max-width: 800px;
+  margin: 0 auto;
 }
 
 .form-content {
   width: 100%;
   max-width: 800px;
+  padding: 0;
+  background: transparent;
 }
 
 #contact-form {
   width: 100%;
+  background: transparent;
 }
 
 #contact .section-content {
   width: 100%;
   max-width: 800px;
+  background: rgba(0, 0, 0, 0.7);
 }
 
 /* Ensure consistent form widths across all sections */
@@ -2039,4 +2044,58 @@ body.disable-snap,
 .disable-snap .section {
   scroll-snap-type: none !important;
   scroll-behavior: auto !important;
+}
+
+/* Additional mobile form styling fixes */
+@media (max-width: 768px) {
+  #contact .section-content {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1.5rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+  }
+  
+  .form-content {
+    padding: 0;
+    background: transparent;
+  }
+  
+  .card {
+    background-color: transparent;
+    padding: 0;
+    box-shadow: none;
+    border: none;
+  }
+  
+  #contact-form .form-field {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Improve scroll behavior on desktop */
+@media (min-width: 769px) {
+  html {
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+    overscroll-behavior-y: contain;
+  }
+  
+  body {
+    scroll-snap-type: y proximity;
+  }
+  
+  .section {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+  }
+  
+  /* Disable scroll snap during programmatic scrolling */
+  html.disable-snap,
+  html.disable-snap body,
+  body.disable-snap,
+  .disable-snap .section {
+    scroll-snap-type: none !important;
+    scroll-behavior: auto !important;
+  }
 } 
