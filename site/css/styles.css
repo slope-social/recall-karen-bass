@@ -1366,7 +1366,7 @@ textarea.form-input {
   }
 }
 
-/* Footer adjustments - further reduce height */
+/* Footer adjustments - further reduce height while maintaining rectangular outline */
 .site-footer {
   background-color: #1a1a1a;
   color: rgba(255, 255, 255, 0.8);
@@ -1405,37 +1405,27 @@ textarea.form-input {
   color: var(--border);
 }
 
-/* Make PO Box match copyright format */
+.footer-copyright {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  text-align: center;
+  margin-top: 0.25rem; /* Reduced from 0.5rem */
+}
+
 .footer-address {
   font-size: 0.8rem; /* Match copyright text size */
-  opacity: 0.8; /* Match copyright opacity */
+  opacity: 0.8; /* Match copyright text opacity */
   text-align: center;
-  margin-top: 0.25rem;
+  margin-top: 0.1rem; /* Reduced spacing */
 }
 
 /* Disclaimer box adjustments */
-.disclaimer-box {
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.4rem 0.6rem; /* Further reduced padding */
-  margin: 0.5rem auto; /* Further reduced margin */
-  max-width: 400px;
-  text-align: center;
-  font-size: 0.8rem;
-  line-height: 1.4;
-  color: var(--text-muted);
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
 .footer-content .disclaimer-box {
   margin: 0.5rem auto; /* Further reduced from 0.75rem */
-  background-color: rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.9);
+  padding: 0.4rem 0.6rem; /* Reduced padding */
 }
 
-/* Scroll snap adjustments - make even more responsive */
+/* Scroll snap adjustments - make more responsive and stronger */
 html, body {
   scroll-snap-type: y mandatory !important;
   scroll-behavior: smooth !important;
@@ -1443,7 +1433,7 @@ html, body {
   height: 100vh !important;
   overscroll-behavior: auto !important;
   overflow-x: hidden !important;
-  scroll-padding: 0.5rem 0;
+  scroll-padding: 0.5rem 0; /* Reduced from 1rem */
 }
 
 .section {
@@ -1454,15 +1444,31 @@ html, body {
   transform: none !important;
 }
 
-/* Add stronger snap class for more magnetic effect */
+/* Enhanced snap classes */
 html.enable-snap,
 html.enable-snap body {
   scroll-snap-type: y mandatory !important;
   scroll-behavior: smooth !important;
-  scroll-snap-stop: always !important;
 }
 
 html.enable-snap .section {
   scroll-snap-align: start !important;
   scroll-snap-stop: always !important;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+  .disclaimer-box {
+    max-width: 90%;
+    padding: 0.4rem;
+    font-size: 0.7rem;
+  }
+  
+  .footer-content {
+    gap: 0.4rem;
+  }
+  
+  .footer-links {
+    margin-bottom: 0.2rem;
+  }
 } 
