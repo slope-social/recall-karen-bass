@@ -1436,147 +1436,15 @@ textarea.form-input {
   white-space: nowrap;
 }
 
-@media (max-width: 768px) {
-  .footer-content {
-    gap: 10px;
-  }
-  
-  .footer-links {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .footer-separator {
-    display: none;
-  }
-  
-  .disclaimer-box {
-    padding: 0.3rem 0.6rem;
-    max-width: 90%;
-  }
-  
-  .disclaimer-line {
-    font-size: 0.7rem;
-  }
-  
-  /* Mobile form fixes */
-  .form-row {
-    flex-direction: column;
-    gap: 0.75rem;
-    width: 100%;
-    margin-bottom: 0.75rem;
-  }
-  
-  .form-field {
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-input {
-    width: 100%;
-    font-size: 16px; /* Prevents iOS zoom on focus */
-    padding: 0.75rem;
-    height: auto;
-    min-height: 2.5rem;
-  }
-  
-  /* Fix for volunteer checkboxes */
-  .form-row .form-field[style*="display: flex"] {
-    width: 100%;
-    margin-bottom: 0.75rem;
-    display: flex !important;
-    align-items: center !important;
-  }
-  
-  /* Improve checkbox container on mobile */
-  .checkbox-container {
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    width: 100%;
-    display: flex !important;
-  }
-  
-  .checkbox-field {
-    width: 100%;
-    margin-bottom: 0;
-    display: flex !important;
-    align-items: center !important;
-  }
-  
-  /* Improve textarea on mobile */
-  textarea.form-input {
-    min-height: 100px;
-    width: 100%;
-  }
-  
-  /* Adjust form submit button on mobile */
-  .form-submit {
-    padding: 0.75rem;
-    font-size: 1rem;
-    margin-top: 0.5rem;
-    width: 100%;
-  }
-  
-  /* Adjust spacing and layout for volunteer section */
-  #volunteer .section-content {
-    padding: 1rem;
-    width: 95%;
-  }
-  
-  #volunteer .form-fields {
-    padding: 1rem;
-    max-height: none;
-    overflow-y: visible;
-  }
-  
-  /* Ensure labels are visible */
-  .form-label {
-    font-size: 0.9rem;
-    margin-bottom: 0.25rem;
-    display: block;
-    width: 100%;
-  }
-  
-  /* Ensure checkboxes and their labels align properly */
-  input[type="checkbox"] {
-    margin-right: 0.5rem;
-    min-width: 18px;
-    min-height: 18px;
-  }
-  
-  input[type="checkbox"] + label {
-    font-size: 0.9rem;
-    line-height: 1.2;
-  }
-  
-  /* Improve modal display on mobile */
-  .modal {
-    width: 90%;
-    max-height: 80vh;
-    padding: 1rem;
-  }
-  
-  .modal-content {
-    padding: 0.5rem;
-    font-size: 14px;
-  }
-  
-  /* Improve cookie banner on small screens */
-  .cookie-banner {
-    flex-direction: column;
-    padding: 1rem;
-  }
-  
-  .cookie-actions {
-    margin-top: 1rem;
-    width: 100%;
-    justify-content: space-between;
-  }
+.site-footer {
+  scroll-snap-align: start;
+  min-height: auto;
+  padding-bottom: 2rem;
 }
 
 /* Default scroll behavior - enable mandatory snap with stronger settings */
 html, body {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
   overflow-y: auto;
   height: 100vh;
@@ -1627,7 +1495,7 @@ body.volunteer-in-view .volunteer-fixed-background {
 /* Mobile-specific settings */
 @media (max-width: 768px) {
   html, body {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scroll-behavior: smooth;
     overflow-y: auto;
     height: 100vh;
@@ -1639,12 +1507,17 @@ body.volunteer-in-view .volunteer-fixed-background {
     scroll-snap-stop: always;
     min-height: 100vh;
   }
+  
+  .site-footer {
+    scroll-snap-align: start;
+    min-height: auto;
+  }
 }
 
 /* Desktop-specific settings */
 @media (min-width: 769px) {
   html, body {
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scroll-behavior: smooth;
     overflow-y: auto;
     height: 100vh;
@@ -1654,6 +1527,18 @@ body.volunteer-in-view .volunteer-fixed-background {
   .section {
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+  
+  .site-footer {
+    scroll-snap-align: start;
+    min-height: auto;
+  }
+  
+  /* Disable scroll snap during programmatic scrolling */
+  html.disable-snap,
+  html.disable-snap body {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
   }
 }
 
@@ -2186,13 +2071,18 @@ body.menu-open::before {
 /* Mobile scroll enhancements */
 html.mobile-scroll,
 html.mobile-scroll body {
-  scroll-snap-type: y mandatory;
+  scroll-snap-type: y proximity;
   scroll-behavior: smooth;
 }
 
 html.mobile-scroll .section {
   scroll-snap-align: start;
   scroll-snap-stop: always;
+}
+
+html.mobile-scroll .site-footer {
+  scroll-snap-align: start;
+  min-height: auto;
 }
 
 /* Double-tap helper indicator */
@@ -2303,19 +2193,24 @@ body.disable-snap,
   html {
     scroll-behavior: smooth;
     /* Enable scroll snapping */
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     overscroll-behavior: contain;
   }
   
   body {
     /* Enable scroll snapping */
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
   }
   
   .section {
     /* Enable scroll snapping */
     scroll-snap-align: start;
     scroll-snap-stop: always;
+  }
+  
+  .site-footer {
+    scroll-snap-align: start;
+    min-height: auto;
   }
   
   /* Disable scroll snap during programmatic scrolling */

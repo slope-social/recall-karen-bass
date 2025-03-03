@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let isScrolling = false;
     let scrollTimeout;
     let lastScrollTime = 0;
-    const scrollCooldown = 500; // ms to wait before allowing another snap (reduced from 800ms)
+    const scrollCooldown = 400; // ms to wait before allowing another snap (reduced from 500ms)
     
     // Function to update backgrounds based on current section
     function updateBackgrounds(sectionId) {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof window.isAnimating !== 'undefined') {
                 window.isAnimating = false;
             }
-        }, 600); // Reduced from 800ms for faster re-enabling of snap
+        }, 500); // Reduced from 600ms for faster re-enabling of snap
     }
     
     // Handle clicks on navigation buttons
@@ -192,9 +192,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to find the nearest section
     function findNearestSection() {
         const sections = document.querySelectorAll('.section');
+        const footer = document.querySelector('.site-footer');
         let nearestSection = null;
         let minDistance = Infinity;
         
+        // Check regular sections
         sections.forEach(section => {
             const rect = section.getBoundingClientRect();
             const distance = Math.abs(rect.top);
@@ -204,6 +206,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 nearestSection = section;
             }
         });
+        
+        // Also check the footer
+        if (footer) {
+            const footerRect = footer.getBoundingClientRect();
+            const footerDistance = Math.abs(footerRect.top);
+            
+            // If footer is closer than the nearest section, use it instead
+            if (footerDistance < minDistance) {
+                minDistance = footerDistance;
+                nearestSection = footer;
+            }
+        }
         
         return { section: nearestSection, distance: minDistance };
     }
@@ -216,7 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const { section, distance } = findNearestSection();
         
         // Only snap if we're close enough to a section - increased threshold for more aggressive snapping
-        if (section && distance < window.innerHeight * 0.4) {
+        if (section && distance < window.innerHeight * 0.45) {
             // Update last scroll time
             lastScrollTime = Date.now();
             
@@ -227,8 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Snap to the section
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
-            // Update backgrounds
-            if (section.id && section.id !== currentSection) {
+            // Update backgrounds if it's a regular section
+            if (section.id && section.id !== currentSection && !section.classList.contains('site-footer')) {
                 updateBackgrounds(section.id);
             }
             
@@ -236,7 +250,7 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 document.documentElement.classList.remove('disable-snap');
                 document.body.classList.remove('disable-snap');
-            }, 600);
+            }, 500);
         }
     }
     
@@ -287,7 +301,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Use more aggressive snapping
             snapToNearestSection();
-        }, 80); // Shorter timeout for more responsive snapping (reduced from 100ms)
+        }, 60); // Shorter timeout for more responsive snapping (reduced from 80ms)
     }, { passive: true });
     
     // Add wheel event listener for more responsive snapping
@@ -299,6 +313,6 @@ document.addEventListener('DOMContentLoaded', function() {
         scrollTimeout = setTimeout(function() {
             // Use more aggressive snapping
             snapToNearestSection();
-        }, 80); // Shorter timeout (reduced from 100ms)
+        }, 60); // Shorter timeout (reduced from 80ms)
     }, { passive: true });
 }); 

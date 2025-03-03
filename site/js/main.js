@@ -315,7 +315,7 @@ function scrollToSection(sectionId) {
     // Re-enable snap after scrolling completes
     document.documentElement.classList.remove('disable-snap');
     document.body.classList.remove('disable-snap');
-  }, 600);
+  }, 500); // Reduced from 600ms for faster re-enabling of snap
 }
 
 // Intersection Observer for animations
