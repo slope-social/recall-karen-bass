@@ -22,6 +22,33 @@ document.addEventListener('DOMContentLoaded', function() {
     setVhVariable();
     window.addEventListener('resize', setVhVariable);
     
+    // Handle hash changes for anchor links on both desktop and mobile
+    function handleHashChange() {
+        const hash = window.location.hash;
+        if (hash) {
+            // Use a small timeout to ensure the DOM is ready
+            setTimeout(() => {
+                const targetElement = document.querySelector(hash);
+                if (targetElement) {
+                    // Use the existing scrollToSection function if available
+                    if (typeof window.scrollToSection === 'function') {
+                        window.scrollToSection(hash.substring(1));
+                    } else {
+                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            }, 100);
+        }
+    }
+    
+    // Handle initial hash on page load
+    if (window.location.hash) {
+        handleHashChange();
+    }
+    
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
+    
     // Only add these enhancements for mobile devices
     if (isMobile) {
         // Add a helper class to disable scroll snap on mobile
@@ -171,10 +198,22 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Make scrollToSection available globally for other scripts
-    window.scrollToSection = window.scrollToSection || function(sectionId) {
-        const section = document.getElementById(sectionId);
-        if (!section) return;
-        
-        section.scrollIntoView({ behavior: 'smooth' });
-    };
+    // Only define it if it doesn't already exist to avoid conflicts
+    if (typeof window.scrollToSection !== 'function') {
+        window.scrollToSection = function(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (!section) return;
+            
+            // Temporarily disable scroll snapping during the animation
+            document.documentElement.classList.add('disable-snap');
+            
+            // Smooth scroll to the section
+            section.scrollIntoView({ behavior: 'smooth' });
+            
+            // Re-enable scroll snapping after animation completes
+            setTimeout(() => {
+                document.documentElement.classList.remove('disable-snap');
+            }, 1000);
+        };
+    }
 }); 

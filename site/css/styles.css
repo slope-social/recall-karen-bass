@@ -532,7 +532,7 @@ main {
   border-radius: 8px;
   padding: 2rem;
   max-width: 800px;
-  width: 90%;
+  /* width: 90%; */
   margin: 0 auto;
   overflow-x: hidden;
   overflow-wrap: break-word;
@@ -1080,17 +1080,33 @@ input[type="checkbox"] + label {
 
 /* Card styles */
 .card {
-  /* background-color: var(--card-bg); */
-  border-radius: 0.5rem;
-  /* box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); */
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  padding: 2rem;
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  overflow: hidden;
+  max-width: 800px;
 }
 
 .form-content {
-  padding: 1.5rem;
+  width: 100%;
+  max-width: 800px;
+}
+
+#contact-form {
+  width: 100%;
+}
+
+#contact .section-content {
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Ensure consistent form widths across all sections */
+#petition .form-fields,
+#volunteer .form-fields,
+#contact .form-fields {
+  width: 100%;
+  max-width: 800px;
 }
 
 /* Contact form specific styles */
