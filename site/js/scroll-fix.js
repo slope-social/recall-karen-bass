@@ -1,6 +1,6 @@
 /**
  * Enhanced scroll handling for the Recall Karen Bass website
- * This script handles navigation and background changes without scroll snapping
+ * This script handles navigation, background changes, and scroll snapping
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -18,6 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Track current section for background changes
     let currentSection = '';
+    let isScrolling = false;
+    let scrollTimeout;
     
     // Function to update backgrounds based on current section
     function updateBackgrounds(sectionId) {
@@ -70,10 +72,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function smoothScrollTo(element, updateBackground = true) {
         if (!element) return;
         
+        // Disable snap during programmatic scrolling
+        document.documentElement.classList.add('disable-snap');
+        document.body.classList.add('disable-snap');
+        
         // Get the element's position
         const rect = element.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const targetPosition = rect.top + scrollTop;
+        
+        // Set the global isAnimating flag if it exists
+        if (typeof window.isAnimating !== 'undefined') {
+            window.isAnimating = true;
+        }
         
         // Scroll to the element with smooth behavior
         window.scrollTo({
@@ -85,6 +96,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (updateBackground && element.id) {
             updateBackgrounds(element.id);
         }
+        
+        // Re-enable snap after scrolling completes
+        setTimeout(() => {
+            document.documentElement.classList.remove('disable-snap');
+            document.body.classList.remove('disable-snap');
+            
+            // Reset the global isAnimating flag if it exists
+            if (typeof window.isAnimating !== 'undefined') {
+                window.isAnimating = false;
+            }
+        }, 1000);
     }
     
     // Handle clicks on navigation buttons
@@ -130,10 +152,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
     
-    // Monitor scroll position to update backgrounds
+    // Monitor scroll position to update backgrounds and handle snapping
     window.addEventListener('scroll', function() {
         // Don't process if we're already handling a programmatic scroll
-        if (window.isAnimating) return;
+        if (typeof window.isAnimating !== 'undefined' && window.isAnimating) return;
+        
+        // Temporarily disable snap during active scrolling
+        if (!isScrolling) {
+            isScrolling = true;
+            document.documentElement.classList.add('disable-snap');
+            document.body.classList.add('disable-snap');
+        }
+        
+        // Clear any existing timeout
+        clearTimeout(scrollTimeout);
         
         // Find which section is most visible
         const sections = document.querySelectorAll('.section');
@@ -158,5 +190,21 @@ document.addEventListener('DOMContentLoaded', function() {
         if (mostVisibleSection && mostVisibleSection.id !== currentSection) {
             updateBackgrounds(mostVisibleSection.id);
         }
+        
+        // Re-enable snap after scrolling stops
+        scrollTimeout = setTimeout(function() {
+            isScrolling = false;
+            document.documentElement.classList.remove('disable-snap');
+            document.body.classList.remove('disable-snap');
+            
+            // Snap to the most visible section
+            if (mostVisibleSection) {
+                const rect = mostVisibleSection.getBoundingClientRect();
+                // Only snap if we're close to the section (within 20% of viewport height)
+                if (Math.abs(rect.top) < window.innerHeight * 0.2) {
+                    mostVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+        }, 150);
     }, { passive: true });
 }); 

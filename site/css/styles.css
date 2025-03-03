@@ -1538,9 +1538,9 @@ textarea.form-input {
   }
 }
 
-/* Allow smooth scrolling but disable snap */
+/* Default scroll behavior - enable snap */
 html, body {
-  scroll-snap-type: none !important;
+  scroll-snap-type: y proximity !important;
   scroll-behavior: smooth !important;
   overflow-y: auto !important;
   height: auto !important;
@@ -1549,24 +1549,17 @@ html, body {
 }
 
 .section {
-  scroll-snap-align: none !important;
+  scroll-snap-align: start !important;
   scroll-snap-stop: normal !important;
   min-height: 100vh;
   opacity: 1 !important;
   transform: none !important;
 }
 
-/* Remove all scroll-related classes */
+/* Disable snap during programmatic scrolling */
 html.disable-snap,
 html.disable-snap body,
-body.disable-snap,
-html.enable-snap,
-html.enable-snap body,
-html.mobile-scroll,
-html.mobile-scroll body,
-.disable-snap .section,
-.enable-snap .section,
-.mobile-scroll .section {
+body.disable-snap {
   scroll-snap-type: none !important;
   scroll-behavior: smooth !important;
   overflow-y: auto !important;
@@ -1574,10 +1567,15 @@ html.mobile-scroll body,
   overscroll-behavior: auto !important;
 }
 
-/* Ensure mobile devices have proper scrolling */
+html.disable-snap .section,
+body.disable-snap .section {
+  scroll-snap-align: none !important;
+}
+
+/* Mobile-specific settings */
 @media (max-width: 768px) {
   html, body {
-    scroll-snap-type: none !important;
+    scroll-snap-type: y proximity !important;
     scroll-behavior: smooth !important;
     overflow-y: auto !important;
     height: auto !important;
@@ -1585,16 +1583,16 @@ html.mobile-scroll body,
   }
   
   .section {
-    scroll-snap-align: none !important;
+    scroll-snap-align: start !important;
     scroll-snap-stop: normal !important;
     min-height: 100vh;
   }
 }
 
-/* Override any min-width media queries that might re-enable scroll snapping */
+/* Desktop-specific settings */
 @media (min-width: 769px) {
   html, body {
-    scroll-snap-type: none !important;
+    scroll-snap-type: y proximity !important;
     scroll-behavior: smooth !important;
     overflow-y: auto !important;
     height: auto !important;
@@ -1602,7 +1600,7 @@ html.mobile-scroll body,
   }
   
   .section {
-    scroll-snap-align: none !important;
+    scroll-snap-align: start !important;
     scroll-snap-stop: normal !important;
   }
 }
