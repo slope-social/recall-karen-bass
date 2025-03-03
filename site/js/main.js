@@ -313,144 +313,28 @@ function scrollToSection(sectionId) {
 
 // Intersection Observer for animations
 function initIntersectionObservers() {
+  // Completely disabled to prevent scroll issues
+  console.log('IntersectionObserver functionality disabled to prevent scroll issues');
+  
+  // Add basic visibility for all sections
   const sections = document.querySelectorAll('.section');
-  const slantedBackground = document.querySelector('.slanted-background');
+  sections.forEach(section => {
+    section.classList.add('in-view');
+    section.style.opacity = '1';
+    section.style.transform = 'none';
+  });
+  
+  // Show backgrounds
   const petitionFixedBackground = document.querySelector('.petition-fixed-background');
   const volunteerFixedBackground = document.querySelector('.volunteer-fixed-background');
   
-  // Create a separate observer for the petition section with higher sensitivity
-  const petitionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // When petition section is in view, fade out the slanted background images
-        if (slantedBackground) {
-          slantedBackground.style.opacity = '0.2';
-          slantedBackground.style.transition = 'opacity 0.7s ease';
-        }
-        
-        // Show the petition fixed background
-        if (petitionFixedBackground) {
-          petitionFixedBackground.style.opacity = '1';
-        }
-        
-        // Add class to body for additional styling
-        document.body.classList.add('petition-in-view');
-        
-        // Add in-view class to the petition section
-        entry.target.classList.add('in-view');
-        
-        // Force scroll snap to petition section when it comes into view
-        if (entry.intersectionRatio > 0.5) {
-          entry.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      } else {
-        // When petition section is out of view, restore the slanted background
-        if (slantedBackground) {
-          slantedBackground.style.opacity = '1';
-          slantedBackground.style.transition = 'opacity 0.7s ease';
-        }
-        
-        // Hide the petition fixed background
-        if (petitionFixedBackground) {
-          petitionFixedBackground.style.opacity = '0';
-        }
-        
-        // Remove class from body
-        document.body.classList.remove('petition-in-view');
-      }
-    });
-  }, {
-    threshold: [0.2, 0.5, 0.8],
-    rootMargin: '-5% 0px -5% 0px'
-  });
-  
-  // Create a separate observer for the volunteer section with higher sensitivity
-  const volunteerObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // When volunteer section is in view, fade out the slanted background images
-        if (slantedBackground) {
-          slantedBackground.style.opacity = '0.2';
-          slantedBackground.style.transition = 'opacity 0.7s ease';
-        }
-        
-        // Show the volunteer fixed background
-        if (volunteerFixedBackground) {
-          volunteerFixedBackground.style.opacity = '1';
-        }
-        
-        // Add class to body for additional styling
-        document.body.classList.add('volunteer-in-view');
-        
-        // Add in-view class to the volunteer section
-        entry.target.classList.add('in-view');
-        
-        // Force scroll snap to volunteer section when it comes into view
-        if (entry.intersectionRatio > 0.5) {
-          entry.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      } else {
-        // When volunteer section is out of view, restore the slanted background
-        if (slantedBackground && !document.body.classList.contains('petition-in-view')) {
-          slantedBackground.style.opacity = '1';
-          slantedBackground.style.transition = 'opacity 0.7s ease';
-        }
-        
-        // Hide the volunteer fixed background
-        if (volunteerFixedBackground) {
-          volunteerFixedBackground.style.opacity = '0';
-        }
-        
-        // Remove class from body
-        document.body.classList.remove('volunteer-in-view');
-      }
-    });
-  }, {
-    threshold: [0.2, 0.5, 0.8],
-    rootMargin: '-5% 0px -5% 0px'
-  });
-  
-  // Observe the petition section specifically
-  const petitionSection = document.getElementById('petition');
-  if (petitionSection) {
-    petitionObserver.observe(petitionSection);
+  if (petitionFixedBackground) {
+    petitionFixedBackground.style.opacity = '1';
   }
   
-  // Observe the volunteer section specifically
-  const volunteerSection = document.getElementById('volunteer');
-  if (volunteerSection) {
-    volunteerObserver.observe(volunteerSection);
+  if (volunteerFixedBackground) {
+    volunteerFixedBackground.style.opacity = '1';
   }
-  
-  // General section observer for animations
-  const sectionObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        
-        // Add smooth transition for all sections
-        entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-        
-        // Force scroll snap to this section when it comes into view
-        if (entry.intersectionRatio > 0.6) {
-          entry.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      } else {
-        // Keep the transition when leaving view
-        entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
-      }
-    });
-  }, {
-    threshold: [0.2, 0.6, 0.8],
-    rootMargin: '-5% 0px -5% 0px'
-  });
-  
-  sections.forEach(section => {
-    // Don't observe petition or volunteer sections with this observer since they have their own
-    if (section.id !== 'petition' && section.id !== 'volunteer') {
-      sectionObserver.observe(section);
-    }
-  });
 }
 
 // Accordion functionality

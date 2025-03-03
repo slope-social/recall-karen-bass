@@ -522,6 +522,9 @@ main {
   /* Completely disable scroll snapping */
   scroll-snap-align: none !important;
   scroll-snap-stop: normal !important;
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 .section.in-view {
@@ -1538,10 +1541,11 @@ textarea.form-input {
 /* Completely disable all scroll snapping */
 html, body {
   scroll-snap-type: none !important;
-  scroll-behavior: smooth;
+  scroll-behavior: auto !important;
   overflow-y: auto !important;
   height: auto !important;
   overscroll-behavior: auto !important;
+  overflow-x: hidden !important;
 }
 
 .section {
@@ -1550,16 +1554,19 @@ html, body {
   min-height: 100vh;
 }
 
-/* Remove all existing scroll snap classes */
+/* Remove all scroll-related classes */
 html.disable-snap,
 html.disable-snap body,
 body.disable-snap,
 html.enable-snap,
 html.enable-snap body,
 html.mobile-scroll,
-html.mobile-scroll body {
+html.mobile-scroll body,
+.disable-snap .section,
+.enable-snap .section,
+.mobile-scroll .section {
   scroll-snap-type: none !important;
-  scroll-behavior: smooth;
+  scroll-behavior: auto !important;
   overflow-y: auto !important;
   height: auto !important;
   overscroll-behavior: auto !important;
@@ -1576,7 +1583,7 @@ html.mobile-scroll .section {
 @media (max-width: 768px) {
   html, body {
     scroll-snap-type: none !important;
-    scroll-behavior: smooth;
+    scroll-behavior: auto !important;
     overflow-y: auto !important;
     height: auto !important;
     overscroll-behavior: auto !important;
@@ -1593,7 +1600,7 @@ html.mobile-scroll .section {
 @media (min-width: 769px) {
   html, body {
     scroll-snap-type: none !important;
-    scroll-behavior: smooth;
+    scroll-behavior: auto !important;
     overflow-y: auto !important;
     height: auto !important;
     overscroll-behavior: auto !important;
