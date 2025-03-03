@@ -1106,26 +1106,74 @@ input[type="checkbox"] + label {
 #contact .section-content {
   width: 100%;
   max-width: 800px;
-  background: rgba(0, 0, 0, 0.7);
-  border-radius: 8px;
-  padding: 2rem;
 }
 
-#contact .card {
-  background-color: transparent;
-  border-radius: 0;
-  padding: 0;
+#contact .form-container {
   width: 100%;
   max-width: 800px;
-  margin: 0;
-  box-shadow: none;
-  border: none;
+  margin: 0 auto;
 }
 
-#contact .form-content {
+#contact .form-fields {
   width: 100%;
-  padding: 0;
-  background: transparent;
+  max-width: 800px;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+/* Remove any card and form-content specific styles for Contact form */
+#contact .card,
+#contact .form-content {
+  display: none;
+}
+
+/* Mobile-specific fixes for Contact form */
+@media (max-width: 768px) {
+  #contact .section-content {
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  #contact .form-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  #contact .form-fields {
+    width: 90%;
+    max-width: 800px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 0 auto;
+  }
+  
+  #contact-form .form-row {
+    flex-direction: column;
+    margin-bottom: 0;
+    padding: 0;
+  }
+  
+  #contact-form .form-field {
+    margin-bottom: 1rem;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  
+  #contact-form .form-input {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+  
+  #contact-form .form-submit {
+    width: 100%;
+    margin-top: 1rem;
+    background-color: #e63946;
+  }
 }
 
 /* Ensure consistent form widths across all sections */
