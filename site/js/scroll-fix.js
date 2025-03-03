@@ -1,145 +1,16 @@
 /**
  * Improved scroll handling for the Recall Karen Bass website
- * This script fixes scroll snapping issues on mobile and desktop
+ * This script enhances the existing scroll behavior without replacing it
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Track if we're in the middle of a programmatic scroll
-    let isScrolling = false;
-    // Track if we're coming from a hash change (direct link to section)
-    let initialLoad = window.location.hash ? true : false;
+    // Flag to track if we're on a mobile device
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
     
-    // Sections that need scroll handling
-    const sections = document.querySelectorAll('.section');
-    
-    // Temporarily disable observers when navigating via hash
-    const disableScrollHandlingTemporarily = () => {
-        initialLoad = true;
-        setTimeout(() => initialLoad = false, 1000);
-    };
-    
-    // Handle hash changes (direct links to sections)
-    if (initialLoad) {
-        disableScrollHandlingTemporarily();
+    // Add a class to the body for mobile-specific CSS
+    if (isMobile) {
+        document.body.classList.add('is-mobile-device');
     }
-    
-    window.addEventListener('hashchange', disableScrollHandlingTemporarily);
-    
-    // Create an intersection observer to handle section visibility
-    const observer = new IntersectionObserver((entries) => {
-        // Skip if we're in the middle of a programmatic scroll or initial load
-        if (isScrolling || initialLoad) return;
-        
-        entries.forEach(entry => {
-            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-                console.log(`${entry.target.id} section is intersecting with ratio: ${entry.intersectionRatio}`);
-                
-                // Prevent scroll event handling while we're programmatically scrolling
-                isScrolling = true;
-                
-                // Smooth scroll to the section
-                entry.target.scrollIntoView({ 
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-                
-                // Reset scroll handling after animation completes
-                setTimeout(() => {
-                    isScrolling = false;
-                }, 1000);
-                
-                // Update URL hash without triggering a scroll (for bookmarking)
-                if (entry.target.id) {
-                    history.replaceState(null, null, `#${entry.target.id}`);
-                }
-            }
-        });
-    }, {
-        root: null, // viewport
-        rootMargin: '0px',
-        threshold: [0.1, 0.5, 0.9] // Check at multiple thresholds for smoother detection
-    });
-    
-    // Observe all sections
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-    
-    // Handle touch events for mobile
-    let touchStartY = 0;
-    let touchEndY = 0;
-    
-    document.addEventListener('touchstart', function(e) {
-        touchStartY = e.touches[0].clientY;
-    }, false);
-    
-    document.addEventListener('touchend', function(e) {
-        // Skip if we're in the middle of a programmatic scroll
-        if (isScrolling || initialLoad) return;
-        
-        touchEndY = e.changedTouches[0].clientY;
-        handleSwipe();
-    }, false);
-    
-    function handleSwipe() {
-        const currentSectionIndex = getCurrentSectionIndex();
-        if (currentSectionIndex === -1) return;
-        
-        const swipeDistance = touchStartY - touchEndY;
-        const threshold = 50; // Minimum swipe distance to trigger navigation
-        
-        if (Math.abs(swipeDistance) < threshold) return;
-        
-        isScrolling = true;
-        
-        if (swipeDistance > 0 && currentSectionIndex < sections.length - 1) {
-            // Swipe up - go to next section
-            sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
-        } else if (swipeDistance < 0 && currentSectionIndex > 0) {
-            // Swipe down - go to previous section
-            sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        setTimeout(() => {
-            isScrolling = false;
-        }, 1000);
-    }
-    
-    function getCurrentSectionIndex() {
-        for (let i = 0; i < sections.length; i++) {
-            const rect = sections[i].getBoundingClientRect();
-            // If the section is mostly visible in the viewport
-            if (rect.top < window.innerHeight / 2 && rect.bottom > window.innerHeight / 2) {
-                return i;
-            }
-        }
-        return -1;
-    }
-    
-    // Handle keyboard navigation
-    document.addEventListener('keydown', function(e) {
-        // Skip if we're in the middle of a programmatic scroll
-        if (isScrolling || initialLoad) return;
-        
-        const currentSectionIndex = getCurrentSectionIndex();
-        if (currentSectionIndex === -1) return;
-        
-        isScrolling = true;
-        
-        if ((e.key === 'ArrowDown' || e.key === 'PageDown') && currentSectionIndex < sections.length - 1) {
-            // Down arrow - go to next section
-            e.preventDefault();
-            sections[currentSectionIndex + 1].scrollIntoView({ behavior: 'smooth' });
-        } else if ((e.key === 'ArrowUp' || e.key === 'PageUp') && currentSectionIndex > 0) {
-            // Up arrow - go to previous section
-            e.preventDefault();
-            sections[currentSectionIndex - 1].scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        setTimeout(() => {
-            isScrolling = false;
-        }, 1000);
-    });
     
     // Fix for iOS Safari 100vh issue
     function setVhVariable() {
@@ -150,4 +21,160 @@ document.addEventListener('DOMContentLoaded', function() {
     // Set the vh variable on page load and resize
     setVhVariable();
     window.addEventListener('resize', setVhVariable);
+    
+    // Only add these enhancements for mobile devices
+    if (isMobile) {
+        // Add a helper class to disable scroll snap on mobile
+        document.documentElement.classList.add('mobile-scroll');
+        
+        // Track touch events for better swipe detection
+        let touchStartY = 0;
+        let touchEndY = 0;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        let isScrolling = false;
+        
+        // Get all sections for navigation
+        const sections = document.querySelectorAll('.section');
+        const sectionIds = Array.from(sections).map(section => section.id);
+        
+        // Helper function to find the current section
+        function getCurrentSectionIndex() {
+            // Find which section is most visible in the viewport
+            let maxVisibleSection = null;
+            let maxVisibleRatio = 0;
+            let maxIndex = -1;
+            
+            sections.forEach((section, index) => {
+                const rect = section.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+                
+                // Calculate how much of the section is visible
+                const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+                const sectionHeight = rect.height;
+                const visibleRatio = visibleHeight / sectionHeight;
+                
+                if (visibleRatio > maxVisibleRatio) {
+                    maxVisibleRatio = visibleRatio;
+                    maxVisibleSection = section;
+                    maxIndex = index;
+                }
+            });
+            
+            return maxIndex;
+        }
+        
+        // Temporarily disable scroll handling during programmatic scrolls
+        function disableScrollHandlingTemporarily() {
+            if (isScrolling) return;
+            
+            isScrolling = true;
+            document.documentElement.classList.add('disable-snap');
+            
+            setTimeout(() => {
+                isScrolling = false;
+                document.documentElement.classList.remove('disable-snap');
+            }, 1000);
+        }
+        
+        // Enhanced touch handling for mobile
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.touches[0].clientY;
+            touchStartX = e.touches[0].clientX;
+        }, { passive: true });
+        
+        document.addEventListener('touchend', (e) => {
+            if (isScrolling) return;
+            
+            touchEndY = e.changedTouches[0].clientY;
+            touchEndX = e.changedTouches[0].clientX;
+            
+            // Calculate swipe distance and direction
+            const swipeDistanceY = touchStartY - touchEndY;
+            const swipeDistanceX = touchStartX - touchEndX;
+            
+            // Only handle vertical swipes (ignore horizontal swipes)
+            if (Math.abs(swipeDistanceY) < 50 || Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY)) {
+                return;
+            }
+            
+            const currentIndex = getCurrentSectionIndex();
+            if (currentIndex === -1) return;
+            
+            let targetIndex;
+            
+            if (swipeDistanceY > 0) {
+                // Swipe up - go to next section
+                targetIndex = Math.min(currentIndex + 1, sections.length - 1);
+            } else {
+                // Swipe down - go to previous section
+                targetIndex = Math.max(currentIndex - 1, 0);
+            }
+            
+            if (targetIndex !== currentIndex) {
+                disableScrollHandlingTemporarily();
+                
+                // Use the existing scrollToSection function from main.js if available
+                if (typeof window.scrollToSection === 'function') {
+                    window.scrollToSection(sectionIds[targetIndex]);
+                } else {
+                    // Fallback to standard scrollIntoView
+                    sections[targetIndex].scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        }, { passive: true });
+        
+        // Double-tap detection to help with "stuck" scrolling
+        let lastTapTime = 0;
+        
+        document.addEventListener('touchend', (e) => {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTapTime;
+            
+            // If it's a double-tap (tap within 300ms of last tap)
+            if (tapLength < 300 && tapLength > 0) {
+                // Get the current section
+                const currentIndex = getCurrentSectionIndex();
+                if (currentIndex === -1) return;
+                
+                // Determine direction based on where the tap occurred on the screen
+                const tapY = e.changedTouches[0].clientY;
+                const windowHeight = window.innerHeight;
+                
+                let targetIndex;
+                
+                if (tapY < windowHeight / 2) {
+                    // Tap on top half - go to previous section
+                    targetIndex = Math.max(currentIndex - 1, 0);
+                } else {
+                    // Tap on bottom half - go to next section
+                    targetIndex = Math.min(currentIndex + 1, sections.length - 1);
+                }
+                
+                if (targetIndex !== currentIndex) {
+                    disableScrollHandlingTemporarily();
+                    
+                    // Use the existing scrollToSection function from main.js if available
+                    if (typeof window.scrollToSection === 'function') {
+                        window.scrollToSection(sectionIds[targetIndex]);
+                    } else {
+                        // Fallback to standard scrollIntoView
+                        sections[targetIndex].scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+                
+                e.preventDefault();
+            }
+            
+            lastTapTime = currentTime;
+        }, { passive: false });
+    }
+    
+    // Make scrollToSection available globally for other scripts
+    window.scrollToSection = window.scrollToSection || function(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+        
+        section.scrollIntoView({ behavior: 'smooth' });
+    };
 }); 
