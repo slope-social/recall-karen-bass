@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recall Karen Bass</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-menu-wrapper">
+        <a href="#hero">
+          <img src="assets/RKB-Logo-Primary-Simplified.png" alt="Recall Karen Bass Logo" class="nav-logo">
+        </a>
+        
+        <div class="nav-links">
+          <button data-target="petition">Sign the Petition</button>
+          <button data-target="volunteer">Volunteer</button>
+          <button data-target="donate">Donate</button>
+          <button data-target="get-informed">Get Informed</button>
+          <button data-target="contact">Contact</button>
+        </div>
+        
+        <button class="nav-mobile-menu">
+          <div class="nav-menu-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </button>
+      </div>
+    </div>
+    
+    <div class="nav-mobile">
+      <button class="nav-mobile-link" data-target="petition">Sign the Petition</button>
+      <button class="nav-mobile-link" data-target="volunteer">Volunteer</button>
+      <button class="nav-mobile-link" data-target="donate">Donate</button>
+      <button class="nav-mobile-link" data-target="get-informed">Get Informed</button>
+      <button class="nav-mobile-link" data-target="contact">Contact</button>
+    </div>
+  </nav>
+  
+  <!-- Slanted Background -->
+  <div class="slanted-background">
+    <div class="image-container">
+      <div class="image"></div>
+      <div class="image"></div>
+      <div class="image"></div>
+    </div>
+  </div>
+  
+  <!-- Fixed Petition Background -->
+  <div class="petition-fixed-background"></div>
+  
+  <!-- Fixed Volunteer Background -->
+  <div class="volunteer-fixed-background"></div>
+  
+  <main>
+    <!-- Hero Section -->
+    <section id="hero" class="section hero">
+      <div class="hero-content">
+        <img src="assets/RKB-Logo-Primary.png" alt="Recall Karen Bass" class="hero-logo">
+      </div>
+    </section>
+    
+    <!-- Petition Section -->
+    <section id="petition" class="section">
+      <div class="petition-background"></div>
+      
+      <div class="section-content">
+        <div class="petition-text-overlay"></div>
+        
+        <div class="form-container">
+          <button class="form-toggle" id="petition-form-toggle">
+            <span class="form-toggle-text">Sign the Petition</span>
+            <span class="form-toggle-icon">▼</span>
+          </button>
+          
+          <form id="petition-form" class="form-fields">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="firstName" class="form-label">First Name</label>
+                <input type="text" id="firstName" name="firstName" class="form-input" placeholder="Enter first name" required>
+                <div class="form-message"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="lastName" class="form-label">Last Name</label>
+                <input type="text" id="lastName" name="lastName" class="form-input" placeholder="Enter last name" required>
+                <div class="form-message"></div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-field">
+                <label for="street" class="form-label">Street Address</label>
+                <input type="text" id="street" name="street" class="form-input" placeholder="Enter street address" required>
+                <div class="form-message"></div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-field">
+                <label for="city" class="form-label">City/Town</label>
+                <input type="text" id="city" name="city" class="form-input" placeholder="Enter city" required>
+                <div class="form-message"></div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-field">
+                <label for="zip" class="form-label">Zip</label>
+                <input type="text" id="zip" name="zip" class="form-input" placeholder="Enter ZIP code" required>
+                <div class="form-message"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="tel" id="phone" name="phone" class="form-input" placeholder="Enter phone #">
+                <div class="form-message"></div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-field">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="Enter email" required>
+                <div class="form-message"></div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-field petition-checkbox-section">
+                <input type="checkbox" id="isRegisteredVoter" name="isRegisteredVoter">
+                <label for="isRegisteredVoter">I am a registered voter in Los Angeles</label>
+              </div>
+            </div>
+            
+            <button type="submit" class="form-submit">Sign the Petition</button>
+          </form>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Volunteer Section -->
+    <section id="volunteer" class="section">
+      <div class="volunteer-background"></div>
+      
+      <div class="section-content">
+        <h2 class="heading-2">Join Our Movement</h2>
+        <p class="text-body text-center">
+          Join our team of dedicated volunteers to help recall Karen Bass. Your time and effort can make a real difference in our campaign.
+        </p>
+        
+        <div class="form-container">
+          <button class="form-toggle" id="volunteer-form-toggle">
+            <span class="form-toggle-text">Volunteer Now</span>
+            <span class="form-toggle-icon">▼</span>
+          </button>
+          
+          <form id="volunteer-form" class="form-fields">
+            <div class="form-row">
+              <div class="form-field">
+                <label for="volunteerFirstName" class="form-label">First Name*</label>
+                <input type="text" id="volunteerFirstName" name="firstName" class="form-input" placeholder="First name" required>
+                <div class="form-message"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="volunteerLastName" class="form-label">Last Name*</label>
+                <input type="text" id="volunteerLastName" name="lastName" class="form-input" placeholder="Last name" required>
+                <div class="form-message"></div>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-field">
+                <label for="volunteerZip" class="form-label">ZIP Code*</label>
+                <input type="text" id="volunteerZip" name="zip" class="form-input" placeholder="ZIP code" required>
+                <div class="form-message"></div>
+              </div>
+              
+              <div class="form-field">
+                <label for="volunteerPhone" class="form-label">Phone</label>
+                <input type="tel" id="volunteerPhone" name="phone" class="form-input" placeholder="Phone number">
+                <div class="form-message"></div>
+              </div>
+            </div>
+            
+            <div class="form-field">
+              <label for="volunteerEmail" class="form-label">Email*</label>
+              <input type="email" id="volunteerEmail" name="email" class="form-input" placeholder="Email" required>
+              <div class="form-message"></div>
+            </div>
+            
+            <div class="form-field volunteer-checkbox-section">
+              <label class="form-label">I am available to:</label>
+              <div class="checkbox-container">
+                <div class="checkbox-field">
+                  <input type="checkbox" id="phoneBank" name="phoneBank">
+                  <label for="phoneBank">Phone Bank</label>
+                </div>
+                <div class="checkbox-field">
+                  <input type="checkbox" id="gatherSignatures" name="gatherSignatures">
+                  <label for="gatherSignatures">Get Signatures</label>
+                </div>
+                <div class="checkbox-field">
+                  <input type="checkbox" id="attendEvents" name="attendEvents">
+                  <label for="attendEvents">Attend Events</label>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-field">
+              <label for="volunteerMessage" class="form-label">Message (Optional)</label>
+              <textarea id="volunteerMessage" name="message" class="form-input" rows="2" placeholder="How you'd like to help"></textarea>
+              <div class="form-message"></div>
+            </div>
+            
+            <button type="submit" class="form-submit">Volunteer</button>
+          </form>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Donate Section -->
+    <section id="donate" class="section">
+      <div class="section-content">
+        <h2 class="heading-2">Donate</h2>
+        <p class="text-body text-center">
+          Your contribution helps fund our campaign to recall Karen Bass. Every donation, no matter the size, brings us closer to our goal.
+        </p>
+        
+        <a href="https://secure.winred.com/recall-karen-bass/donate" target="_blank" rel="noopener noreferrer" class="form-submit donate-button">
+          Donate Now
+        </a>
+      </div>
+    </section>
+    
+    <!-- Get Informed Section -->
+    <section id="get-informed" class="section">
+      <div class="section-content">
+        <h2 class="heading-2">Get Informed</h2>
+        <h3 class="heading-3 text-center" style="margin-bottom: 2rem; line-height: 1.4; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);">
+          IF LETTING L.A. BURN ISN'T ENOUGH - HERE ARE MORE REASONS WHY SHE'S TERRIBLE:
+        </h3>
+        
+        <div class="accordion">
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              Failed Homelessness Program
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              <h4 style="margin-top: 0.5rem; margin-bottom: 1rem;">Wasted Taxpayer Money with Minimal Results</h4>
+              <p style="margin-bottom: 1rem;">Bass' Inside Safe program to combat homelessness only moved 255 people to permanent housing out of the 46,000 in LA (as of April 2024) despite $67 million spent. This represents a failure rate of over 99% and a cost of approximately $262,745 per person housed.</p>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <a href="https://californiaglobe.com/fr/la-mayor-bass-newly-touted-homeless-measures-face-backlash/" target="_blank" rel="noopener noreferrer">
+                  Source: https://californiaglobe.com/fr/la-mayor-bass-newly-touted-homeless-measures-face-backlash/
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              Rising Crime on Public Transit
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              <h4 style="margin-top: 0.5rem; margin-bottom: 1rem;">Public Safety Crisis on Metro</h4>
+              <p style="margin-bottom: 1rem;">Violent crime on Metro has increased by 33% compared to pre-pandemic levels, making public transportation increasingly dangerous for Los Angeles residents. Despite this alarming trend, the Bass administration has failed to implement effective safety measures.</p>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <a href="https://www.cbsnews.com/losangeles/news/kcal-investigates-violent-crime-on-metro-up-33-compared-to-pre-pandemic-levels/" target="_blank" rel="noopener noreferrer">
+                  Source: https://www.cbsnews.com/losangeles/news/kcal-investigates-violent-crime-on-metro-up-33-compared-to-pre-pandemic-levels/
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              Fire Department Budget Cuts
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              <h4 style="margin-top: 0.5rem; margin-bottom: 1rem;">Reduced Funding During Fire Season</h4>
+              <p style="margin-bottom: 1rem;">LAFD budget decreased by around $17 million compared to the previous budget cycle. These cuts came at a critical time when Los Angeles faces increasing wildfire threats and emergency response challenges, putting residents at greater risk.</p>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <a href="https://www.politico.com/news/2025/01/08/los-angeles-fires-mayor-karen-bass-handling-criticized-00197137" target="_blank" rel="noopener noreferrer">
+                  Source: https://www.politico.com/news/2025/01/08/los-angeles-fires-mayor-karen-bass-handling-criticized-00197137
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="accordion-item">
+            <button class="accordion-trigger">
+              Poor Congressional Attendance
+              <span class="accordion-icon">▼</span>
+            </button>
+            <div class="accordion-content">
+              <h4 style="margin-top: 0.5rem; margin-bottom: 1rem;">History of Neglecting Official Duties</h4>
+              <p style="margin-bottom: 1rem;">Bass was amongst the worst Congressional Members at attending votes during her time in Congress. This pattern of absenteeism demonstrates a concerning disregard for her official responsibilities and the constituents she was elected to represent.</p>
+              <div style="display: flex; align-items: center; gap: 0.5rem;">
+                <a href="https://californiaglobe.com/fr/2022-la-mayoral-election-comparing-attendance-records-of-karen-bass-and-rick-caruso/" target="_blank" rel="noopener noreferrer">
+                  Source: https://californiaglobe.com/fr/2022-la-mayoral-election-comparing-attendance-records-of-karen-bass-and-rick-caruso/
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="section-content">
+        <h2 class="heading-2">Contact Us</h2>
+        <div class="card">
+          <div class="form-content">
+            <form id="contact-form" class="form-fields">
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="contactFirstName" class="form-label">First Name</label>
+                  <input type="text" id="contactFirstName" name="firstName" class="form-input" required>
+                  <div class="form-message"></div>
+                </div>
+                
+                <div class="form-field">
+                  <label for="contactLastName" class="form-label">Last Name</label>
+                  <input type="text" id="contactLastName" name="lastName" class="form-input" required>
+                  <div class="form-message"></div>
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-field">
+                  <label for="contactEmail" class="form-label">Email</label>
+                  <input type="email" id="contactEmail" name="email" class="form-input" required>
+                  <div class="form-message"></div>
+                </div>
+              </div>
+              
+              <div class="form-field">
+                <label for="contactMessage" class="form-label">Message</label>
+                <textarea id="contactMessage" name="message" class="form-input" rows="4" required></textarea>
+                <div class="form-message"></div>
+              </div>
+              
+              <button type="submit" class="form-submit">Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="#" id="footerPrivacyLink">Privacy Policy</a>
+        <span class="footer-separator">|</span>
+        <a href="#" id="footerCookieLink">Cookie Policy</a>
+        <span class="footer-separator">|</span>
+        <a href="#contact">Contact Us</a>
+      </div>
+      <div class="footer-copyright">
+        &copy; 2025 Recall Karen Bass Committee. All Rights Reserved.
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Toast Notifications Container -->
+  <div class="toast-container"></div>
+  
+  <!-- Privacy Policy Modal -->
+  <div class="modal-overlay" id="privacyPolicyModal">
+    <div class="modal">
+      <button class="modal-close" id="closePrivacyPolicy">&times;</button>
+      <h1 class="modal-title">Privacy Policy</h1>
+      <div class="modal-content">
+        <p><strong>Effective Date: February 27, 2025</strong></p>
+        
+        <h2>1. Introduction</h2>
+        <p>Recall Mayor Karen Bass Committee ("we," "us," or "our") values your privacy. This Privacy Policy explains how we collect, use, and protect your personal information when you visit our website or interact with us via SMS/MMS messaging services. By using our Website or signing up for text updates, you consent to this Privacy Policy.</p>
+        
+        <h2>2. Information We Collect</h2>
+        <p>We collect the following types of information:</p>
+        
+        <h3>A. Personal Information</h3>
+        <p>We collect personal information when you:</p>
+        <ul>
+          <li>Sign up for updates or volunteer (name, email, phone number).</li>
+          <li>Make a donation (billing information, payment details).</li>
+          <li>Contact us via the Website or SMS/MMS.</li>
+        </ul>
+        
+        <h3>B. Automatically Collected Information</h3>
+        <p>When you visit our Website, we may collect:</p>
+        <ul>
+          <li>IP address, browser type, device information.</li>
+          <li>Browsing behavior using cookies and similar technologies.</li>
+        </ul>
+        
+        <h3>C. SMS/MMS Data</h3>
+        <p>If you opt in to receive SMS/MMS messages from us, we may collect:</p>
+        <ul>
+          <li>Your phone number.</li>
+          <li>Message interactions (e.g., whether you read or clicked links).</li>
+        </ul>
+        
+        <h2>3. How We Use Your Information</h2>
+        <p>We use your information to:</p>
+        <ul>
+          <li>Send campaign updates, volunteer opportunities, and donation requests.</li>
+          <li>Process donations securely.</li>
+          <li>Improve our Website and communication efforts.</li>
+          <li>Comply with legal obligations.</li>
+        </ul>
+        
+        <h2>4. SMS/MMS Messaging Policy</h2>
+        <h3>A. Consent to Receive Messages</h3>
+        <p>By providing your phone number, you consent to receive automated and manual text messages from Recall Karen Bass regarding campaign updates, events, and donation opportunities.</p>
+        <ul>
+          <li>Message Frequency: Varies; standard messaging rates may apply.</li>
+          <li>Opt-Out Instructions: You can opt out at any time by replying STOP to any message.</li>
+          <li>Help & Support: For help, reply HELP to any text or contact us at info@recallbassnow.com</li>
+          <li>Data Privacy: We do not sell or share your phone number with third parties for marketing purposes.</li>
+        </ul>
+        
+        <h2>5. Sharing Your Information</h2>
+        <p>We do not sell your personal information. We may share data with:</p>
+        <ul>
+          <li>Service providers assisting with SMS/MMS messaging, website hosting, and donations.</li>
+          <li>Legal authorities when required by law.</li>
+        </ul>
+        
+        <h2>6. Your Rights Under CCPA/CPRA</h2>
+        <p>If you are a California resident, you have the right to:</p>
+        <ul>
+          <li>Know what personal data we collect and how we use it.</li>
+          <li>Delete your personal data (subject to legal obligations).</li>
+          <li>Opt-Out of data collection for targeted advertising.</li>
+          <li>Correct inaccurate personal data.</li>
+        </ul>
+        <p>To exercise these rights, contact us at info@recallbassnow.com.</p>
+        
+        <h2>9. Third-Party Links</h2>
+        <p>Our Website may contain links to third-party sites. We are not responsible for their privacy policies.</p>
+        
+        <h2>10. Updates to This Policy</h2>
+        <p>We may update this Privacy Policy at any time. The latest version will always be available on this page.</p>
+        
+        <h2>11. Contact Us</h2>
+        <p>For any privacy-related questions, contact us at info@recallbassnow.com</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Cookie Policy Modal -->
+  <div class="modal-overlay" id="cookiePolicyModal">
+    <div class="modal">
+      <button class="modal-close" id="closeCookiePolicy">&times;</button>
+      <h1 class="modal-title">Cookie Policy</h1>
+      <div class="modal-content">
+        <p><strong>Effective Date: February 27, 2025</strong></p>
+        
+        <h2>1. Introduction</h2>
+        <p>This Cookie Policy explains how Recall Mayor Karen Bass Committee ("we," "us," or "our") uses cookies and similar technologies on our website.</p>
+        
+        <h2>2. What Are Cookies?</h2>
+        <p>Cookies are small text files that are stored on your device when you visit a website. They are widely used to make websites work more efficiently and provide information to the website owners.</p>
+        
+        <h2>3. How We Use Cookies</h2>
+        <p>We use cookies for the following purposes:</p>
+        <ul>
+          <li><strong>Essential Cookies:</strong> These cookies are necessary for the website to function properly and cannot be switched off.</li>
+          <li><strong>Analytics Cookies:</strong> These cookies help us understand how visitors interact with our website, allowing us to improve user experience.</li>
+          <li><strong>Functionality Cookies:</strong> These cookies enable enhanced functionality and personalization, such as remembering your preferences.</li>
+        </ul>
+        
+        <h2>4. Managing Cookies</h2>
+        <p>Most web browsers allow you to control cookies through their settings. You can usually find these settings in the "Options" or "Preferences" menu of your browser. However, if you disable certain cookies, you may not be able to use all features of our website.</p>
+        
+        <h2>5. Third-Party Cookies</h2>
+        <p>We may allow third-party service providers to place cookies on our website to help us analyze how users use the site, to personalize your experience, and to improve our services.</p>
+        
+        <h2>6. Updates to This Policy</h2>
+        <p>We may update this Cookie Policy from time to time. Any changes will be posted on this page.</p>
+        
+        <h2>7. Contact Us</h2>
+        <p>If you have any questions about our use of cookies, please contact us at info@recallbassnow.com.</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Cookie Banner -->
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-content">
+      <h3>We Value Your Privacy</h3>
+      <p>We use cookies to improve your experience, analyze traffic, and support campaign operations. By clicking "Accept," you consent to our use of cookies.</p>
+    </div>
+    <div class="cookie-actions">
+      <button class="cookie-btn cookie-accept" id="acceptCookies">Accept</button>
+      <button class="cookie-btn cookie-more" id="viewCookiePolicy">Cookie Policy</button>
+    </div>
+  </div>
+  
+  <script src="js/app-script-helper.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html> 

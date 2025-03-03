@@ -1,0 +1,1269 @@
+// Global variables
+let isAnimating = false;
+
+// App Script URLs for form submissions - Update these with your deployed web app URLs
+const appScriptUrls = {
+  petition: 'https://script.google.com/macros/s/AKfycbySQp9fGgu3xToNTA8x_MojnKgLqpavhixPyM1R_fRrOMbSANwp0evhKVDGFHRsy9jebA/exec', // Sign_the_Petition script
+  volunteer: 'https://script.google.com/macros/s/AKfycbxxbd3KhbxDu7kokNVTdvRgJayPpmu5rmUSNMnexCgWGRO2nYG4JJ6QWWtjpUEOO7wV/exec', // Volunteer script
+  contact: 'https://script.google.com/macros/s/AKfycbz4Qu6DxeOuCGwVe_pdurr3Z44Sq7bZVE4fA8Yo8_gcWbDCsyPSuI5J5FBBbNcmDwmS/exec' // Contact_Us script
+};
+
+// DOM Elements
+document.addEventListener('DOMContentLoaded', () => {
+  // Initialize background images
+  initBackgroundImages();
+  
+  // Initialize navigation
+  initNavigation();
+  
+  // Initialize intersection observers for animations
+  initIntersectionObservers();
+  
+  // Initialize accordion functionality
+  initAccordions();
+  
+  // Initialize form validation and submission
+  initForms();
+  
+  // Initialize privacy policy and cookie banner
+  initPrivacyPolicyAndCookies();
+  
+  // Initialize expandable forms for mobile
+  initExpandableForms();
+  
+  // Add this new function call
+  initScrollHelper();
+});
+
+// Background Images Functionality
+function initBackgroundImages() {
+  console.log('Starting initBackgroundImages function');
+  
+  const slantedBackground = document.querySelector('.slanted-background');
+  const imageContainer = document.querySelector('.image-container');
+  const images = Array.from(document.querySelectorAll('.image'));
+  
+  // Debug function to help troubleshoot
+  function debugElements() {
+    console.log('Debug elements:');
+    console.log('- slantedBackground:', slantedBackground);
+    console.log('- imageContainer:', imageContainer);
+    console.log('- images:', images);
+  }
+
+  // Make sure we have all the elements we need
+  if (!slantedBackground || !imageContainer || images.length !== 3) {
+    console.error('Missing required elements for slanted background');
+    debugElements();
+    return;
+  }
+
+  // Set explicit styles to ensure interaction works
+  slantedBackground.style.pointerEvents = 'auto';
+  imageContainer.style.pointerEvents = 'auto';
+  images.forEach(image => {
+    image.style.pointerEvents = 'auto';
+  });
+  
+  let activeImageIndex = -1;
+  let resetTimeout = null;
+  
+  // Function to determine which third of the container the cursor is in
+  function checkCursorPosition(clientX) {
+    const rect = slantedBackground.getBoundingClientRect();
+    const relativeX = (clientX - rect.left) / rect.width;
+    
+    if (relativeX < 0.4) {
+      return 0; // First image (left) - 40%
+    } else if (relativeX < 0.77) {
+      return 1; // Second image (middle) - 37%
+    } else {
+      return 2; // Third image (right) - 23%
+    }
+  }
+  
+  // Function to activate the image at the given index
+  function activateImage(index) {
+    // If we're already showing this image, do nothing
+    // This prevents resetting the timer when hovering over the same image
+    if (index === activeImageIndex && index !== -1) {
+      return;
+    }
+    
+    // Skip activation completely for the middle image (index 1)
+    if (index === 1) {
+      return;
+    }
+    
+    // Clear any existing timeout
+    if (resetTimeout) {
+      clearTimeout(resetTimeout);
+      resetTimeout = null;
+    }
+    
+    // Reset all images to default
+    if (index === -1) {
+      imageContainer.classList.remove('has-hover');
+      images.forEach(image => {
+        image.classList.remove('active');
+      });
+      activeImageIndex = -1;
+      return;
+    }
+    
+    // Add active class to the selected image and remove from others
+    imageContainer.classList.add('has-hover');
+    images.forEach((image, i) => {
+      // Special case: When the third image is active, also make the first image active
+      if (i === index || (index === 2 && i === 0)) {
+        image.classList.add('active');
+      } else {
+        image.classList.remove('active');
+      }
+    });
+    
+    activeImageIndex = index;
+    
+    // Set a timeout to reset the images after delay
+    // This will run regardless of whether the cursor is still over the image
+    resetTimeout = setTimeout(() => {
+      activateImage(-1);
+    }, 1500); // Increased from 500ms to 1500ms for a more appropriate delay
+  }
+  
+  // Track the current section to prevent continuous triggering
+  let currentSection = -1;
+  
+  // Direct event listener on the document to track all mouse movements
+  document.addEventListener('mousemove', (e) => {
+    // Check if the cursor is over the slanted background
+    if (slantedBackground) {
+      const rect = slantedBackground.getBoundingClientRect();
+      if (
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom
+      ) {
+        const index = checkCursorPosition(e.clientX);
+        // Only activate if we've moved to a different section
+        if (index !== currentSection) {
+          currentSection = index;
+          activateImage(index);
+        }
+      } else {
+        // Reset current section when mouse leaves the slanted background
+        currentSection = -1;
+      }
+    }
+  });
+  
+  // Direct event listeners on each image
+  images.forEach((image, index) => {
+    image.addEventListener('mouseenter', () => {
+      // Only activate if we've moved to a different section
+      if (index !== currentSection) {
+        currentSection = index;
+        activateImage(index);
+      }
+    });
+    
+    // Add mouseleave to reset current section
+    image.addEventListener('mouseleave', () => {
+      // Don't reset the currentSection here as it might interfere with mousemove
+      // The mousemove handler will update it appropriately
+    });
+  });
+  
+  // Touch events on the slanted background
+  slantedBackground.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const index = checkCursorPosition(touch.clientX);
+      // Only activate if we've moved to a different section
+      if (index !== currentSection) {
+        currentSection = index;
+        activateImage(index);
+      }
+    }
+  }, { passive: false });
+  
+  slantedBackground.addEventListener('touchmove', (e) => {
+    e.preventDefault();
+    if (e.touches.length > 0) {
+      const touch = e.touches[0];
+      const index = checkCursorPosition(touch.clientX);
+      // Only activate if we've moved to a different section
+      if (index !== currentSection) {
+        currentSection = index;
+        activateImage(index);
+      }
+    }
+  }, { passive: false });
+  
+  slantedBackground.addEventListener('touchend', () => {
+    // Reset current section when touch ends
+    currentSection = -1;
+    // Don't reset immediately on touch end, let the timeout handle it
+  });
+  
+  // Brief test sequence on load
+  setTimeout(() => {
+    // Quick test of each image
+    activateImage(0);
+    setTimeout(() => {
+      activateImage(-1);
+    }, 500);
+  }, 500);
+}
+
+// Navigation Functionality
+function initNavigation() {
+  const mobileMenuButton = document.querySelector('.nav-mobile-menu');
+  const mobileMenu = document.querySelector('.nav-mobile');
+  const navLinks = document.querySelectorAll('.nav-links button, .nav-mobile-link');
+  const menuIconSpans = document.querySelectorAll('.nav-menu-icon span');
+  
+  // Set initial styles for menu icon spans
+  if (menuIconSpans.length === 3) {
+    // Apply initial CSS for transition
+    menuIconSpans.forEach((span, index) => {
+      span.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+    });
+  }
+  
+  // Toggle mobile menu
+  if (mobileMenuButton && mobileMenu) {
+    mobileMenuButton.addEventListener('click', () => {
+      const isActive = mobileMenu.classList.contains('active');
+      
+      // Toggle classes
+      mobileMenu.classList.toggle('active');
+      mobileMenuButton.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
+      
+      // Transform the menu icon into an X or back to hamburger
+      if (menuIconSpans.length === 3) {
+        if (!isActive) {
+          // Transform to X
+          menuIconSpans[0].style.transform = "translateY(0.7rem) rotate(45deg)";
+          menuIconSpans[1].style.opacity = "0";
+          menuIconSpans[2].style.transform = "translateY(-0.7rem) rotate(-45deg)";
+        } else {
+          // Reset to hamburger
+          menuIconSpans[0].style.transform = "none";
+          menuIconSpans[1].style.opacity = "1";
+          menuIconSpans[2].style.transform = "none";
+        }
+      }
+    });
+  }
+  
+  // Smooth scroll to sections
+  navLinks.forEach((link, index) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const targetId = link.getAttribute('data-target');
+      if (targetId) {
+        scrollToSection(targetId);
+        
+        // Close mobile menu if open
+        if (mobileMenu && mobileMenu.classList.contains('active')) {
+          mobileMenu.classList.remove('active');
+          mobileMenuButton.classList.remove('active');
+          document.body.classList.remove('menu-open');
+          
+          // Reset menu icon to hamburger
+          if (menuIconSpans.length === 3) {
+            menuIconSpans[0].style.transform = "none";
+            menuIconSpans[1].style.opacity = "1";
+            menuIconSpans[2].style.transform = "none";
+          }
+        }
+      }
+    });
+  });
+}
+
+// Scroll to section helper function
+function scrollToSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) return;
+  
+  // Set the global isAnimating flag
+  isAnimating = true;
+  
+  // Temporarily disable scroll snapping during the animation
+  const styleElement = document.createElement('style');
+  styleElement.textContent = `
+    html, body, .section {
+      scroll-snap-type: none !important;
+      scroll-snap-align: none !important;
+      scroll-snap-stop: normal !important;
+      scroll-behavior: auto !important;
+      overscroll-behavior: auto !important;
+    }
+  `;
+  document.head.appendChild(styleElement);
+  document.documentElement.classList.add('disable-snap');
+  
+  // Calculate target position with precision
+  const rect = section.getBoundingClientRect();
+  const absoluteTop = window.scrollY + rect.top;
+  const targetPosition = absoluteTop;
+  
+  // Use requestAnimationFrame for smoother animation control
+  const startPosition = window.scrollY;
+  const distance = targetPosition - startPosition;
+  const duration = 800; // Longer duration for smoother animation
+  let startTime = null;
+  
+  function easeOutQuint(t) {
+    return 1 - Math.pow(1 - t, 5);
+  }
+  
+  function step(timestamp) {
+    if (!startTime) startTime = timestamp;
+    const elapsed = timestamp - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeProgress = easeOutQuint(progress);
+    
+    // Calculate the exact position for this frame
+    const currentPosition = startPosition + distance * easeProgress;
+    window.scrollTo({
+      top: currentPosition,
+      behavior: 'auto' // Use 'auto' to prevent browser's smooth scrolling from interfering
+    });
+    
+    if (progress < 1) {
+      window.requestAnimationFrame(step);
+    } else {
+      // We've reached the end of the animation
+      // Make sure we're exactly at the target position
+      window.scrollTo({
+        top: targetPosition,
+        behavior: 'auto'
+      });
+      
+      // Keep snap disabled for a longer period to prevent the snap from causing a lurch
+      setTimeout(() => {
+        // Remove the style element and disable-snap class
+        document.head.removeChild(styleElement);
+        document.documentElement.classList.remove('disable-snap');
+        
+        // Reset the global isAnimating flag after animation is completely done
+        setTimeout(() => {
+          isAnimating = false;
+        }, 200);
+      }, 300); // Longer delay before re-enabling snap
+    }
+  }
+  
+  window.requestAnimationFrame(step);
+}
+
+// Intersection Observer for animations
+function initIntersectionObservers() {
+  const sections = document.querySelectorAll('.section');
+  const slantedBackground = document.querySelector('.slanted-background');
+  const petitionFixedBackground = document.querySelector('.petition-fixed-background');
+  const volunteerFixedBackground = document.querySelector('.volunteer-fixed-background');
+  
+  // Create a separate observer for the petition section with higher sensitivity
+  const petitionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // When petition section is in view, fade out the slanted background images
+        if (slantedBackground) {
+          slantedBackground.style.opacity = '0.2';
+          slantedBackground.style.transition = 'opacity 0.7s ease';
+        }
+        
+        // Show the petition fixed background
+        if (petitionFixedBackground) {
+          petitionFixedBackground.style.opacity = '1';
+        }
+        
+        // Add class to body for additional styling
+        document.body.classList.add('petition-in-view');
+        
+        // Add in-view class to the petition section
+        entry.target.classList.add('in-view');
+        
+        // Force scroll snap to petition section when it comes into view
+        if (entry.intersectionRatio > 0.5) {
+          entry.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        // When petition section is out of view, restore the slanted background
+        if (slantedBackground) {
+          slantedBackground.style.opacity = '1';
+          slantedBackground.style.transition = 'opacity 0.7s ease';
+        }
+        
+        // Hide the petition fixed background
+        if (petitionFixedBackground) {
+          petitionFixedBackground.style.opacity = '0';
+        }
+        
+        // Remove class from body
+        document.body.classList.remove('petition-in-view');
+      }
+    });
+  }, {
+    threshold: [0.2, 0.5, 0.8],
+    rootMargin: '-5% 0px -5% 0px'
+  });
+  
+  // Create a separate observer for the volunteer section with higher sensitivity
+  const volunteerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        // When volunteer section is in view, fade out the slanted background images
+        if (slantedBackground) {
+          slantedBackground.style.opacity = '0.2';
+          slantedBackground.style.transition = 'opacity 0.7s ease';
+        }
+        
+        // Show the volunteer fixed background
+        if (volunteerFixedBackground) {
+          volunteerFixedBackground.style.opacity = '1';
+        }
+        
+        // Add class to body for additional styling
+        document.body.classList.add('volunteer-in-view');
+        
+        // Add in-view class to the volunteer section
+        entry.target.classList.add('in-view');
+        
+        // Force scroll snap to volunteer section when it comes into view
+        if (entry.intersectionRatio > 0.5) {
+          entry.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        // When volunteer section is out of view, restore the slanted background
+        if (slantedBackground && !document.body.classList.contains('petition-in-view')) {
+          slantedBackground.style.opacity = '1';
+          slantedBackground.style.transition = 'opacity 0.7s ease';
+        }
+        
+        // Hide the volunteer fixed background
+        if (volunteerFixedBackground) {
+          volunteerFixedBackground.style.opacity = '0';
+        }
+        
+        // Remove class from body
+        document.body.classList.remove('volunteer-in-view');
+      }
+    });
+  }, {
+    threshold: [0.2, 0.5, 0.8],
+    rootMargin: '-5% 0px -5% 0px'
+  });
+  
+  // Observe the petition section specifically
+  const petitionSection = document.getElementById('petition');
+  if (petitionSection) {
+    petitionObserver.observe(petitionSection);
+  }
+  
+  // Observe the volunteer section specifically
+  const volunteerSection = document.getElementById('volunteer');
+  if (volunteerSection) {
+    volunteerObserver.observe(volunteerSection);
+  }
+  
+  // General section observer for animations
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        
+        // Add smooth transition for all sections
+        entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+        
+        // Force scroll snap to this section when it comes into view
+        if (entry.intersectionRatio > 0.6) {
+          entry.target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      } else {
+        // Keep the transition when leaving view
+        entry.target.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      }
+    });
+  }, {
+    threshold: [0.2, 0.6, 0.8],
+    rootMargin: '-5% 0px -5% 0px'
+  });
+  
+  sections.forEach(section => {
+    // Don't observe petition or volunteer sections with this observer since they have their own
+    if (section.id !== 'petition' && section.id !== 'volunteer') {
+      sectionObserver.observe(section);
+    }
+  });
+}
+
+// Accordion functionality
+function initAccordions() {
+  const accordionTriggers = document.querySelectorAll('.accordion-trigger');
+  
+  accordionTriggers.forEach(trigger => {
+    trigger.addEventListener('click', () => {
+      const accordionItem = trigger.closest('.accordion-item');
+      const content = trigger.nextElementSibling;
+      
+      // Toggle this accordion item
+      accordionItem.classList.toggle('open');
+      content.classList.toggle('active');
+      
+      // Optional: close other accordion items
+      // const siblingItems = document.querySelectorAll('.accordion-item.open');
+      // siblingItems.forEach(item => {
+      //   if (item !== accordionItem) {
+      //     item.classList.remove('open');
+      //     item.querySelector('.accordion-content').classList.remove('active');
+      //   }
+      // });
+    });
+  });
+}
+
+// Form validation and submission
+function initForms() {
+  const petitionForm = document.getElementById('petition-form');
+  const volunteerForm = document.getElementById('volunteer-form');
+  const contactForm = document.getElementById('contact-form');
+  
+  if (petitionForm) {
+    petitionForm.addEventListener('submit', handlePetitionSubmit);
+  }
+  
+  if (volunteerForm) {
+    volunteerForm.addEventListener('submit', handleVolunteerSubmit);
+  }
+  
+  if (contactForm) {
+    contactForm.addEventListener('submit', handleContactSubmit);
+  }
+  
+  // Add input validation listeners
+  const formInputs = document.querySelectorAll('.form-input');
+  formInputs.forEach(input => {
+    input.addEventListener('blur', validateInput);
+    input.addEventListener('input', clearError);
+  });
+}
+
+// Validate individual input
+function validateInput(e) {
+  const input = e.target;
+  const value = input.value.trim();
+  const name = input.name;
+  const errorElement = input.nextElementSibling;
+  
+  if (!value && input.hasAttribute('required')) {
+    showError(input, errorElement, 'This field is required');
+    return false;
+  }
+  
+  if (name === 'email' && value) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      showError(input, errorElement, 'Please enter a valid email address');
+      return false;
+    }
+  }
+  
+  if (name === 'phone' && value) {
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(value.replace(/\D/g, ''))) {
+      showError(input, errorElement, 'Please enter a valid 10-digit phone number');
+      return false;
+    }
+  }
+  
+  if (name === 'zip' && value) {
+    const zipRegex = /^\d{5}(-\d{4})?$/;
+    if (!zipRegex.test(value)) {
+      showError(input, errorElement, 'Please enter a valid ZIP code');
+      return false;
+    }
+  }
+  
+  return true;
+}
+
+// Clear error on input
+function clearError(e) {
+  const input = e.target;
+  const errorElement = input.nextElementSibling;
+  
+  if (errorElement && errorElement.classList.contains('form-message')) {
+    errorElement.textContent = '';
+    input.classList.remove('error');
+  }
+}
+
+// Show error message
+function showError(input, errorElement, message) {
+  if (errorElement && errorElement.classList.contains('form-message')) {
+    errorElement.textContent = message;
+    input.classList.add('error');
+  }
+}
+
+// Replace the submitToGoogleForm function with this new function
+function submitToAppScript(formData, appScriptUrl, successMessage, errorMessage, submitButton, originalButtonText) {
+  // Prepare the request options
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(formData),
+    mode: 'no-cors' // Use no-cors mode for Google Apps Script
+  };
+  
+  console.log('Submitting to:', appScriptUrl);
+  console.log('Form data:', formData);
+  
+  // Send the request to the App Script endpoint
+  return fetch(appScriptUrl, options)
+    .then(response => {
+      console.log('Response status:', response.status);
+      
+      // With no-cors mode, we won't get a proper response
+      // The response will have status 0 and type 'opaque'
+      if (response.type === 'opaque' || response.status === 0) {
+        console.log('Received opaque response due to CORS - assuming success');
+        return { status: 'success' };
+      }
+      
+      // If we get here, we're not in no-cors mode
+      if (response.ok) {
+        return response.json().catch(() => {
+          return { status: 'success' };
+        });
+      }
+      
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    })
+    .then(data => {
+      // Reset the submit button
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+      
+      // Show success message
+      showToast('Success', successMessage);
+      
+      return data;
+    })
+    .catch(error => {
+      console.error('Error submitting form:', error);
+      
+      // Reset the submit button
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = originalButtonText;
+      }
+      
+      // Show error message
+      showToast('Error', errorMessage, 'error');
+      
+      throw error;
+    });
+}
+
+// Replace the getGoogleFormFieldId function with this empty function (no longer needed)
+function getGoogleFormFieldId(fieldName, formUrl) {
+  // This function is no longer used with App Script integration
+  // We're keeping it as a placeholder to avoid breaking existing code
+  return '';
+}
+
+// Update the handlePetitionSubmit function
+function handlePetitionSubmit(e) {
+  e.preventDefault();
+  
+  const form = e.target;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  
+  // Process checkbox fields that might not be in the FormData if unchecked
+  const checkboxFields = [
+    'isRegisteredVoter'
+  ];
+  
+  // Add checkbox values to data object
+  checkboxFields.forEach(field => {
+    if (!data[field]) {
+      data[field] = false;
+    } else {
+      data[field] = true;
+    }
+  });
+  
+  // Validate all inputs
+  let isValid = true;
+  form.querySelectorAll('.form-input').forEach(input => {
+    if (!validateInput({ target: input })) {
+      isValid = false;
+    }
+  });
+  
+  if (!isValid) {
+    return;
+  }
+  
+  // Disable form during submission
+  const submitButton = form.querySelector('.form-submit');
+  submitButton.disabled = true;
+  submitButton.textContent = 'Submitting...';
+  
+  // App Script URL for petition form
+  const appScriptUrl = appScriptUrls.petition;
+  
+  // Submit to App Script
+  submitToAppScript(
+    data,
+    appScriptUrl,
+    'Thank you for signing the petition.',
+    'There was a problem submitting your petition. Please try again.',
+    submitButton,
+    'Sign the Petition'
+  )
+    .then(() => {
+      // Reset form on success
+      form.reset();
+      console.log('Petition form data:', data);
+    })
+    .catch(error => {
+      console.error('Error submitting petition:', error);
+    });
+}
+
+// Update the handleVolunteerSubmit function
+function handleVolunteerSubmit(e) {
+  e.preventDefault();
+  
+  const form = e.target;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  
+  // Process checkbox fields that might not be in the FormData if unchecked
+  const checkboxFields = [
+    'phoneBank',
+    'gatherSignatures',
+    'attendEvents'
+  ];
+  
+  // Add checkbox values to data object
+  checkboxFields.forEach(field => {
+    if (!data[field]) {
+      data[field] = false;
+    } else {
+      data[field] = true;
+    }
+  });
+  
+  // Validate all inputs
+  let isValid = true;
+  form.querySelectorAll('.form-input').forEach(input => {
+    if (!validateInput({ target: input })) {
+      isValid = false;
+    }
+  });
+  
+  if (!isValid) {
+    return;
+  }
+  
+  // Disable form during submission
+  const submitButton = form.querySelector('.form-submit');
+  submitButton.disabled = true;
+  submitButton.textContent = 'Submitting...';
+  
+  // App Script URL for volunteer form
+  const appScriptUrl = appScriptUrls.volunteer;
+  
+  // Submit to App Script
+  submitToAppScript(
+    data,
+    appScriptUrl,
+    'Thank you for volunteering.',
+    'There was a problem submitting your volunteer form. Please try again.',
+    submitButton,
+    'Volunteer'
+  )
+    .then(() => {
+      // Reset form on success
+      form.reset();
+      console.log('Volunteer form data:', data);
+    })
+    .catch(error => {
+      console.error('Error submitting volunteer form:', error);
+    });
+}
+
+// Update the handleContactSubmit function
+function handleContactSubmit(e) {
+  e.preventDefault();
+  
+  const form = e.target;
+  const formData = new FormData(form);
+  const data = Object.fromEntries(formData.entries());
+  
+  // Validate all inputs
+  let isValid = true;
+  form.querySelectorAll('.form-input').forEach(input => {
+    if (!validateInput({ target: input })) {
+      isValid = false;
+    }
+  });
+  
+  if (!isValid) {
+    return;
+  }
+  
+  // Disable form during submission
+  const submitButton = form.querySelector('.form-submit');
+  submitButton.disabled = true;
+  submitButton.textContent = 'Sending...';
+  
+  // App Script URL for contact form
+  const appScriptUrl = appScriptUrls.contact;
+  
+  // Submit to App Script
+  submitToAppScript(
+    data,
+    appScriptUrl,
+    'Thank you for your message. We will get back to you soon.',
+    'There was a problem sending your message. Please try again.',
+    submitButton,
+    'Send Message'
+  )
+    .then(() => {
+      // Reset form on success
+      form.reset();
+      console.log('Contact form data:', data);
+    })
+    .catch(error => {
+      console.error('Error submitting contact form:', error);
+    });
+}
+
+// Toast notification system
+function showToast(title, message, type = 'success') {
+  let toastContainer = document.querySelector('.toast-container');
+  
+  if (!toastContainer) {
+    toastContainer = document.createElement('div');
+    toastContainer.className = 'toast-container';
+    document.body.appendChild(toastContainer);
+  }
+  
+  const toast = document.createElement('div');
+  toast.className = `toast toast-${type}`;
+  
+  const toastTitle = document.createElement('div');
+  toastTitle.className = 'toast-title';
+  toastTitle.textContent = title;
+  
+  const toastDescription = document.createElement('div');
+  toastDescription.className = 'toast-description';
+  toastDescription.textContent = message;
+  
+  toast.appendChild(toastTitle);
+  toast.appendChild(toastDescription);
+  toastContainer.appendChild(toast);
+  
+  // Auto-remove toast after 5 seconds
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    
+    setTimeout(() => {
+      toastContainer.removeChild(toast);
+      
+      // Remove container if empty
+      if (toastContainer.children.length === 0) {
+        document.body.removeChild(toastContainer);
+      }
+    }, 300);
+  }, 5000);
+}
+
+// Privacy Policy Modal and Cookie Banner Functionality
+function initPrivacyPolicyAndCookies() {
+  const privacyPolicyModal = document.getElementById('privacyPolicyModal');
+  const closePrivacyPolicy = document.getElementById('closePrivacyPolicy');
+  const cookiePolicyModal = document.getElementById('cookiePolicyModal');
+  const closeCookiePolicy = document.getElementById('closeCookiePolicy');
+  const cookieBanner = document.getElementById('cookieBanner');
+  const acceptCookiesBtn = document.getElementById('acceptCookies');
+  const viewCookiePolicyBtn = document.getElementById('viewCookiePolicy');
+  const footerPrivacyLink = document.getElementById('footerPrivacyLink');
+  const footerCookieLink = document.getElementById('footerCookieLink');
+  
+  // Check if elements exist
+  if (!privacyPolicyModal || !closePrivacyPolicy || !cookieBanner || 
+      !acceptCookiesBtn || !viewCookiePolicyBtn) {
+    console.error('Missing required elements for privacy policy or cookie banner');
+    return;
+  }
+  
+  // Function to open privacy policy modal
+  function openPrivacyPolicy() {
+    privacyPolicyModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    setTimeout(() => {
+      privacyPolicyModal.style.opacity = '1';
+    }, 10);
+  }
+  
+  // Function to close privacy policy modal
+  function closePrivacyPolicyModal() {
+    privacyPolicyModal.style.opacity = '0';
+    setTimeout(() => {
+      privacyPolicyModal.style.display = 'none';
+      document.body.style.overflow = ''; // Restore scrolling
+    }, 300);
+  }
+  
+  // Function to open cookie policy modal
+  function openCookiePolicy() {
+    cookiePolicyModal.style.display = 'flex';
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when modal is open
+    setTimeout(() => {
+      cookiePolicyModal.style.opacity = '1';
+    }, 10);
+  }
+  
+  // Function to close cookie policy modal
+  function closeCookiePolicyModal() {
+    cookiePolicyModal.style.opacity = '0';
+    setTimeout(() => {
+      cookiePolicyModal.style.display = 'none';
+      document.body.style.overflow = ''; // Restore scrolling
+    }, 300);
+  }
+  
+  // Function to accept cookies and hide banner
+  function acceptCookies() {
+    localStorage.setItem('cookiesAccepted', 'true');
+    cookieBanner.style.opacity = '0';
+    setTimeout(() => {
+      cookieBanner.style.display = 'none';
+    }, 300);
+  }
+  
+  // Check if cookies have been accepted before
+  function checkCookieConsent() {
+    if (localStorage.getItem('cookiesAccepted') === 'true') {
+      cookieBanner.style.display = 'none';
+    } else {
+      cookieBanner.style.display = 'flex';
+      setTimeout(() => {
+        cookieBanner.style.opacity = '1';
+      }, 1000); // Show banner after 1 second
+      
+      // Auto-accept cookies after 5 seconds if user doesn't interact
+      setTimeout(() => {
+        if (localStorage.getItem('cookiesAccepted') !== 'true') {
+          acceptCookies();
+        }
+      }, 5000);
+    }
+  }
+  
+  // Event listeners
+  closePrivacyPolicy.addEventListener('click', closePrivacyPolicyModal);
+  if (closeCookiePolicy) {
+    closeCookiePolicy.addEventListener('click', closeCookiePolicyModal);
+  }
+  acceptCookiesBtn.addEventListener('click', acceptCookies);
+  viewCookiePolicyBtn.addEventListener('click', openCookiePolicy);
+  
+  // Footer links
+  if (footerPrivacyLink) {
+    footerPrivacyLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      openPrivacyPolicy();
+    });
+  }
+  
+  if (footerCookieLink) {
+    footerCookieLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      openCookiePolicy();
+    });
+  }
+  
+  // Close modals when clicking outside
+  privacyPolicyModal.addEventListener('click', (e) => {
+    if (e.target === privacyPolicyModal) {
+      closePrivacyPolicyModal();
+    }
+  });
+  
+  if (cookiePolicyModal) {
+    cookiePolicyModal.addEventListener('click', (e) => {
+      if (e.target === cookiePolicyModal) {
+        closeCookiePolicyModal();
+      }
+    });
+  }
+  
+  // Check cookie consent on page load
+  checkCookieConsent();
+}
+
+// Initialize expandable forms for mobile
+function initExpandableForms() {
+  const petitionToggle = document.getElementById('petition-form-toggle');
+  const volunteerToggle = document.getElementById('volunteer-form-toggle');
+  const petitionForm = document.getElementById('petition-form');
+  const volunteerForm = document.getElementById('volunteer-form');
+  const petitionTextOverlay = document.querySelector('.petition-text-overlay');
+  const volunteerHeading = document.querySelector('#volunteer .heading-2');
+  const volunteerText = document.querySelector('#volunteer .text-body');
+  const petitionToggleText = document.querySelector('#petition-form-toggle .form-toggle-text');
+  const volunteerToggleText = document.querySelector('#volunteer-form-toggle .form-toggle-text');
+  
+  // Function to handle form visibility based on screen size
+  function handleFormVisibility() {
+    const isMobile = window.innerWidth <= 768;
+    
+    if (!isMobile) {
+      // If not mobile, make sure forms are visible and elements are shown
+      if (petitionForm) petitionForm.classList.add('expanded');
+      if (volunteerForm) volunteerForm.classList.add('expanded');
+      if (petitionTextOverlay) petitionTextOverlay.style.display = '';
+      if (volunteerHeading) volunteerHeading.style.display = '';
+      if (volunteerText) volunteerText.style.display = '';
+      if (petitionToggle) petitionToggle.classList.remove('active');
+      if (volunteerToggle) volunteerToggle.classList.remove('active');
+    } else {
+      // If mobile, ensure forms are collapsed by default
+      if (petitionForm) petitionForm.classList.remove('expanded');
+      if (volunteerForm) volunteerForm.classList.remove('expanded');
+      if (petitionTextOverlay) petitionTextOverlay.style.display = '';
+      if (volunteerHeading) volunteerHeading.style.display = '';
+      if (volunteerText) volunteerText.style.display = '';
+      if (petitionToggle) petitionToggle.classList.remove('active');
+      if (volunteerToggle) volunteerToggle.classList.remove('active');
+      if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+      if (volunteerToggleText) volunteerToggleText.textContent = 'Volunteer Now';
+    }
+  }
+  
+  // Initial setup based on current screen size
+  handleFormVisibility();
+  
+  // Listen for window resize events
+  window.addEventListener('resize', handleFormVisibility);
+  
+  // Close forms when clicking outside (only on mobile)
+  document.addEventListener('click', function(event) {
+    // Skip if not mobile
+    if (window.innerWidth > 768) return;
+    
+    // Check if click is outside petition form
+    if (petitionForm && petitionForm.classList.contains('expanded')) {
+      if (!petitionForm.contains(event.target) && event.target !== petitionToggle && !petitionToggle.contains(event.target)) {
+        petitionForm.classList.remove('expanded');
+        petitionToggle.classList.remove('active');
+        if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+        if (petitionTextOverlay) petitionTextOverlay.style.display = '';
+      }
+    }
+    
+    // Check if click is outside volunteer form
+    if (volunteerForm && volunteerForm.classList.contains('expanded')) {
+      if (!volunteerForm.contains(event.target) && event.target !== volunteerToggle && !volunteerToggle.contains(event.target)) {
+        volunteerForm.classList.remove('expanded');
+        volunteerToggle.classList.remove('active');
+        if (volunteerToggleText) volunteerToggleText.textContent = 'Volunteer Now';
+        if (volunteerHeading) volunteerHeading.style.display = '';
+        if (volunteerText) volunteerText.style.display = '';
+      }
+    }
+  });
+  
+  // Toggle petition form
+  if (petitionToggle && petitionForm) {
+    petitionToggle.addEventListener('click', function() {
+      petitionToggle.classList.toggle('active');
+      petitionForm.classList.toggle('expanded');
+      
+      // Change text and toggle visibility of elements
+      if (petitionForm.classList.contains('expanded')) {
+        if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+        if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
+      } else {
+        if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+        if (petitionTextOverlay) petitionTextOverlay.style.display = '';
+      }
+      
+      // If opening this form, close the other one
+      if (petitionForm.classList.contains('expanded') && volunteerForm && volunteerForm.classList.contains('expanded')) {
+        volunteerToggle.classList.remove('active');
+        volunteerForm.classList.remove('expanded');
+        if (volunteerToggleText) volunteerToggleText.textContent = 'Volunteer Now';
+        if (volunteerHeading) volunteerHeading.style.display = '';
+        if (volunteerText) volunteerText.style.display = '';
+      }
+    });
+  }
+  
+  // Toggle volunteer form
+  if (volunteerToggle && volunteerForm) {
+    volunteerToggle.addEventListener('click', function() {
+      volunteerToggle.classList.toggle('active');
+      volunteerForm.classList.toggle('expanded');
+      
+      // Change text and toggle visibility of elements
+      if (volunteerForm.classList.contains('expanded')) {
+        if (volunteerToggleText) volunteerToggleText.textContent = 'Join Our Movement';
+        if (volunteerHeading) volunteerHeading.style.display = 'none';
+        if (volunteerText) volunteerText.style.display = 'none';
+      } else {
+        if (volunteerToggleText) volunteerToggleText.textContent = 'Volunteer Now';
+        if (volunteerHeading) volunteerHeading.style.display = '';
+        if (volunteerText) volunteerText.style.display = '';
+      }
+      
+      // If opening this form, close the other one
+      if (volunteerForm.classList.contains('expanded') && petitionForm && petitionForm.classList.contains('expanded')) {
+        petitionToggle.classList.remove('active');
+        petitionForm.classList.remove('expanded');
+        if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+        if (petitionTextOverlay) petitionTextOverlay.style.display = '';
+      }
+    });
+  }
+}
+
+// Add this new function to help with scroll issues
+function initScrollHelper() {
+  let isScrolling = false;
+  let scrollTimeout;
+  let touchStartY = 0;
+  let touchEndY = 0;
+  const scrollThreshold = 50; // Minimum distance to consider a deliberate scroll
+  const petitionSection = document.getElementById('petition');
+  const volunteerSection = document.getElementById('volunteer');
+  
+  // Temporarily disable snap during active scrolling
+  window.addEventListener('scroll', function() {
+    if (!isScrolling) {
+      document.documentElement.classList.add('disable-snap');
+      isScrolling = true;
+    }
+    
+    clearTimeout(scrollTimeout);
+    
+    // Re-enable snap after scrolling stops with a longer delay
+    scrollTimeout = setTimeout(function() {
+      // Only re-enable snap if we're not in a programmatic animation
+      if (!isAnimating) {
+        document.documentElement.classList.remove('disable-snap');
+        isScrolling = false;
+        
+        // Only snap to sections when user has stopped scrolling and we're not in the middle of a programmatic scroll
+        if (!isAnimating) {
+          // Find the section closest to the top of the viewport
+          const sections = document.querySelectorAll('.section');
+          let closestSection = null;
+          let closestDistance = Infinity;
+          
+          sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            // Calculate distance from the top of the section to the top of the viewport
+            const distance = Math.abs(rect.top);
+            
+            if (distance < closestDistance) {
+              closestDistance = distance;
+              closestSection = section;
+            }
+          });
+          
+          // Only snap if we're not too far from a section (within 10% of viewport height)
+          // This makes the snap less aggressive
+          if (closestSection && closestDistance < window.innerHeight * 0.1) {
+            // Use a gentle scroll to the section
+            isAnimating = true; // Set flag to prevent recursive snapping
+            
+            // Use our custom scroll function instead of scrollIntoView
+            const sectionId = closestSection.id;
+            if (sectionId) {
+              scrollToSection(sectionId);
+            } else {
+              // Fallback to scrollIntoView if no ID
+              closestSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              
+              // Reset the flag after animation completes
+              setTimeout(() => {
+                isAnimating = false;
+              }, 1000);
+            }
+          }
+        }
+      }
+    }, 200); // Longer timeout for less aggressive snapping
+  });
+  
+  // Handle touch events for mobile
+  document.addEventListener('touchstart', function(e) {
+    touchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  
+  document.addEventListener('touchend', function(e) {
+    touchEndY = e.changedTouches[0].clientY;
+    const touchDiff = touchEndY - touchStartY;
+    
+    // If we detect a significant swipe between petition and volunteer sections
+    if (Math.abs(touchDiff) > scrollThreshold && !isAnimating) {
+      // Check if we're near the boundary between petition and volunteer
+      const petitionRect = petitionSection.getBoundingClientRect();
+      const volunteerRect = volunteerSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+      
+      // If petition section is partially visible at bottom and user is swiping up
+      if (petitionRect.bottom > 0 && petitionRect.bottom < viewportHeight && touchDiff < 0) {
+        scrollToSection('volunteer');
+      }
+      
+      // If volunteer section is partially visible at top and user is swiping down
+      if (volunteerRect.top < viewportHeight && volunteerRect.top > 0 && touchDiff > 0) {
+        scrollToSection('petition');
+      }
+    }
+  }, { passive: true });
+  
+  // Add a helper for keyboard navigation
+  document.addEventListener('keydown', function(e) {
+    // If arrow down is pressed while petition is visible
+    if (e.key === 'ArrowDown' && isElementInView(petitionSection)) {
+      scrollToSection('volunteer');
+    }
+    
+    // If arrow up is pressed while volunteer is visible
+    if (e.key === 'ArrowUp' && isElementInView(volunteerSection)) {
+      scrollToSection('petition');
+    }
+  });
+  
+  // Helper function to check if element is in view
+  function isElementInView(element) {
+    const rect = element.getBoundingClientRect();
+    return (
+      rect.top <= window.innerHeight &&
+      rect.bottom >= 0
+    );
+  }
+} 
