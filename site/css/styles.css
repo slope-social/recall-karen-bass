@@ -1773,6 +1773,7 @@ body.menu-open::before {
   max-width: 600px;
   margin: 0 auto;
   border-radius: 8px;
+  background: var(--card-bg);
 }
 
 .form-toggle {
