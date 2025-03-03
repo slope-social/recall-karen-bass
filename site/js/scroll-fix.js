@@ -1,10 +1,10 @@
 /**
  * Enhanced scroll handling for the Recall Karen Bass website
- * This script handles navigation, background changes, and scroll snapping
+ * This script handles navigation, background changes, and aggressive scroll snapping
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Enhanced scroll handling initialized with mandatory snap');
+    console.log('Enhanced scroll handling initialized with aggressive snap');
     
     // Fix for iOS Safari 100vh issue
     function setVhVariable() {
@@ -20,6 +20,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSection = '';
     let isScrolling = false;
     let scrollTimeout;
+    let lastScrollTime = 0;
+    const scrollCooldown = 800; // ms to wait before allowing another snap
     
     // Function to update backgrounds based on current section
     function updateBackgrounds(sectionId) {
@@ -70,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         currentSection = sectionId;
     }
     
-    // Improved scroll to section function
+    // Improved scroll to section function with more aggressive snapping
     function smoothScrollTo(element, updateBackground = true) {
         if (!element) return;
         
@@ -87,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (typeof window.isAnimating !== 'undefined') {
             window.isAnimating = true;
         }
+        
+        // Update last scroll time
+        lastScrollTime = Date.now();
         
         // Scroll to the element with smooth behavior
         window.scrollTo({
@@ -108,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (typeof window.isAnimating !== 'undefined') {
                 window.isAnimating = false;
             }
-        }, 1000);
+        }, 800);
     }
     
     // Handle clicks on navigation buttons
@@ -184,6 +189,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // Call initial background update
     updateInitialBackground();
     
+    // Function to find the nearest section
+    function findNearestSection() {
+        const sections = document.querySelectorAll('.section');
+        let nearestSection = null;
+        let minDistance = Infinity;
+        
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            const distance = Math.abs(rect.top);
+            
+            if (distance < minDistance) {
+                minDistance = distance;
+                nearestSection = section;
+            }
+        });
+        
+        return { section: nearestSection, distance: minDistance };
+    }
+    
+    // More aggressive snap function
+    function snapToNearestSection() {
+        // Don't snap if we're in a cooldown period
+        if (Date.now() - lastScrollTime < scrollCooldown) return;
+        
+        const { section, distance } = findNearestSection();
+        
+        // Only snap if we're close enough to a section
+        if (section && distance < window.innerHeight * 0.3) {
+            // Update last scroll time
+            lastScrollTime = Date.now();
+            
+            // Snap to the section
+            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            
+            // Update backgrounds
+            if (section.id && section.id !== currentSection) {
+                updateBackgrounds(section.id);
+            }
+        }
+    }
+    
     // Monitor scroll position to update backgrounds and handle snapping
     window.addEventListener('scroll', function() {
         // Don't process if we're already handling a programmatic scroll
@@ -223,20 +269,26 @@ document.addEventListener('DOMContentLoaded', function() {
             updateBackgrounds(mostVisibleSection.id);
         }
         
-        // Re-enable snap after scrolling stops
+        // Re-enable snap after scrolling stops and snap to nearest section
         scrollTimeout = setTimeout(function() {
             isScrolling = false;
             document.documentElement.classList.remove('disable-snap');
             document.body.classList.remove('disable-snap');
             
-            // Snap to the most visible section
-            if (mostVisibleSection) {
-                const rect = mostVisibleSection.getBoundingClientRect();
-                // Only snap if we're close to the section (within 20% of viewport height)
-                if (Math.abs(rect.top) < window.innerHeight * 0.2) {
-                    mostVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            }
-        }, 150);
+            // Use more aggressive snapping
+            snapToNearestSection();
+        }, 100); // Shorter timeout for more responsive snapping
+    }, { passive: true });
+    
+    // Add wheel event listener for more responsive snapping
+    window.addEventListener('wheel', function(e) {
+        // Clear any existing timeout
+        clearTimeout(scrollTimeout);
+        
+        // Set a new timeout for when scrolling stops
+        scrollTimeout = setTimeout(function() {
+            // Use more aggressive snapping
+            snapToNearestSection();
+        }, 100);
     }, { passive: true });
 }); 
