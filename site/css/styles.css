@@ -896,7 +896,7 @@ input[type="checkbox"] + label {
   text-align: center;
 }
 
-text-body {
+.text-body {
   font-size: clamp(1rem, 1vmin, 1.25rem);
   line-height: 1.6;
   margin-bottom: 1.5rem;
@@ -2289,5 +2289,36 @@ body.disable-snap,
     scroll-behavior: auto !important;
     overflow-y: auto !important;
     height: auto !important;
+  }
+}
+
+/* Disclaimer box styles */
+.disclaimer-box {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin: 1rem auto;
+  max-width: 400px;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.disclaimer-box p {
+  margin: 0;
+}
+
+.disclaimer-box .disclaimer-line {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .disclaimer-box {
+    max-width: 90%;
+    padding: 0.5rem;
+    font-size: 0.7rem;
   }
 } 
