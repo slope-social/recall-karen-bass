@@ -1,10 +1,10 @@
 /**
- * Balanced scroll handling for the Recall Karen Bass website
- * This script provides smooth navigation while allowing scroll snapping
+ * Enhanced scroll handling for the Recall Karen Bass website
+ * This script handles navigation and background changes without scroll snapping
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Balanced scroll handling initialized');
+    console.log('Enhanced scroll handling initialized');
     
     // Fix for iOS Safari 100vh issue
     function setVhVariable() {
@@ -16,61 +16,75 @@ document.addEventListener('DOMContentLoaded', function() {
     setVhVariable();
     window.addEventListener('resize', setVhVariable);
     
-    // Track if we're currently navigating
-    let isNavigating = false;
+    // Track current section for background changes
+    let currentSection = '';
     
-    // Improved navigation scrolling function
-    function navigateToSection(targetId) {
-        const targetElement = document.getElementById(targetId);
-        if (!targetElement) return;
+    // Function to update backgrounds based on current section
+    function updateBackgrounds(sectionId) {
+        // Reset all background states
+        document.body.classList.remove('petition-in-view');
+        document.body.classList.remove('volunteer-in-view');
         
-        // Set navigating flag
-        isNavigating = true;
+        const slantedBackground = document.querySelector('.slanted-background');
+        const petitionFixedBackground = document.querySelector('.petition-fixed-background');
+        const volunteerFixedBackground = document.querySelector('.volunteer-fixed-background');
         
-        // Temporarily disable scroll snapping during navigation
-        document.documentElement.classList.add('disable-snap');
-        document.body.classList.add('disable-snap');
+        // Reset all backgrounds
+        if (slantedBackground) {
+            slantedBackground.style.opacity = '1';
+            slantedBackground.style.transition = 'opacity 0.7s ease';
+        }
+        
+        if (petitionFixedBackground) {
+            petitionFixedBackground.style.opacity = '0';
+        }
+        
+        if (volunteerFixedBackground) {
+            volunteerFixedBackground.style.opacity = '0';
+        }
+        
+        // Update based on current section
+        if (sectionId === 'petition') {
+            if (slantedBackground) {
+                slantedBackground.style.opacity = '0.2';
+            }
+            if (petitionFixedBackground) {
+                petitionFixedBackground.style.opacity = '1';
+            }
+            document.body.classList.add('petition-in-view');
+        } else if (sectionId === 'volunteer') {
+            if (slantedBackground) {
+                slantedBackground.style.opacity = '0.2';
+            }
+            if (volunteerFixedBackground) {
+                volunteerFixedBackground.style.opacity = '1';
+            }
+            document.body.classList.add('volunteer-in-view');
+        }
+        
+        // Update current section
+        currentSection = sectionId;
+    }
+    
+    // Improved scroll to section function
+    function smoothScrollTo(element, updateBackground = true) {
+        if (!element) return;
         
         // Get the element's position
-        const rect = targetElement.getBoundingClientRect();
+        const rect = element.getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const targetPosition = rect.top + scrollTop;
         
-        // Use requestAnimationFrame for smoother scrolling
-        const startPosition = window.scrollY;
-        const distance = targetPosition - startPosition;
-        const duration = 500; // Shorter duration for quicker navigation
-        let startTime = null;
+        // Scroll to the element with smooth behavior
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
         
-        function easeOutQuad(t) {
-            return t * (2 - t);
+        // Update backgrounds if needed
+        if (updateBackground && element.id) {
+            updateBackgrounds(element.id);
         }
-        
-        function step(timestamp) {
-            if (!startTime) startTime = timestamp;
-            const elapsed = timestamp - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const easeProgress = easeOutQuad(progress);
-            
-            window.scrollTo(0, startPosition + distance * easeProgress);
-            
-            if (progress < 1) {
-                window.requestAnimationFrame(step);
-            } else {
-                // Ensure we're exactly at the target position
-                window.scrollTo(0, targetPosition);
-                
-                // Re-enable scroll snapping after navigation completes
-                setTimeout(() => {
-                    document.documentElement.classList.remove('disable-snap');
-                    document.body.classList.remove('disable-snap');
-                    isNavigating = false;
-                    console.log('Scroll snapping re-enabled');
-                }, 100);
-            }
-        }
-        
-        window.requestAnimationFrame(step);
     }
     
     // Handle clicks on navigation buttons
@@ -79,48 +93,70 @@ document.addEventListener('DOMContentLoaded', function() {
         button.addEventListener('click', function(e) {
             e.preventDefault();
             const targetId = this.getAttribute('data-target');
-            navigateToSection(targetId);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                smoothScrollTo(targetElement);
+            }
         });
     });
     
-    // Override the existing scrollToSection function
-    window.scrollToSection = navigateToSection;
-    
     // Handle hash changes for anchor links
     function handleHashChange() {
-        if (isNavigating) return; // Avoid duplicate navigation
-        
         const hash = window.location.hash;
-        if (hash && hash.length > 1) {
+        if (hash) {
             const targetId = hash.substring(1);
-            navigateToSection(targetId);
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                setTimeout(() => {
+                    smoothScrollTo(targetElement);
+                }, 100);
+            }
         }
     }
     
     // Handle initial hash on page load
     if (window.location.hash) {
-        setTimeout(handleHashChange, 100);
+        handleHashChange();
     }
     
     // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
     
-    // Add a scroll event listener to detect when scrolling stops
-    let scrollTimeout;
+    // Override the existing scrollToSection function
+    window.scrollToSection = function(sectionId) {
+        const section = document.getElementById(sectionId);
+        if (section) {
+            smoothScrollTo(section);
+        }
+    };
+    
+    // Monitor scroll position to update backgrounds
     window.addEventListener('scroll', function() {
-        // Don't interfere if we're navigating programmatically
-        if (isNavigating) return;
+        // Don't process if we're already handling a programmatic scroll
+        if (window.isAnimating) return;
         
-        // Temporarily disable snapping during active scrolling
-        document.documentElement.classList.add('disable-snap');
+        // Find which section is most visible
+        const sections = document.querySelectorAll('.section');
+        let mostVisibleSection = null;
+        let maxVisibility = 0;
         
-        // Clear any existing timeout
-        clearTimeout(scrollTimeout);
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Calculate how much of the section is visible
+            const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+            const visibilityRatio = visibleHeight / rect.height;
+            
+            if (visibilityRatio > maxVisibility) {
+                maxVisibility = visibilityRatio;
+                mostVisibleSection = section;
+            }
+        });
         
-        // Set a new timeout to re-enable snapping when scrolling stops
-        scrollTimeout = setTimeout(function() {
-            // Re-enable snapping
-            document.documentElement.classList.remove('disable-snap');
-        }, 150); // Short delay to allow for momentum scrolling to finish
+        // Update backgrounds if we have a new most visible section
+        if (mostVisibleSection && mostVisibleSection.id !== currentSection) {
+            updateBackgrounds(mostVisibleSection.id);
+        }
     }, { passive: true });
 }); 

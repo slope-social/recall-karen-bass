@@ -1538,74 +1538,72 @@ textarea.form-input {
   }
 }
 
-/* Enable gentle scroll snapping */
-html:not(.disable-snap), 
-body:not(.disable-snap) {
-  scroll-snap-type: y proximity;
-  scroll-behavior: smooth;
-  overflow-y: auto;
-  height: 100%;
-  overscroll-behavior: auto;
-  overflow-x: hidden;
+/* Allow smooth scrolling but disable snap */
+html, body {
+  scroll-snap-type: none !important;
+  scroll-behavior: smooth !important;
+  overflow-y: auto !important;
+  height: auto !important;
+  overscroll-behavior: auto !important;
+  overflow-x: hidden !important;
 }
 
 .section {
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
   min-height: 100vh;
   opacity: 1 !important;
   transform: none !important;
-  transition: none !important;
 }
 
-/* Disable snap during navigation */
+/* Remove all scroll-related classes */
 html.disable-snap,
 html.disable-snap body,
-body.disable-snap {
+body.disable-snap,
+html.enable-snap,
+html.enable-snap body,
+html.mobile-scroll,
+html.mobile-scroll body,
+.disable-snap .section,
+.enable-snap .section,
+.mobile-scroll .section {
   scroll-snap-type: none !important;
-  scroll-behavior: auto !important;
+  scroll-behavior: smooth !important;
   overflow-y: auto !important;
   height: auto !important;
   overscroll-behavior: auto !important;
 }
 
-html.disable-snap .section {
-  scroll-snap-align: none !important;
-  scroll-snap-stop: normal !important;
-}
-
-/* Mobile-specific adjustments */
+/* Ensure mobile devices have proper scrolling */
 @media (max-width: 768px) {
-  html:not(.disable-snap), 
-  body:not(.disable-snap) {
-    scroll-snap-type: y proximity;
-    scroll-behavior: smooth;
-    overflow-y: auto;
-    height: 100%;
-    overscroll-behavior: auto;
+  html, body {
+    scroll-snap-type: none !important;
+    scroll-behavior: smooth !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    overscroll-behavior: auto !important;
   }
   
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
     min-height: 100vh;
   }
 }
 
-/* Override for larger screens */
+/* Override any min-width media queries that might re-enable scroll snapping */
 @media (min-width: 769px) {
-  html:not(.disable-snap), 
-  body:not(.disable-snap) {
-    scroll-snap-type: y proximity;
-    scroll-behavior: smooth;
-    overflow-y: auto;
-    height: 100%;
-    overscroll-behavior: auto;
+  html, body {
+    scroll-snap-type: none !important;
+    scroll-behavior: smooth !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    overscroll-behavior: auto !important;
   }
   
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
   }
 }
 
