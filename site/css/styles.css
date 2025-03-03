@@ -17,12 +17,15 @@
 }
 
 html {
+  font-family: 'Montserrat', sans-serif;
   font-size: 16px;
   line-height: 1.5;
+  color: white;
+  background-color: #000;
+  margin: 0;
+  padding: 0;
   scroll-behavior: smooth;
-  height: 100%;
-  overflow-y: auto;
-  scroll-snap-type: y proximity;
+  scroll-snap-type: none;
   overscroll-behavior-y: contain;
 }
 
@@ -2045,7 +2048,7 @@ body.menu-open::before {
 @media (max-width: 768px) {
   /* Adjust scroll behavior for mobile */
   html, body {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none;
   }
   
   .section {
@@ -2169,13 +2172,14 @@ body.disable-snap,
 /* Improve scroll behavior on desktop */
 @media (min-width: 769px) {
   html {
+    font-size: 18px;
     scroll-behavior: smooth;
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none;
     overscroll-behavior-y: contain;
   }
   
   body {
-    scroll-snap-type: y proximity;
+    scroll-snap-type: none;
   }
   
   .section {

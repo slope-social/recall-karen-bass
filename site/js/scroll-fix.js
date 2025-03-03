@@ -67,10 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.classList.add('disable-snap');
         lastScrollTime = Date.now();
         
+        // Increase timeout to 1500ms to give more time for scrolling to complete
         setTimeout(() => {
             isScrolling = false;
             document.documentElement.classList.remove('disable-snap');
-        }, 1000);
+        }, 1500);
     }
     
     // Handle initial hash on page load
@@ -81,12 +82,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
     
-    // Add a scroll event listener to prevent scroll-fighting on desktop
+    // Add a scroll event listener with less aggressive snapping on desktop
     if (!isMobile) {
-        // Use a debounced scroll handler to reduce scroll-fighting
+        // Use a debounced scroll handler with longer delay
         const debouncedScrollHandler = debounce(() => {
             // Only handle scroll if we're not already in a programmatic scroll
-            if (isScrolling || Date.now() - lastScrollTime < 500) return;
+            if (isScrolling || Date.now() - lastScrollTime < 800) return;
             
             // Find the section closest to the viewport center
             const sections = document.querySelectorAll('.section');
@@ -103,8 +104,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Only snap if we're close enough to a section (within 20% of viewport height)
-            if (closestSection && closestDistance < window.innerHeight * 0.2) {
+            // Only snap if we're VERY close to a section (within 10% of viewport height)
+            // This makes snapping much less aggressive
+            if (closestSection && closestDistance < window.innerHeight * 0.1) {
                 disableScrollHandlingTemporarily();
                 
                 // Use the existing scrollToSection function if available
@@ -114,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     closestSection.scrollIntoView({ behavior: 'smooth' });
                 }
             }
-        }, 200); // 200ms debounce
+        }, 300); // Increased debounce to 300ms for less aggressive snapping
         
         window.addEventListener('scroll', debouncedScrollHandler, { passive: true });
     }
@@ -160,7 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return maxIndex;
         }
         
-        // Enhanced touch handling for mobile
+        // Enhanced touch handling for mobile - reduce swipe threshold for easier scrolling
         document.addEventListener('touchstart', (e) => {
             touchStartY = e.touches[0].clientY;
             touchStartX = e.touches[0].clientX;
@@ -176,8 +178,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const swipeDistanceY = touchStartY - touchEndY;
             const swipeDistanceX = touchStartX - touchEndX;
             
-            // Only handle vertical swipes (ignore horizontal swipes)
-            if (Math.abs(swipeDistanceY) < 50 || Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY)) {
+            // Reduce the threshold for vertical swipes to 30px (was 50px)
+            // This makes it easier to trigger swipe navigation
+            if (Math.abs(swipeDistanceY) < 30 || Math.abs(swipeDistanceX) > Math.abs(swipeDistanceY)) {
                 return;
             }
             
@@ -251,6 +254,37 @@ document.addEventListener('DOMContentLoaded', function() {
             
             lastTapTime = currentTime;
         }, { passive: false });
+        
+        // Add keyboard navigation for accessibility
+        document.addEventListener('keydown', (e) => {
+            if (isScrolling) return;
+            
+            const currentIndex = getCurrentSectionIndex();
+            if (currentIndex === -1) return;
+            
+            let targetIndex = currentIndex;
+            
+            // Arrow keys, Page Up/Down for navigation
+            if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+                targetIndex = Math.min(currentIndex + 1, sections.length - 1);
+            } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+                targetIndex = Math.max(currentIndex - 1, 0);
+            } else {
+                return; // Not a navigation key
+            }
+            
+            if (targetIndex !== currentIndex) {
+                disableScrollHandlingTemporarily();
+                
+                if (typeof window.scrollToSection === 'function') {
+                    window.scrollToSection(sectionIds[targetIndex]);
+                } else {
+                    sections[targetIndex].scrollIntoView({ behavior: 'smooth' });
+                }
+                
+                e.preventDefault();
+            }
+        });
     }
     
     // Make scrollToSection available globally for other scripts
@@ -269,7 +303,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Re-enable scroll snapping after animation completes
             setTimeout(() => {
                 document.documentElement.classList.remove('disable-snap');
-            }, 1000);
+            }, 1500); // Increased from 1000ms to 1500ms
         };
     }
 }); 
