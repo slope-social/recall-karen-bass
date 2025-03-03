@@ -566,25 +566,43 @@ function handlePetitionSubmit(e) {
   // App Script URL for petition form
   const appScriptUrl = appScriptUrls.petition;
   
-  // Submit to App Script
-  submitToAppScript(
-    data,
-    appScriptUrl,
-    'Thank you for signing the petition.',
-    'There was a problem submitting your petition. Please try again.',
-    submitButton,
-    'Sign the Petition'
-  )
-    .then(() => {
+  // Custom submission handler for petition form
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data),
+    mode: 'no-cors' // Use no-cors mode for Google Apps Script
+  };
+  
+  console.log('Submitting to:', appScriptUrl);
+  console.log('Form data:', data);
+  
+  // Send the request to the App Script endpoint
+  fetch(appScriptUrl, options)
+    .then(response => {
+      console.log('Response status:', response.status);
+      
+      // Reset the submit button
+      submitButton.disabled = false;
+      submitButton.textContent = 'Sign the Petition';
+      
       // Reset form on success
       form.reset();
-      console.log('Petition form data:', data);
       
       // Show the thank you modal
       showThankYouPetitionModal();
     })
     .catch(error => {
       console.error('Error submitting petition:', error);
+      
+      // Reset the submit button
+      submitButton.disabled = false;
+      submitButton.textContent = 'Sign the Petition';
+      
+      // Show error message
+      showToast('Error', 'There was a problem submitting your petition. Please try again.', 'error');
     });
 }
 
