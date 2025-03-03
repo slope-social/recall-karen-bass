@@ -104,6 +104,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Re-enable snap after scrolling completes
         setTimeout(() => {
             document.documentElement.classList.remove('disable-snap');
+            document.documentElement.classList.add('enable-snap');
             document.body.classList.add('enable-snap');
             
             // Reset the global isAnimating flag if it exists
@@ -113,9 +114,10 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // After a short delay, remove the enable-snap class
             setTimeout(() => {
+                document.documentElement.classList.remove('enable-snap');
                 document.body.classList.remove('enable-snap');
-            }, 500);
-        }, 800); // Reduced from 1000ms for more responsiveness
+            }, 400); // Reduced from 500ms for faster response
+        }, 600); // Reduced from 800ms for faster response
     }
     
     // Handle clicks on navigation buttons
@@ -199,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Calculate scroll momentum (how fast user is scrolling)
         const currentScrollY = window.scrollY;
         const scrollDelta = Math.abs(currentScrollY - lastScrollY);
-        scrollMomentum = scrollMomentum * 0.8 + scrollDelta * 0.2; // Weighted average
+        scrollMomentum = scrollMomentum * 0.7 + scrollDelta * 0.3; // Adjusted weights for more responsive momentum
         lastScrollY = currentScrollY;
         
         // Temporarily disable snap during active scrolling
@@ -241,15 +243,16 @@ document.addEventListener('DOMContentLoaded', function() {
             isScrolling = false;
             
             // Only enable snap if momentum is low (user has almost stopped scrolling)
-            if (scrollMomentum < 3) { // Lower threshold for more responsive snapping
+            if (scrollMomentum < 2) { // Lower threshold for more responsive snapping (was 3)
                 document.documentElement.classList.remove('disable-snap');
                 document.documentElement.classList.add('enable-snap');
+                document.body.classList.add('enable-snap');
                 
                 // Snap to the most visible section
                 if (mostVisibleSection) {
                     const rect = mostVisibleSection.getBoundingClientRect();
-                    // More responsive threshold - snap if within 25% of viewport height
-                    if (Math.abs(rect.top) < window.innerHeight * 0.25) {
+                    // More responsive threshold - snap if within 30% of viewport height (was 25%)
+                    if (Math.abs(rect.top) < window.innerHeight * 0.3) {
                         mostVisibleSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                 }
@@ -257,13 +260,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Remove enable-snap class after snapping completes
                 setTimeout(() => {
                     document.documentElement.classList.remove('enable-snap');
-                }, 500);
+                    document.body.classList.remove('enable-snap');
+                }, 400); // Reduced from 500ms for faster response
             } else {
                 // If momentum is still high, check again shortly
                 scrollTimeout = setTimeout(() => {
-                    if (scrollMomentum < 3) {
+                    if (scrollMomentum < 2) { // Lower threshold (was 3)
                         document.documentElement.classList.remove('disable-snap');
                         document.documentElement.classList.add('enable-snap');
+                        document.body.classList.add('enable-snap');
                         
                         // Snap to the most visible section
                         if (mostVisibleSection) {
@@ -273,10 +278,11 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Remove enable-snap class after snapping completes
                         setTimeout(() => {
                             document.documentElement.classList.remove('enable-snap');
-                        }, 500);
+                            document.body.classList.remove('enable-snap');
+                        }, 400); // Reduced from 500ms for faster response
                     }
-                }, 100);
+                }, 80); // Reduced from 100ms for faster response
             }
-        }, 120); // Reduced from 150ms for more responsiveness
+        }, 90); // Reduced from 120ms for faster response
     }, { passive: true });
 }); 
