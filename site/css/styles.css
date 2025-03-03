@@ -39,6 +39,24 @@ body {
   position: relative;
 }
 
+/* Disable scroll snapping on mobile devices */
+@media (max-width: 768px) {
+  html {
+    scroll-snap-type: none;
+    overscroll-behavior-y: auto;
+  }
+  
+  body {
+    scroll-snap-type: none;
+    touch-action: auto;
+  }
+  
+  .section {
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+  }
+}
+
 /* Slanted Background */
 .slanted-background {
   position: fixed;
