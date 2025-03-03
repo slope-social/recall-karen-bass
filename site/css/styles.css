@@ -25,20 +25,24 @@ html {
   margin: 0;
   padding: 0;
   scroll-behavior: smooth;
-  scroll-snap-type: none;
-  overscroll-behavior-y: contain;
+  /* Completely disable scroll snapping */
+  scroll-snap-type: none !important;
+  overscroll-behavior: auto !important;
+  height: auto !important;
+  overflow-y: auto !important;
 }
 
 body {
-  font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
-  color: var(--text);
   background-color: #000;
-  min-height: 100vh;
+  color: white;
+  font-family: 'Montserrat', sans-serif;
   overflow-x: hidden;
-  scroll-snap-type: none;
-  position: relative;
+  /* Completely disable scroll snapping */
+  scroll-snap-type: none !important;
+  overflow-y: auto !important;
+  height: auto !important;
 }
 
 /* Slanted Background */
@@ -506,21 +510,18 @@ main {
 
 /* Section styles */
 .section {
-  min-height: 100vh;
-  min-height: calc(var(--vh, 1vh) * 100);
+  position: relative;
   width: 100%;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  position: relative;
-  z-index: 10;
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
-  padding: 2rem 1rem;
-  opacity: 0.8;
-  transform: translateY(20px);
-  transition: opacity 0.7s ease, transform 0.7s ease;
+  padding: 2rem 0;
+  box-sizing: border-box;
+  /* Completely disable scroll snapping */
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
 }
 
 .section.in-view {
@@ -2048,12 +2049,17 @@ body.menu-open::before {
 @media (max-width: 768px) {
   /* Adjust scroll behavior for mobile */
   html, body {
-    scroll-snap-type: none;
+    /* Completely disable scroll snapping */
+    scroll-snap-type: none !important;
+    overflow-y: auto !important;
+    height: auto !important;
   }
   
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
+    /* Completely disable scroll snapping */
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
+    min-height: 100vh;
   }
 }
 
@@ -2062,11 +2068,13 @@ html.mobile-scroll,
 html.mobile-scroll body {
   scroll-snap-type: none !important;
   scroll-behavior: smooth;
+  overflow-y: auto !important;
+  height: auto !important;
 }
 
 html.mobile-scroll .section {
-  scroll-snap-align: none;
-  scroll-snap-stop: normal;
+  scroll-snap-align: none !important;
+  scroll-snap-stop: normal !important;
 }
 
 /* Double-tap helper indicator */
@@ -2174,17 +2182,24 @@ body.disable-snap,
   html {
     font-size: 18px;
     scroll-behavior: smooth;
-    scroll-snap-type: none;
-    overscroll-behavior-y: contain;
+    /* Completely disable scroll snapping */
+    scroll-snap-type: none !important;
+    overscroll-behavior: auto !important;
+    height: auto !important;
+    overflow-y: auto !important;
   }
   
   body {
-    scroll-snap-type: none;
+    /* Completely disable scroll snapping */
+    scroll-snap-type: none !important;
+    overflow-y: auto !important;
+    height: auto !important;
   }
   
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: normal;
+    /* Completely disable scroll snapping */
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
   }
   
   /* Disable scroll snap during programmatic scrolling */
@@ -2194,5 +2209,7 @@ body.disable-snap,
   .disable-snap .section {
     scroll-snap-type: none !important;
     scroll-behavior: auto !important;
+    overflow-y: auto !important;
+    height: auto !important;
   }
 } 
