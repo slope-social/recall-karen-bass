@@ -18,16 +18,33 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Build files
 dist
 server/public
+vite.config.ts
 vite.config.ts.*
 *.tar.gz
 
 # Data directory (contains form submissions)
 data/
+data
 
 # Logs
 logs
 yarn-error.log
 yarn-debug.log
 .pnpm-debug.log
+
+# Unnecessary files
+vite.config.ts
+tsconfig.json
+theme.json
+generated-icon.png
+drizzle.config.ts
+.replit
+attached_assets/
+attached_assets
+
+# Google App Script files
+*_form_script.js
+*_script.js
