@@ -16,6 +16,22 @@ document.addEventListener('DOMContentLoaded', function() {
     setVhVariable();
     window.addEventListener('resize', setVhVariable);
     
+    // Simple smooth scroll function for navigation links
+    function smoothScrollTo(element) {
+        if (!element) return;
+        
+        // Get the element's position
+        const rect = element.getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const targetPosition = rect.top + scrollTop;
+        
+        // Scroll to the element with smooth behavior
+        window.scrollTo({
+            top: targetPosition,
+            behavior: 'smooth'
+        });
+    }
+    
     // Handle clicks on navigation buttons
     const navButtons = document.querySelectorAll('[data-target]');
     navButtons.forEach(button => {
@@ -24,32 +40,37 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetId = this.getAttribute('data-target');
             const targetElement = document.getElementById(targetId);
             if (targetElement) {
-                // Simple scroll to element
-                const rect = targetElement.getBoundingClientRect();
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const targetPosition = rect.top + scrollTop;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'auto'
-                });
+                smoothScrollTo(targetElement);
             }
         });
     });
+    
+    // Handle hash changes for anchor links
+    function handleHashChange() {
+        const hash = window.location.hash;
+        if (hash) {
+            const targetElement = document.querySelector(hash);
+            if (targetElement) {
+                setTimeout(() => {
+                    smoothScrollTo(targetElement);
+                }, 100);
+            }
+        }
+    }
+    
+    // Handle initial hash on page load
+    if (window.location.hash) {
+        handleHashChange();
+    }
+    
+    // Listen for hash changes
+    window.addEventListener('hashchange', handleHashChange);
     
     // Override the existing scrollToSection function
     window.scrollToSection = function(sectionId) {
         const section = document.getElementById(sectionId);
         if (section) {
-            // Simple scroll to element
-            const rect = section.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const targetPosition = rect.top + scrollTop;
-            
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'auto'
-            });
+            smoothScrollTo(section);
         }
     };
 }); 
