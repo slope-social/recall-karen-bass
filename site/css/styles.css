@@ -1080,12 +1080,14 @@ input[type="checkbox"] + label {
 
 /* Card styles */
 .card {
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: transparent;
   border-radius: 8px;
-  padding: 2rem;
+  padding: 0;
   width: 100%;
   max-width: 800px;
   margin: 0 auto;
+  box-shadow: none;
+  border: none;
 }
 
 .form-content {
@@ -1104,6 +1106,25 @@ input[type="checkbox"] + label {
   width: 100%;
   max-width: 800px;
   background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+#contact .card {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+  width: 100%;
+  max-width: 800px;
+  margin: 0;
+  box-shadow: none;
+  border: none;
+}
+
+#contact .form-content {
+  width: 100%;
+  padding: 0;
+  background: transparent;
 }
 
 /* Ensure consistent form widths across all sections */
@@ -2049,27 +2070,64 @@ body.disable-snap,
 /* Additional mobile form styling fixes */
 @media (max-width: 768px) {
   #contact .section-content {
+    width: 90%;
+    max-width: 800px;
     background: rgba(0, 0, 0, 0.7);
     padding: 1.5rem;
     border-radius: 8px;
-    width: 90%;
-    max-width: 800px;
+    margin: 0 auto;
   }
   
-  .form-content {
-    padding: 0;
-    background: transparent;
-  }
-  
-  .card {
+  #contact .card {
     background-color: transparent;
     padding: 0;
     box-shadow: none;
     border: none;
+    margin: 0;
+    width: 100%;
+  }
+  
+  #contact .form-content {
+    padding: 0;
+    background: transparent;
+    width: 100%;
+  }
+  
+  #contact-form {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  
+  #contact-form .form-row {
+    flex-direction: column;
+    margin-bottom: 0;
   }
   
   #contact-form .form-field {
     margin-bottom: 1rem;
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  
+  #contact-form .form-input {
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  #contact-form .form-submit {
+    width: 100%;
+    margin-top: 1rem;
+  }
+  
+  #contact-form .form-label {
+    color: white;
+    margin-bottom: 0.5rem;
+  }
+  
+  #contact-form textarea.form-input {
+    min-height: 120px;
   }
 }
 
