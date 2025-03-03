@@ -1117,7 +1117,6 @@ input[type="checkbox"] + label {
 #contact .form-fields {
   width: 100%;
   max-width: 800px;
-  background: rgba(0, 0, 0, 0.7);
   padding: 2rem;
   border-radius: 8px;
 }
