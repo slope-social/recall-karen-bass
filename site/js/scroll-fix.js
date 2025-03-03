@@ -1,10 +1,10 @@
 /**
- * Minimal scroll handling for the Recall Karen Bass website
- * This script only handles basic navigation without any scroll snapping
+ * Enhanced scroll handling for the Recall Karen Bass website
+ * This script handles both scroll snapping and smooth navigation
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Minimal scroll handling initialized');
+    console.log('Enhanced scroll handling initialized');
     
     // Fix for iOS Safari 100vh issue
     function setVhVariable() {
@@ -16,10 +16,16 @@ document.addEventListener('DOMContentLoaded', function() {
     setVhVariable();
     window.addEventListener('resize', setVhVariable);
     
+    // Flag to track if we're currently navigating
+    let isNavigating = false;
+    
     // Improved navigation scrolling function
     function navigateToSection(targetId) {
         const targetElement = document.getElementById(targetId);
         if (!targetElement) return;
+        
+        // Set navigating flag
+        isNavigating = true;
         
         // Temporarily disable scroll snapping during navigation
         document.documentElement.classList.add('disable-snap');
@@ -33,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Use requestAnimationFrame for smoother scrolling
         const startPosition = window.scrollY;
         const distance = targetPosition - startPosition;
-        const duration = 500; // Shorter duration for quicker navigation
+        const duration = 600; // Slightly longer duration for smoother navigation
         let startTime = null;
         
         function easeOutQuad(t) {
@@ -58,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     document.documentElement.classList.remove('disable-snap');
                     document.body.classList.remove('disable-snap');
+                    isNavigating = false;
                 }, 100);
             }
         }
@@ -80,6 +87,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Handle hash changes for anchor links
     function handleHashChange() {
+        if (isNavigating) return; // Skip if already navigating
+        
         const hash = window.location.hash;
         if (hash && hash.length > 1) {
             const targetId = hash.substring(1);
@@ -94,4 +103,22 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Listen for hash changes
     window.addEventListener('hashchange', handleHashChange);
+    
+    // Add a scroll event listener to help with scroll snapping
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+        // Skip if we're currently navigating
+        if (isNavigating) return;
+        
+        // Temporarily disable snap during active scrolling
+        document.documentElement.classList.add('disable-snap');
+        
+        // Clear any existing timeout
+        clearTimeout(scrollTimeout);
+        
+        // Re-enable snap after scrolling stops
+        scrollTimeout = setTimeout(function() {
+            document.documentElement.classList.remove('disable-snap');
+        }, 100);
+    }, { passive: true });
 }); 
