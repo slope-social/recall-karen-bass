@@ -921,6 +921,8 @@ text-body {
   overflow: hidden;
   transition: all 0.2s ease;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(.3vmin);
+  -webkit-backdrop-filter: blur(.3vmin);
 }
 
 .accordion-trigger {
