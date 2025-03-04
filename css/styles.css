@@ -766,6 +766,9 @@ body.volunteer-in-view .volunteer-fixed-background {
   overflow: visible; /* Ensure content is not cut off */
   backdrop-filter: blur(.3vmin);
   -webkit-backdrop-filter: blur(.3vmin);
+  /* Improve touch interaction */
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Consistent form spacing for all forms */
@@ -824,12 +827,19 @@ input[type="checkbox"] + label {
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  /* Improve touch interaction */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
 }
 
+/* Fix for Android form field focus */
 .form-input:focus {
-  border-color: rgba(255, 255, 255, 0.3);
   outline: none;
+  border-color: var(--primary);
   background: rgba(255, 255, 255, 0.12);
+  /* Ensure the element stays in view */
+  position: relative;
+  z-index: 5;
 }
 
 .form-message {
@@ -2093,6 +2103,33 @@ body.menu-open::before {
     width: 100%;
     max-width: 100%;
   }
+  
+  /* Increase touch target size for better mobile interaction */
+  .form-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    padding: 0.75rem;
+  }
+  
+  /* Prevent scroll issues when focusing on inputs */
+  .form-field {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Disable scroll snap when interacting with forms */
+  .disable-snap {
+    scroll-snap-type: none !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    overscroll-behavior: auto !important;
+  }
+  
+  /* Ensure form containers don't interfere with input interaction */
+  .form-container {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 /* Add buffer zones between petition and volunteer sections */
@@ -2433,4 +2470,10 @@ body.disable-snap,
     width: 100%;
     max-width: 100%;
   }
-} 
+}
+
+@media (max-width: 582px) {
+  .text-body br {
+    display: none;
+  }
+}

@@ -23,6 +23,41 @@ document.addEventListener('DOMContentLoaded', function() {
     let lastScrollTime = 0;
     const scrollCooldown = 400; // ms to wait before allowing another snap (reduced from 500ms)
     
+    // Flag to track if user is interacting with a form
+    let isInteractingWithForm = false;
+    
+    // Add event listeners to detect form interaction
+    const formInputs = document.querySelectorAll('input, textarea, select');
+    formInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            isInteractingWithForm = true;
+            // Disable snap during form interaction
+            document.documentElement.classList.add('disable-snap');
+            document.body.classList.add('disable-snap');
+        });
+        
+        input.addEventListener('blur', function() {
+            isInteractingWithForm = false;
+            // Re-enable snap after form interaction ends
+            setTimeout(() => {
+                document.documentElement.classList.remove('disable-snap');
+                document.body.classList.remove('disable-snap');
+            }, 500);
+        });
+        
+        // Prevent scroll events from bubbling when interacting with forms on touch devices
+        input.addEventListener('touchstart', function(e) {
+            isInteractingWithForm = true;
+        }, { passive: false });
+        
+        input.addEventListener('touchend', function(e) {
+            // Keep the flag true for a short period to prevent immediate snap
+            setTimeout(() => {
+                isInteractingWithForm = false;
+            }, 1000);
+        }, { passive: false });
+    });
+    
     // Function to update backgrounds based on current section
     function updateBackgrounds(sectionId) {
         // Reset all background states
@@ -245,6 +280,9 @@ document.addEventListener('DOMContentLoaded', function() {
     window.addEventListener('scroll', function() {
         // Don't process if we're already handling a programmatic scroll
         if (typeof window.isAnimating !== 'undefined' && window.isAnimating) return;
+        
+        // Don't snap if user is interacting with a form
+        if (isInteractingWithForm) return;
         
         // Temporarily disable snap during active scrolling
         if (!isScrolling) {
