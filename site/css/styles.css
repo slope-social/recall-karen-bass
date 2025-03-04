@@ -613,7 +613,7 @@ main {
   opacity: 1;
   transition: opacity 0.7s ease;
   display: block;
-  /* margin: 0 auto 2vmin auto; */
+  margin: 0 auto 2vmin auto;
 }
 
 /* When petition section is in view, show the background */
@@ -1420,16 +1420,25 @@ textarea.form-input {
 #cookiePolicyModal .modal {
   border-left: 5px solid #d22;
   background-color: #1a1a1a;
+  max-width: 90%;
+  width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 #cookiePolicyModal .modal-title {
   color: #ffffff;
   background-color: #1a1a1a;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 1.5rem 0.75rem;
+  font-size: 1.5rem;
 }
 
 #cookiePolicyModal .modal-content {
   color: #f0f0f0;
+  padding: 1rem 1.5rem 1.5rem;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 #cookiePolicyModal .modal-content h2 {
@@ -1437,11 +1446,13 @@ textarea.form-input {
   font-size: 1.25rem;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
+  line-height: 1.3;
 }
 
 #cookiePolicyModal .modal-content p {
   margin-bottom: 1rem;
   line-height: 1.5;
+  font-size: 0.95rem;
 }
 
 #cookiePolicyModal .modal-content ul {
@@ -1451,17 +1462,42 @@ textarea.form-input {
 
 #cookiePolicyModal .modal-content li {
   margin-bottom: 0.5rem;
+  line-height: 1.4;
+  font-size: 0.95rem;
 }
 
 #cookiePolicyModal .modal-content strong {
   color: #ffffff;
+  font-weight: 600;
 }
 
 /* Ensure the modal scrolls properly on mobile */
 @media (max-width: 768px) {
   #cookiePolicyModal .modal {
-    max-height: 80vh;
-    overflow-y: auto;
+    max-height: 75vh;
+    width: 95%;
+    margin: 0 auto;
+  }
+  
+  #cookiePolicyModal .modal-title {
+    font-size: 1.3rem;
+    padding: 1.25rem 1.25rem 0.5rem;
+  }
+  
+  #cookiePolicyModal .modal-content {
+    padding: 0.75rem 1.25rem 1.25rem;
+  }
+  
+  #cookiePolicyModal .modal-content h2 {
+    font-size: 1.1rem;
+    margin-top: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  #cookiePolicyModal .modal-content p,
+  #cookiePolicyModal .modal-content li {
+    font-size: 0.9rem;
+    line-height: 1.4;
   }
   
   .cookie-banner {
@@ -2143,7 +2179,6 @@ body.disable-snap,
     min-height: auto;
     position: absolute;
     z-index: 20;
-    bottom: 0;
   }
   
   /* Disable scroll snap during programmatic scrolling */
