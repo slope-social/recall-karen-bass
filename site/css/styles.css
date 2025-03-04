@@ -263,9 +263,10 @@ nav {
 }
 
 .donate-icon {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.8rem;
+  height: 1.8rem;
   fill: currentColor;
+  filter: drop-shadow(0 0 1px rgba(255, 255, 255, 0.5));
 }
 
 .nav-mobile-menu {
@@ -409,8 +410,10 @@ nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative;
-    top: 0.1rem;
+    position: absolute;
+    right: calc(2.5vmin + 2.5rem);
+    top: 50%;
+    transform: translateY(-50%);
   }
 
   .nav-mobile-menu {
@@ -2049,6 +2052,17 @@ body.menu-open::before {
   .form-container {
     margin-bottom: 2rem;
   }
+  
+  /* Fix donate section width on mobile */
+  #donate .section-content {
+    max-width: 90%;
+    padding: 1.25rem;
+  }
+  
+  .donate-button {
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 /* Add buffer zones between petition and volunteer sections */
@@ -2157,7 +2171,7 @@ body.disable-snap,
   #contact .section-content {
     width: 90%;
     max-width: 800px;
-    padding: 1.5rem;
+    padding: 1.25rem;
     border-radius: 8px;
     margin: 0 auto;
   }
@@ -2324,5 +2338,55 @@ body.disable-snap,
     width: 95%;
     bottom: 10px;
     font-size: 0.8rem;
+  }
+}
+
+#donate .section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  width: 100%;
+  margin: 1.5rem auto;
+  background: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  border: 1px solid var(--border);
+  position: relative;
+  z-index: 3;
+  overflow-x: hidden;
+  backdrop-filter: blur(.3vmin);
+  -webkit-backdrop-filter: blur(.3vmin);
+}
+
+#donate .heading-2 {
+  margin-bottom: 2rem;
+  font-size: clamp(1.75rem, 4vmin, 3rem);
+  color: white;
+}
+
+#donate .text-body {
+  margin-bottom: 2rem;
+  font-size: clamp(1rem, 2vmin, 1.25rem);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.donate-button {
+  display: inline-block;
+  text-align: center;
+  text-decoration: none;
+}
+
+@media (max-width: 768px) {
+  #donate .section-content {
+    max-width: 90%;
+    padding: 1.25rem;
+  }
+  
+  .donate-button {
+    width: 100%;
+    max-width: 100%;
   }
 } 
