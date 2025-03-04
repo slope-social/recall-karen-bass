@@ -1494,6 +1494,12 @@ textarea.form-input {
     margin-bottom: 0.5rem;
   }
   
+  #cookiePolicyModal .modal-content p,
+  #cookiePolicyModal .modal-content li {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
   .cookie-banner {
     padding: 15px;
   }
