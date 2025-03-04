@@ -1567,8 +1567,11 @@ body.volunteer-in-view .volunteer-fixed-background {
   }
   
   .site-footer {
-    scroll-snap-align: start;
+    scroll-snap-align: none; /* Remove snap alignment from footer */
     min-height: auto;
+    position: relative;
+    z-index: 20;
+    padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
   }
 }
 
@@ -1588,8 +1591,11 @@ body.volunteer-in-view .volunteer-fixed-background {
   }
   
   .site-footer {
-    scroll-snap-align: start;
+    scroll-snap-align: none; /* Remove snap alignment from footer */
     min-height: auto;
+    position: relative;
+    z-index: 20;
+    padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
   }
   
   /* Disable scroll snap during programmatic scrolling */
@@ -1960,8 +1966,11 @@ body.disable-snap,
   }
   
   .site-footer {
-    scroll-snap-align: start;
+    scroll-snap-align: none; /* Remove snap alignment from footer */
     min-height: auto;
+    position: relative;
+    z-index: 20;
+    padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
   }
   
   /* Disable scroll snap during programmatic scrolling */

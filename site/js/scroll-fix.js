@@ -229,6 +229,14 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const { section, distance } = findNearestSection();
         
+        // Check if user is trying to view the footer
+        const footer = document.querySelector('.site-footer');
+        const footerRect = footer ? footer.getBoundingClientRect() : null;
+        const isNearFooter = footerRect && footerRect.top < window.innerHeight * 0.5;
+        
+        // Don't snap if user is trying to view the footer
+        if (isNearFooter) return;
+        
         // Only snap if we're close enough to a section - increased threshold for more aggressive snapping
         if (section && distance < window.innerHeight * 0.45) {
             // Update last scroll time
