@@ -1427,9 +1427,10 @@ textarea.form-input {
   padding: 15px 20px;
   text-align: center;
   position: relative;
-  bottom: 0;
   width: 100%;
   z-index: 20;
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
 }
 
 .footer-content {
@@ -1495,7 +1496,7 @@ textarea.form-input {
 }
 
 .site-footer {
-  scroll-snap-align: start;
+  scroll-snap-align: none;
   min-height: auto;
   padding-bottom: 2rem;
 }
@@ -1572,6 +1573,7 @@ body.volunteer-in-view .volunteer-fixed-background {
     position: relative;
     z-index: 20;
     padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
+    margin-top: 3rem;
   }
 }
 
@@ -1596,6 +1598,7 @@ body.volunteer-in-view .volunteer-fixed-background {
     position: relative;
     z-index: 20;
     padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
+    margin-top: 3rem;
   }
   
   /* Disable scroll snap during programmatic scrolling */
@@ -1971,6 +1974,7 @@ body.disable-snap,
     position: relative;
     z-index: 20;
     padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
+    margin-top: 3rem;
   }
   
   /* Disable scroll snap during programmatic scrolling */

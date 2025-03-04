@@ -192,7 +192,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to find the nearest section
     function findNearestSection() {
         const sections = document.querySelectorAll('.section');
-        const footer = document.querySelector('.site-footer');
         let nearestSection = null;
         let minDistance = Infinity;
         
@@ -207,18 +206,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Also check the footer
-        if (footer) {
-            const footerRect = footer.getBoundingClientRect();
-            const footerDistance = Math.abs(footerRect.top);
-            
-            // If footer is closer than the nearest section, use it instead
-            if (footerDistance < minDistance) {
-                minDistance = footerDistance;
-                nearestSection = footer;
-            }
-        }
-        
         return { section: nearestSection, distance: minDistance };
     }
     
@@ -228,14 +215,6 @@ document.addEventListener('DOMContentLoaded', function() {
         if (Date.now() - lastScrollTime < scrollCooldown) return;
         
         const { section, distance } = findNearestSection();
-        
-        // Check if user is trying to view the footer
-        const footer = document.querySelector('.site-footer');
-        const footerRect = footer ? footer.getBoundingClientRect() : null;
-        const isNearFooter = footerRect && footerRect.top < window.innerHeight * 0.5;
-        
-        // Don't snap if user is trying to view the footer
-        if (isNearFooter) return;
         
         // Only snap if we're close enough to a section - increased threshold for more aggressive snapping
         if (section && distance < window.innerHeight * 0.45) {
@@ -250,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
             section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             
             // Update backgrounds if it's a regular section
-            if (section.id && section.id !== currentSection && !section.classList.contains('site-footer')) {
+            if (section.id && section.id !== currentSection) {
                 updateBackgrounds(section.id);
             }
             

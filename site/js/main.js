@@ -769,8 +769,8 @@ function initPrivacyPolicyAndCookies() {
   const cookieBanner = document.getElementById('cookieBanner');
   const acceptCookiesBtn = document.getElementById('acceptCookies');
   const viewCookiePolicyBtn = document.getElementById('viewCookiePolicy');
-  const footerPrivacyLink = document.getElementById('footerPrivacyLink');
-  const footerCookieLink = document.getElementById('footerCookieLink');
+  const privacyPolicyLink = document.getElementById('privacyPolicyLink');
+  const cookiePolicyLink = document.getElementById('cookiePolicyLink');
   
   // Check if elements exist
   if (!privacyPolicyModal || !closePrivacyPolicy || !cookieBanner || 
@@ -852,15 +852,15 @@ function initPrivacyPolicyAndCookies() {
   viewCookiePolicyBtn.addEventListener('click', openCookiePolicy);
   
   // Footer links
-  if (footerPrivacyLink) {
-    footerPrivacyLink.addEventListener('click', (e) => {
+  if (privacyPolicyLink) {
+    privacyPolicyLink.addEventListener('click', (e) => {
       e.preventDefault();
       openPrivacyPolicy();
     });
   }
   
-  if (footerCookieLink) {
-    footerCookieLink.addEventListener('click', (e) => {
+  if (cookiePolicyLink) {
+    cookiePolicyLink.addEventListener('click', (e) => {
       e.preventDefault();
       openCookiePolicy();
     });
