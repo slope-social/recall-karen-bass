@@ -1624,7 +1624,7 @@ body.volunteer-in-view .volunteer-fixed-background {
   display: flex !important;
   align-items: flex-start !important;
   gap: 0.25rem;
-  width: calc(50% - 0.5rem);
+  width: calc(50% - 0.5rem) !important; /* Force 2-column layout on all screen sizes */
   white-space: normal;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
@@ -1632,53 +1632,6 @@ body.volunteer-in-view .volunteer-fixed-background {
 
 .checkbox-field label {
   line-height: 1.2;
-}
-
-@media (max-width: 768px) {
-  /* Ensure volunteer form has proper layout */
-  #volunteer .form-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  #volunteer .form-field {
-    width: calc(50% - 0.25rem);
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Email field should be full width */
-  #volunteer .form-field:has(#volunteerEmail) {
-    width: 100%;
-  }
-  
-  /* Ensure the volunteer message field is full width */
-  #volunteer .form-field:has(#volunteerMessage) {
-    width: 100%;
-  }
-  
-  /* Ensure the volunteer checkbox section is properly styled */
-  #volunteer .form-field.volunteer-checkbox-section {
-    width: 100%;
-    margin: 0.5rem 0 1rem;
-  }
-  
-  /* Make checkbox container horizontal on mobile */
-  .checkbox-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: flex-start;
-  }
-  
-  /* Make checkboxes stack in a 2-column grid on mobile */
-  .checkbox-field {
-    width: calc(50% - 0.5rem);
-    margin-bottom: 0.5rem;
-  }
 }
 
 /* Smooth transitions between all sections */
@@ -1701,6 +1654,10 @@ body.volunteer-in-view .volunteer-fixed-background {
 /* Ensure the slanted background transitions smoothly */
 .slanted-background {
   transition: opacity 0.7s ease;
+}
+
+#contact > .section-content > .form-container {
+  background: var(--card-bg);
 }
 
 /* Hero section transition */
@@ -1754,7 +1711,7 @@ body.menu-open::before {
   max-width: 600px;
   margin: 0 auto;
   border-radius: 8px;
-  background: var(--card-bg);
+  /* background: var(--card-bg); */
 }
 
 .form-toggle {
@@ -1827,97 +1784,6 @@ body.menu-open::before {
   /* Adjust spacing for mobile forms */
   .form-container {
     margin-bottom: 2rem;
-  }
-}
-
-/* Optimize checkbox layout for mobile */
-.checkbox-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.checkbox-field {
-  width: auto;
-  margin-right: 1rem;
-  display: flex;
-  align-items: center;
-}
-
-/* Adjust volunteer checkbox section when in a form-field */
-.form-field.volunteer-checkbox-section {
-  width: 100%;
-  margin: 0.75rem 0;
-}
-
-.checkbox-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: 0.75rem;
-  margin-top: 0.25rem;
-  width: 100%;
-}
-
-.checkbox-field {
-  display: flex !important;
-  align-items: flex-start !important;
-  gap: 0.25rem;
-  width: calc(50% - 0.5rem);
-  white-space: normal;
-  font-size: 0.9rem;
-  margin-bottom: 0.5rem;
-}
-
-.checkbox-field label {
-  line-height: 1.2;
-}
-
-@media (max-width: 768px) {
-  /* Ensure volunteer form has proper layout */
-  #volunteer .form-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  #volunteer .form-field {
-    width: calc(50% - 0.25rem);
-    margin-bottom: 0.5rem;
-  }
-  
-  /* Email field should be full width */
-  #volunteer .form-field:has(#volunteerEmail) {
-    width: 100%;
-  }
-  
-  /* Ensure the volunteer message field is full width */
-  #volunteer .form-field:has(#volunteerMessage) {
-    width: 100%;
-  }
-  
-  /* Ensure the volunteer checkbox section is properly styled */
-  #volunteer .form-field.volunteer-checkbox-section {
-    width: 100%;
-    margin: 0.5rem 0 1rem;
-  }
-  
-  /* Make checkbox container horizontal on mobile */
-  .checkbox-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: flex-start;
-  }
-  
-  /* Make checkboxes stack in a 2-column grid on mobile */
-  .checkbox-field {
-    width: calc(50% - 0.5rem);
-    margin-bottom: 0.5rem;
   }
 }
 
