@@ -246,6 +246,32 @@ nav {
   opacity: 0.9;
 }
 
+.nav-mobile-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-mobile-donate {
+  display: none;
+  background-color: transparent;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.donate-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: white;
+  transition: transform 0.2s ease;
+}
+
+.nav-mobile-donate:hover .donate-icon {
+  transform: scale(1.1);
+}
+
 .nav-mobile-menu {
   display: none;
   background-color: transparent;
@@ -501,6 +527,16 @@ nav {
   /* Ensure email field takes full width on mobile */
   #volunteer .form-field:has(#volunteerEmail) {
     width: 100%;
+  }
+  
+  .disclaimer-popup {
+    width: 95%;
+    bottom: 10px;
+    font-size: 0.8rem;
+  }
+  
+  .nav-mobile-donate {
+    display: block;
   }
 }
 
@@ -1711,9 +1747,8 @@ body.volunteer-in-view .volunteer-fixed-background {
     scroll-snap-stop: always;
     min-height: 100vh;
   }
-  
-@media (max-width: 768px) {
-    .site-footer {
+
+  .site-footer {
       scroll-snap-align: none;
       min-height: auto;
       position: absolute;
@@ -1732,6 +1767,16 @@ body.volunteer-in-view .volunteer-fixed-background {
   .social-icon {
     width: 20px;
     height: 20px;
+  }
+
+    .disclaimer-popup {
+    width: 95%;
+    bottom: 10px;
+    font-size: 0.8rem;
+  }
+  
+  .nav-mobile-donate {
+    display: block;
   }
 }
 
@@ -2231,11 +2276,3 @@ body.disable-snap,
 .disclaimer-popup-close:hover {
   opacity: 1;
 }
-
-@media (max-width: 768px) {
-  .disclaimer-popup {
-    width: 95%;
-    bottom: 10px;
-    font-size: 0.8rem;
-  }
-} 
