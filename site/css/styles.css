@@ -1494,12 +1494,6 @@ textarea.form-input {
     margin-bottom: 0.5rem;
   }
   
-  #cookiePolicyModal .modal-content p,
-  #cookiePolicyModal .modal-content li {
-    font-size: 0.9rem;
-    line-height: 1.4;
-  }
-  
   .cookie-banner {
     padding: 15px;
   }
@@ -1585,13 +1579,34 @@ textarea.form-input {
   display: inline-block;
   padding: 0.3rem 0.8rem;
   margin: 0 auto;
-  max-width: 70%;
+  max-width: 90%;
+  width: auto;
+  text-align: center;
 }
 
 .disclaimer-line {
   font-size: 0.7rem;
   line-height: 1.3;
-  white-space: nowrap;
+  white-space: normal;
+  word-wrap: break-word;
+  margin-bottom: 0.1rem;
+}
+
+/* Remove the previous ::after pseudo-element as we're using HTML comment for the break */
+.disclaimer-line:first-child::after {
+  content: none;
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
+  .disclaimer-box {
+    max-width: 100%;
+    padding: 0.3rem 0.5rem;
+  }
+  
+  .disclaimer-line {
+    font-size: 0.65rem;
+  }
 }
 
 /* Social Media Links - Fixed */
