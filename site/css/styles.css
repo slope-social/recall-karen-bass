@@ -1712,7 +1712,7 @@ body.volunteer-in-view .volunteer-fixed-background {
     min-height: 100vh;
   }
 }
-  
+
 @media (max-width: 768px) {
     .site-footer {
       scroll-snap-align: none;
@@ -1754,6 +1754,7 @@ body.volunteer-in-view .volunteer-fixed-background {
   .site-footer {
     scroll-snap-align: none; /* Remove snap alignment from footer */
     min-height: auto;
+    position: absolute;
     z-index: 20;
   }
   
@@ -2236,4 +2237,4 @@ body.disable-snap,
     bottom: 10px;
     font-size: 0.8rem;
   }
-}
+} 
