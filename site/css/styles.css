@@ -209,7 +209,8 @@ nav {
   width: 100%;
   z-index: 2000;
   background: var(--card-bg);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(.3vmin);
+  -webkit-backdrop-filter: blur(.3vmin);
   margin: 0;
   padding: 0;
   border-bottom: 1px solid var(--border);
@@ -339,7 +340,7 @@ nav {
   flex-direction: column;
   padding: 1.25rem;
   background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(1vmin);
+  backdrop-filter: blur(.3vmin);
   -webkit-backdrop-filter: blur(1vmin);
   transform: translateY(-1vmin);
   opacity: 0;
@@ -1422,7 +1423,7 @@ textarea.form-input {
 
 /* Footer Styles */
 .site-footer {
-  background-color: rgba(0, 0, 0, 0.7);
+  background: var(--card-bg);
   color: var(--text-muted);
   padding: 15px 20px;
   text-align: center;
@@ -1431,6 +1432,8 @@ textarea.form-input {
   z-index: 20;
   margin-top: 3rem;
   border-top: 1px solid var(--border);
+  backdrop-filter: blur(.3vmin);
+  -webkit-backdrop-filter: blur(.3vmin);
 }
 
 .footer-content {
@@ -1498,7 +1501,7 @@ textarea.form-input {
 .site-footer {
   scroll-snap-align: none;
   min-height: auto;
-  padding-bottom: 2rem;
+  /* padding-bottom: 2rem; */
 }
 
 /* Default scroll behavior - enable mandatory snap with stronger settings */
@@ -1572,8 +1575,7 @@ body.volunteer-in-view .volunteer-fixed-background {
     min-height: auto;
     position: relative;
     z-index: 20;
-    padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
-    margin-top: 3rem;
+    /* margin-top: 3rem; */
   }
 }
 
@@ -1597,8 +1599,8 @@ body.volunteer-in-view .volunteer-fixed-background {
     min-height: auto;
     position: relative;
     z-index: 20;
-    padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
-    margin-top: 3rem;
+    /* padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
+    /*margin-top: 3rem; */
   }
   
   /* Disable scroll snap during programmatic scrolling */
@@ -1969,12 +1971,11 @@ body.disable-snap,
   }
   
   .site-footer {
-    scroll-snap-align: none; /* Remove snap alignment from footer */
+    scroll-snap-align: none;
     min-height: auto;
-    position: relative;
+    position: absolute;
     z-index: 20;
-    padding-bottom: 3rem; /* Add extra padding to ensure content is visible */
-    margin-top: 3rem;
+    bottom: 0;
   }
   
   /* Disable scroll snap during programmatic scrolling */
