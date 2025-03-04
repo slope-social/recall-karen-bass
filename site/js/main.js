@@ -4,7 +4,7 @@ let isAnimating = false;
 // App Script URLs for form submissions - Update these with your deployed web app URLs
 const appScriptUrls = {
   petition: 'https://script.google.com/macros/s/AKfycbySQp9fGgu3xToNTA8x_MojnKgLqpavhixPyM1R_fRrOMbSANwp0evhKVDGFHRsy9jebA/exec', // Sign_the_Petition script
-  volunteer: 'https://script.google.com/macros/s/AKfycbxxbd3KhbxDu7kokNVTdvRgJayPpmu5rmUSNMnexCgWGRO2nYG4JJ6QWWtjpUEOO7wV/exec', // Volunteer script
+  volunteer: 'https://script.google.com/macros/s/AKfycbwm_RGrFNRV4rPVEOyeHzafrv2QpyZMN5BRjTD5Jmq8EW3BYvCwHI6vpe7lTkTG5KV0/exec', // Volunteer script
   contact: 'https://script.google.com/macros/s/AKfycbz4Qu6DxeOuCGwVe_pdurr3Z44Sq7bZVE4fA8Yo8_gcWbDCsyPSuI5J5FBBbNcmDwmS/exec' // Contact_Us script
 };
 
@@ -618,7 +618,10 @@ function handleVolunteerSubmit(e) {
   const checkboxFields = [
     'phoneBank',
     'gatherSignatures',
-    'attendEvents'
+    'attendEvents',
+    'hostEvent',
+    'knockDoors',
+    'endorseRecall'
   ];
   
   // Add checkbox values to data object
