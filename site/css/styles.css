@@ -1607,167 +1607,77 @@ body.volunteer-in-view .volunteer-fixed-background {
 /* Checkbox container and fields */
 .volunteer-checkbox-section {
   width: 100%;
-  margin: 0.5rem 0;
+  margin: 0.75rem 0;
 }
 
 .checkbox-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
-  justify-content: space-between;
-  gap: 0.25rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 0.75rem;
   margin-top: 0.25rem;
   width: 100%;
 }
 
 .checkbox-field {
   display: flex !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   gap: 0.25rem;
-  min-width: auto;
-  flex: 1;
-  white-space: nowrap;
+  width: calc(50% - 0.5rem);
+  white-space: normal;
   font-size: 0.9rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Additional mobile optimizations */
+.checkbox-field label {
+  line-height: 1.2;
+}
+
 @media (max-width: 768px) {
-  .form-row {
-    flex-direction: column;
+  /* Ensure volunteer form has proper layout */
+  #volunteer .form-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 0.5rem;
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-field {
-    margin-bottom: 0.25rem;
-  }
-  
-  .form-label {
-    margin-bottom: 0.25rem;
-    font-size: 0.9rem;
-  }
-  
-  .form-input {
-    padding: 0.5rem;
-    min-height: 2.25rem;
-  }
-  
-  #volunteer .form-fields {
-    padding: 0.75rem;
-    max-height: none;
-    overflow-y: visible;
-  }
-  
-  textarea.form-input {
-    min-height: 4rem;
-  }
-  
-  .form-submit {
-    margin-top: 0.5rem;
-  }
-  
-  /* More compact volunteer form */
-  #volunteer .section-content {
-    padding: 1rem 0.5rem;
-  }
-  
-  #volunteer .section-content h2 {
-    margin-bottom: 0.5rem;
-  }
-  
-  #volunteer .section-content p {
     margin-bottom: 0.75rem;
   }
   
-  #volunteer .form-message {
-    margin-top: 0.1rem;
-    min-height: 0;
-  }
-  
-  #volunteer .volunteer-checkbox-section {
-    margin: 0.25rem 0;
-  }
-  
-  #volunteer .volunteer-checkbox-section .form-label {
-    margin-bottom: 0.1rem;
-  }
-  
-  #volunteer input[type="checkbox"] {
-    width: 16px;
-    height: 16px;
-    margin-right: 0.1rem;
-  }
-  
-  #volunteer input[type="checkbox"] + label {
-    font-size: 0.85rem;
-  }
-}
-
-/* Fix vertical spacing in volunteer form */
-#volunteer .form-fields {
-  padding: 1.5rem;
-  background: var(--card-bg);
-  border-radius: 8px;
-  max-width: 600px;
-  margin: 0 auto;
-  gap: 0.75rem;
-}
-
-#volunteer .form-row {
-  display: flex;
-  gap: 1rem;
-  width: 100%;
-  margin-bottom: 0.75rem;
-}
-
-#volunteer .form-field {
-  flex: 1;
-  min-width: 0;
-  margin-bottom: 0.75rem;
-}
-
-#volunteer .volunteer-checkbox-section {
-  margin: 0.5rem 0;
-}
-
-/* Ensure consistent spacing between form elements */
-@media (max-width: 768px) {
-  .form-row {
+  #volunteer .form-field {
+    width: calc(50% - 0.25rem);
     margin-bottom: 0.5rem;
   }
   
-  .form-field {
+  /* Email field should be full width */
+  #volunteer .form-field:has(#volunteerEmail) {
+    width: 100%;
+  }
+  
+  /* Ensure the volunteer message field is full width */
+  #volunteer .form-field:has(#volunteerMessage) {
+    width: 100%;
+  }
+  
+  /* Ensure the volunteer checkbox section is properly styled */
+  #volunteer .form-field.volunteer-checkbox-section {
+    width: 100%;
+    margin: 0.5rem 0 1rem;
+  }
+  
+  /* Make checkbox container horizontal on mobile */
+  .checkbox-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: flex-start;
+  }
+  
+  /* Make checkboxes stack in a 2-column grid on mobile */
+  .checkbox-field {
+    width: calc(50% - 0.5rem);
     margin-bottom: 0.5rem;
-  }
-  
-  .form-input {
-    padding: 0.75rem;
-  }
-  
-  #petition .form-fields,
-  #volunteer .form-fields,
-  #contact .form-fields {
-    padding: 1rem;
-    gap: 0.5rem;
-  }
-  
-  #volunteer .form-row,
-  #petition .form-row,
-  #volunteer .form-field,
-  #petition .form-field,
-  #volunteer,
-  #petition {
-    margin-bottom: 0.5rem;
-  }
-
-  
-  #volunteer .volunteer-checkbox-section {
-    margin: 0.5rem 0;
-  }
-  
-  .volunteer-checkbox-section .form-label {
-    margin-bottom: 0.25rem;
   }
 }
 
@@ -1943,20 +1853,25 @@ body.menu-open::before {
 .checkbox-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: flex-start;
-  gap: 1rem;
+  gap: 0.75rem;
   margin-top: 0.25rem;
   width: 100%;
 }
 
 .checkbox-field {
   display: flex !important;
-  align-items: center !important;
+  align-items: flex-start !important;
   gap: 0.25rem;
-  min-width: auto;
-  white-space: nowrap;
+  width: calc(50% - 0.5rem);
+  white-space: normal;
   font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.checkbox-field label {
+  line-height: 1.2;
 }
 
 @media (max-width: 768px) {
@@ -1999,98 +1914,10 @@ body.menu-open::before {
     justify-content: flex-start;
   }
   
+  /* Make checkboxes stack in a 2-column grid on mobile */
   .checkbox-field {
-    margin-right: 0;
-    margin-bottom: 0.25rem;
-    white-space: nowrap;
-  }
-  
-  /* Petition form mobile styles */
-  #petition .form-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  #petition .form-field {
+    width: calc(50% - 0.5rem);
     margin-bottom: 0.5rem;
-  }
-  
-  /* Ensure zip and phone are on one line */
-  #petition .form-field:has(#zip),
-  #petition .form-field:has(#phone) {
-    width: calc(50% - 0.25rem);
-  }
-  
-  /* Full width fields */
-  #petition .form-field:has(#email),
-  #petition .form-field:has(#street),
-  #petition .form-field:has(#city) {
-    width: 100%;
-  }
-  
-  #petition .form-field:has(#isRegisteredVoter) {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .form-row {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-field {
-    width: 100%;
-    margin-bottom: 0.5rem;
-  }
-  
-  .form-input {
-    padding: 0.75rem;
-  }
-  
-  #petition .form-fields,
-  #volunteer .form-fields,
-  #contact .form-fields {
-    padding: 1rem;
-    gap: 0.5rem;
-  }
-  
-  /* Petition form specific styles */
-  #petition .form-row {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  #petition .form-field {
-    width: 100%;
-  }
-  
-  /* Zip and phone on one line */
-  #petition .form-row:nth-child(4) .form-field {
-    width: calc(50% - 0.25rem);
-  }
-  
-  /* Checkbox styling */
-  #petition .petition-checkbox-section {
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-  }
-  
-  #petition .petition-checkbox-section input[type="checkbox"] {
-    margin-right: 0.5rem;
   }
 }
 
