@@ -75,6 +75,9 @@ function doPost(e) {
     if (data.phoneBank) availabilityOptions.push('Phone Bank');
     if (data.gatherSignatures) availabilityOptions.push('Get Signatures');
     if (data.attendEvents) availabilityOptions.push('Attend Events');
+    if (data.hostEvent) availabilityOptions.push('Host a Signature Event');
+    if (data.knockDoors) availabilityOptions.push('Knock on Doors');
+    if (data.endorseRecall) availabilityOptions.push('Endorse the Recall');
     const availabilityText = availabilityOptions.join(', ');
     
     // Prepare the row data in the correct order based on your CSV structure
