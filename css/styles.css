@@ -462,8 +462,10 @@ nav {
   
   /* Make contact form rows display properly on mobile */
   #contact-form .form-row {
-    flex-direction: row; /* Change from column to row */
-    flex-wrap: wrap;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.5rem;
+    padding: 0;
     gap: 0.5rem;
   }
   
@@ -535,6 +537,18 @@ nav {
   /* Ensure email field takes full width on mobile */
   #volunteer .form-field:has(#volunteerEmail) {
     width: 100%;
+  }
+
+  /* Contact form mobile layout */
+  #contact-form .form-row:first-child {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  
+  #contact-form .form-row:first-child .form-field {
+    width: calc(50% - 0.25rem);
+    flex: 0 0 calc(50% - 0.25rem);
   }
 }
 
@@ -1208,26 +1222,41 @@ text-body {
   #contact-form .form-row {
     display: flex;
     flex-direction: row;
-    gap: 0.5rem;
-    width: 100%;
     margin-bottom: 0.5rem;
+    padding: 0;
+    gap: 0.5rem;
   }
   
   #contact-form .form-field {
-    width: calc(50% - 0.25rem);
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
   }
   
+  /* First name and last name fields should be side by side */
+  #contact-form .form-row:first-child {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  
+  #contact-form .form-row:first-child .form-field {
+    width: calc(50% - 0.25rem);
+    flex: 0 0 calc(50% - 0.25rem);
+  }
+  
+  /* Email and message fields should be full width */
   #contact-form .form-field:has(#contactEmail),
   #contact-form .form-field:has(#contactMessage) {
     width: 100%;
+    flex: 1 1 100%;
   }
   
+  /* Style the inputs consistently */
   #contact-form .form-input {
     width: 100%;
     color: white;
   }
   
+  /* Ensure the submit button is properly styled */
   #contact-form .form-submit {
     width: 100%;
     margin-top: 1rem;
@@ -1534,12 +1563,6 @@ textarea.form-input {
     font-size: 1.1rem;
     margin-top: 1.25rem;
     margin-bottom: 0.5rem;
-  }
-  
-  #cookiePolicyModal .modal-content p,
-  #cookiePolicyModal .modal-content li {
-    font-size: 0.9rem;
-    line-height: 1.4;
   }
   
   .cookie-banner {
@@ -2203,13 +2226,27 @@ body.disable-snap,
   
   /* Ensure form fields are properly styled */
   #contact-form .form-row {
+    display: flex;
     flex-direction: row;
-    margin-bottom: 0;
+    margin-bottom: 0.5rem;
     padding: 0;
   }
   
+  /* General styling for all form fields */
   #contact-form .form-field {
     margin-bottom: 1rem;
+  }
+  
+  /* First name and last name fields should be side by side */
+  #contact-form .form-row:first-child {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+  
+  /* Email and message fields should be full width */
+  #contact-form .form-field:has(#contactEmail),
+  #contact-form .form-field:has(#contactMessage) {
     width: 100%;
     flex: 1 1 100%;
   }
