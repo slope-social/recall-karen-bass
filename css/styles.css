@@ -88,24 +88,24 @@ body {
 
 /* Default background images with slanted clip paths - increased slantiness */
 .image:nth-child(1) {
-  background-image: url('../assets/burn.png');
+  background-image: url('/assets/burn.png');
   background-position: center;
   z-index: 3;
   clip-path: polygon(0 0, 40% 0, 23% 100%, 0 100%);
 }
 
 .image:nth-child(2) {
-  background-image: url('../assets/middle.png');
+  background-image: url('/assets/middle.png');
   background-position: center;
   z-index: 2;
   clip-path: polygon(40% 0, 77% 0, 60% 100%, 23% 100%);
 }
 
 .image:nth-child(3) {
-  background-image: url('../assets/car.png');
+  background-image: url('/assets/car.png');
   background-position: center;
   z-index: 1;
-  clip-path: polygon(77% 0, 100% 0, 100% 100%, 60% 100%)
+  clip-path: polygon(77% 0, 100% 0, 100% 100%, 60% 100%);
 }
 
 /* Hover states with expanded clip paths */
@@ -625,7 +625,7 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/RKB-FB-Cover_no_text.png');
+  background-image: url('/assets/RKB-FB-Cover_no_text.png');
   background-size: cover;
   background-position: center;
   z-index: -1;
@@ -638,7 +638,7 @@ main {
   width: 80vmin;
   max-width: 100%;
   height: 13vmin;
-  background-image: url('../assets/recall_Text.png');
+  background-image: url('/assets/recall_Text.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -663,7 +663,7 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/RKB-FB-Cover_no_text.png');
+  background-image: url('/assets/RKB-FB-Cover_no_text.png');
   background-size: cover;
   background-position: center center;
   z-index: -1;
@@ -683,7 +683,7 @@ body.petition-in-view .petition-fixed-background {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/cedric-letsch-UZVlSjrIJ3o-unsplash.jpg');
+  background-image: url('/assets/cedric-letsch-UZVlSjrIJ3o-unsplash.jpg');
   background-size: cover;
   background-position: center;
   z-index: -1;
@@ -704,7 +704,7 @@ body.petition-in-view .petition-fixed-background {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('../assets/cedric-letsch-UZVlSjrIJ3o-unsplash.jpg');
+  background-image: url('/assets/cedric-letsch-UZVlSjrIJ3o-unsplash.jpg');
   background-size: cover;
   background-position: center center;
   z-index: -1;

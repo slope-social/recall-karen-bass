@@ -1,20 +1,28 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const path = require('path');
-const fs = require('fs');
-require('dotenv').config();
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import path from 'path';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+// Get the directory name of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Serve static files from the site directory
-app.use(express.static(path.join(__dirname, 'site')));
+// Serve static files from the root directory
+app.use(express.static(path.join(__dirname)));
 
 // Create a data directory if it doesn't exist
 const dataDir = path.join(__dirname, 'data');
@@ -94,7 +102,7 @@ app.post('/api/contact', (req, res) => {
 
 // Catch-all route to serve the main HTML file
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'site', 'index.html'));
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Start the server

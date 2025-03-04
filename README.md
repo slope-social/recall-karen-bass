@@ -75,11 +75,10 @@ The site is deployed using GitHub Pages with a custom domain.
 
 ## Project Structure
 
-- `site/` - Static website files
-  - `index.html` - Main HTML file
-  - `css/` - CSS stylesheets
-  - `js/` - JavaScript files
-  - `assets/` - Images and other assets
+- `index.html` - Main HTML file
+- `css/` - CSS stylesheets
+- `js/` - JavaScript files
+- `assets/` - Images and other assets
 - `server.js` - Express server for handling form submissions
 - `data/` - Directory where form submissions are stored (created automatically)
 
