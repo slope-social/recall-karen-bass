@@ -490,12 +490,17 @@ nav {
   
   /* Ensure the volunteer checkbox section is properly styled */
   #volunteer .form-field.volunteer-checkbox-section {
-    width: 50%;
+    width: 100%;
   }
   
   /* Ensure phone field takes up half the width */
   #volunteer .form-field:has(#volunteerPhone) {
     width: calc(50% - 0.25rem);
+  }
+
+  /* Ensure email field takes full width on mobile */
+  #volunteer .form-field:has(#volunteerEmail) {
+    width: 100%;
   }
 }
 
@@ -1743,10 +1748,12 @@ body.volunteer-in-view .volunteer-fixed-background {
   .checkbox-container {
     grid-template-columns: repeat(3, 1fr);
     gap: 0.5rem;
+    width: 100%;
   }
   
   .checkbox-field {
     font-size: 0.85rem;
+    width: 100% !important;
   }
 }
 
