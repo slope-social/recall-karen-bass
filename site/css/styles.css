@@ -1716,10 +1716,9 @@ body.volunteer-in-view .volunteer-fixed-background {
 }
 
 .checkbox-container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
   gap: 0.75rem;
   margin-top: 0.25rem;
   width: 100%;
@@ -1729,7 +1728,7 @@ body.volunteer-in-view .volunteer-fixed-background {
   display: flex !important;
   align-items: flex-start !important;
   gap: 0.25rem;
-  width: calc(50% - 0.5rem) !important; /* Force 2-column layout on all screen sizes */
+  width: 100% !important;
   white-space: normal;
   font-size: 0.9rem;
   margin-bottom: 0.5rem;
@@ -1737,6 +1736,18 @@ body.volunteer-in-view .volunteer-fixed-background {
 
 .checkbox-field label {
   line-height: 1.2;
+}
+
+/* Make sure the grid layout is maintained on mobile */
+@media (max-width: 768px) {
+  .checkbox-container {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .checkbox-field {
+    font-size: 0.85rem;
+  }
 }
 
 /* Smooth transitions between all sections */
