@@ -14,6 +14,7 @@
   --card-bg: rgba(15,15,15, 0.5);
   --border: rgba(255, 255, 255, 0.1);
   --accent: rgba(255, 255, 255, 0.1);
+  --primary-dark: rgba(5,5,5, 0.5);
 }
 
 html {
@@ -1153,11 +1154,6 @@ text-body {
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
-  }
-
-  #contact-form {
-    background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.2);
   }
   
   #contact .form-fields {
