@@ -377,14 +377,38 @@ function initForms() {
   
   if (petitionForm) {
     petitionForm.addEventListener('submit', handlePetitionSubmit);
+    
+    // Fix for Android form field focus issues
+    const petitionInputs = petitionForm.querySelectorAll('input, textarea');
+    petitionInputs.forEach(input => {
+      input.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+      }, { passive: false });
+    });
   }
   
   if (volunteerForm) {
     volunteerForm.addEventListener('submit', handleVolunteerSubmit);
+    
+    // Fix for Android form field focus issues
+    const volunteerInputs = volunteerForm.querySelectorAll('input, textarea');
+    volunteerInputs.forEach(input => {
+      input.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+      }, { passive: false });
+    });
   }
   
   if (contactForm) {
     contactForm.addEventListener('submit', handleContactSubmit);
+    
+    // Fix for Android form field focus issues
+    const contactInputs = contactForm.querySelectorAll('input, textarea');
+    contactInputs.forEach(input => {
+      input.addEventListener('touchstart', function(e) {
+        e.stopPropagation();
+      }, { passive: false });
+    });
   }
   
   // Add input validation listeners
@@ -392,6 +416,12 @@ function initForms() {
   formInputs.forEach(input => {
     input.addEventListener('blur', validateInput);
     input.addEventListener('input', clearError);
+    
+    // Additional fix for Android touch events
+    input.addEventListener('touchend', function(e) {
+      // Prevent the event from bubbling up and triggering other handlers
+      e.stopPropagation();
+    }, { passive: false });
   });
 }
 
