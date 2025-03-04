@@ -3,7 +3,7 @@ let isAnimating = false;
 
 // App Script URLs for form submissions - Update these with your deployed web app URLs
 const appScriptUrls = {
-  petition: 'https://script.google.com/macros/s/AKfycbySQp9fGgu3xToNTA8x_MojnKgLqpavhixPyM1R_fRrOMbSANwp0evhKVDGFHRsy9jebA/exec', // Sign_the_Petition script
+  petition: 'https://script.google.com/macros/s/AKfycbylkLZb3ZaKCZVJF7qCofM9bHwbOIGUGazHnsGTcb5wtLO2aAoGdky6Ar8hnHndDO9ALg/exec', // Sign_the_Petition script
   volunteer: 'https://script.google.com/macros/s/AKfycbwm_RGrFNRV4rPVEOyeHzafrv2QpyZMN5BRjTD5Jmq8EW3BYvCwHI6vpe7lTkTG5KV0/exec', // Volunteer script
   contact: 'https://script.google.com/macros/s/AKfycbz4Qu6DxeOuCGwVe_pdurr3Z44Sq7bZVE4fA8Yo8_gcWbDCsyPSuI5J5FBBbNcmDwmS/exec' // Contact_Us script
 };
@@ -533,18 +533,7 @@ function handlePetitionSubmit(e) {
   const data = Object.fromEntries(formData.entries());
   
   // Process checkbox fields that might not be in the FormData if unchecked
-  const checkboxFields = [
-    'isRegisteredVoter'
-  ];
-  
-  // Add checkbox values to data object
-  checkboxFields.forEach(field => {
-    if (!data[field]) {
-      data[field] = false;
-    } else {
-      data[field] = true;
-    }
-  });
+  // Removed isRegisteredVoter checkbox as it's no longer in the form
   
   // Validate all inputs
   let isValid = true;

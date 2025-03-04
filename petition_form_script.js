@@ -61,8 +61,7 @@ function doPost(e) {
         'City/Town',
         'Zip',
         'Phone',
-        'Email',
-        'Registered Voter'
+        'Email'
       ];
       sheet.appendRow(headers);
       console.log('Added headers to sheet');
@@ -80,8 +79,7 @@ function doPost(e) {
       data.city || '',                    // City/Town
       data.zip || '',                     // Zip
       data.phone || '',                   // Phone
-      data.email || '',                   // Email
-      data.isRegisteredVoter ? 'Yes' : 'No' // I am a registered voter in Los Angeles
+      data.email || ''                    // Email
     ];
     
     console.log('Appending row data:', rowData);
