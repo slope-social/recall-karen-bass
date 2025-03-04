@@ -246,6 +246,28 @@ nav {
   opacity: 0.9;
 }
 
+.nav-donate-button {
+  display: none;
+  background-color: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0.5rem;
+  cursor: pointer;
+  margin-right: 0.5rem;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.nav-donate-button:hover {
+  transform: scale(1.1);
+  color: var(--accent);
+}
+
+.donate-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  fill: currentColor;
+}
+
 .nav-mobile-menu {
   display: none;
   background-color: transparent;
@@ -381,6 +403,14 @@ nav {
 @media (max-width: 768px) {
   .nav-links {
     display: none;
+  }
+
+  .nav-donate-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    top: 0.1rem;
   }
 
   .nav-mobile-menu {
@@ -1444,16 +1474,17 @@ textarea.form-input {
 
 #cookiePolicyModal .modal-content h2 {
   color: #ffffff;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   margin-top: 1.5rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
   line-height: 1.3;
 }
 
-#cookiePolicyModal .modal-content p {
+#cookiePolicyModal .modal-content p,
+#cookiePolicyModal .modal-content li {
   margin-bottom: 1rem;
-  line-height: 1.5;
-  font-size: 0.95rem;
+  line-height: 1.4;
+  font-size: 0.9rem;
 }
 
 #cookiePolicyModal .modal-content ul {
