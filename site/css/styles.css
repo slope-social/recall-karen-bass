@@ -823,7 +823,7 @@ input[type="checkbox"] + label {
 }
 
 .form-submit:disabled {
-  opacity: 0.5;
+  background-color: #999;
   cursor: not-allowed;
 }
 
@@ -2099,5 +2099,90 @@ body.disable-snap,
   html.disable-snap body {
     scroll-snap-type: none;
     scroll-behavior: auto;
+  }
+}
+
+/* Disclaimer info icon and popup styles */
+.disclaimer-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.info-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.info-icon:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.disclaimer-popup {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+  background-color: #1a1a1a;
+  color: #fff;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.disclaimer-popup.active {
+  display: block;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.disclaimer-popup-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.disclaimer-popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.disclaimer-popup-close:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .disclaimer-popup {
+    width: 95%;
+    bottom: 10px;
+    font-size: 0.8rem;
   }
 } 

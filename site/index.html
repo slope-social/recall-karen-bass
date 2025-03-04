@@ -160,6 +160,11 @@
             
             <button type="submit" class="form-submit">Sign the Petition</button>
           </form>
+          
+          <div class="disclaimer-info">
+            <span class="info-icon" id="petitionDisclaimerIcon">i</span>
+            <span>By submitting, you agree to our terms</span>
+          </div>
         </div>
       </div>
     </section>
@@ -254,6 +259,11 @@
             
             <button type="submit" class="form-submit">Volunteer</button>
           </form>
+          
+          <div class="disclaimer-info">
+            <span class="info-icon" id="volunteerDisclaimerIcon">i</span>
+            <span>By submitting, you agree to our terms</span>
+          </div>
         </div>
       </div>
     </section>
@@ -459,6 +469,13 @@
     </div>
   </div>
   
+  <!-- Disclaimer Popup -->
+  <div class="disclaimer-popup" id="disclaimerPopup">
+    <button class="disclaimer-popup-close" id="closeDisclaimerPopup">&times;</button>
+    <div class="disclaimer-popup-title">DISCLAIMER</div>
+    <p>By providing your mobile phone number, you are giving your consent to receive call and SMS/MMS messages to that number from recallbassnow.com. Message frequency varies. Message and data rates may apply. Text HELP for support, reply STOP to opt-out, or email info@recallbassnow.com</p>
+  </div>
+  
   <!-- Thank You Petition Modal -->
   <div class="modal-overlay" id="thankYouPetitionModal">
     <div class="modal">
@@ -598,5 +615,44 @@
   <script src="js/app-script-helper.js"></script>
   <script src="js/main.js"></script>
   <script src="js/scroll-fix.js"></script>
+  <script>
+    // Disclaimer popup functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const disclaimerPopup = document.getElementById('disclaimerPopup');
+      const petitionDisclaimerIcon = document.getElementById('petitionDisclaimerIcon');
+      const volunteerDisclaimerIcon = document.getElementById('volunteerDisclaimerIcon');
+      const closeDisclaimerPopup = document.getElementById('closeDisclaimerPopup');
+      
+      function showDisclaimerPopup() {
+        disclaimerPopup.classList.add('active');
+      }
+      
+      function hideDisclaimerPopup() {
+        disclaimerPopup.classList.remove('active');
+      }
+      
+      if (petitionDisclaimerIcon) {
+        petitionDisclaimerIcon.addEventListener('click', showDisclaimerPopup);
+      }
+      
+      if (volunteerDisclaimerIcon) {
+        volunteerDisclaimerIcon.addEventListener('click', showDisclaimerPopup);
+      }
+      
+      if (closeDisclaimerPopup) {
+        closeDisclaimerPopup.addEventListener('click', hideDisclaimerPopup);
+      }
+      
+      // Close popup when clicking outside
+      document.addEventListener('click', function(event) {
+        if (disclaimerPopup.classList.contains('active') && 
+            !disclaimerPopup.contains(event.target) && 
+            event.target !== petitionDisclaimerIcon && 
+            event.target !== volunteerDisclaimerIcon) {
+          hideDisclaimerPopup();
+        }
+      });
+    });
+  </script>
 </body>
 </html> 
