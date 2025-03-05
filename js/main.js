@@ -1,6 +1,7 @@
 // Global variables
 let isAnimating = false;
 let debugMode = true; // Enable debug mode
+let formsManuallyExpanded = false; // Track if forms have been manually expanded
 
 // App Script URLs for form submissions - Update these with your deployed web app URLs
 const appScriptUrls = {
@@ -34,6 +35,78 @@ document.addEventListener('DOMContentLoaded', () => {
     debugLog('Is Android:', isAndroid());
     debugLog('Window Width:', window.innerWidth);
     debugLog('Window Height:', window.innerHeight);
+  }
+  
+  // Add Android-specific class to body if needed
+  if (isAndroid()) {
+    document.body.classList.add('android-device');
+    debugLog('Added android-device class to body');
+    
+    // For Android devices, add a MutationObserver to ensure forms stay expanded
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === 'attributes' && 
+            (mutation.target.id === 'petition-form' || mutation.target.id === 'volunteer-form') && 
+            mutation.attributeName === 'class') {
+          
+          const form = mutation.target;
+          const formId = form.id;
+          const wasExpanded = form.classList.contains('expanded');
+          
+          debugLog('Form class mutation detected', {
+            formId: formId,
+            wasExpanded: wasExpanded,
+            formsManuallyExpanded: formsManuallyExpanded
+          });
+          
+          // If the form was manually expanded but is now collapsed, re-expand it
+          if (formsManuallyExpanded && !wasExpanded) {
+            debugLog('Re-expanding form after mutation', { formId });
+            
+            // Re-expand the form
+            setTimeout(() => {
+              if (formId === 'petition-form') {
+                const petitionForm = document.getElementById('petition-form');
+                const petitionToggle = document.getElementById('petition-form-toggle');
+                const petitionToggleText = document.querySelector('#petition-form-toggle .form-toggle-text');
+                const petitionTextOverlay = document.querySelector('.petition-text-overlay');
+                
+                if (petitionForm) petitionForm.classList.add('expanded');
+                if (petitionToggle) petitionToggle.classList.add('active');
+                if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+                if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
+              } else if (formId === 'volunteer-form') {
+                const volunteerForm = document.getElementById('volunteer-form');
+                const volunteerToggle = document.getElementById('volunteer-form-toggle');
+                const volunteerToggleText = document.querySelector('#volunteer-form-toggle .form-toggle-text');
+                const volunteerHeading = document.querySelector('#volunteer .heading-2');
+                const volunteerText = document.querySelector('#volunteer .text-body');
+                
+                if (volunteerForm) volunteerForm.classList.add('expanded');
+                if (volunteerToggle) volunteerToggle.classList.add('active');
+                if (volunteerToggleText) volunteerToggleText.textContent = 'Join Our Movement';
+                if (volunteerHeading) volunteerHeading.style.display = 'none';
+                if (volunteerText) volunteerText.style.display = 'none';
+              }
+            }, 0);
+          }
+        }
+      });
+    });
+    
+    // Start observing the petition and volunteer forms
+    const petitionForm = document.getElementById('petition-form');
+    const volunteerForm = document.getElementById('volunteer-form');
+    
+    if (petitionForm) {
+      observer.observe(petitionForm, { attributes: true });
+      debugLog('Started observing petition form');
+    }
+    
+    if (volunteerForm) {
+      observer.observe(volunteerForm, { attributes: true });
+      debugLog('Started observing volunteer form');
+    }
   }
   
   // Initialize background images
@@ -433,6 +506,13 @@ function initForms() {
   const petitionForm = document.getElementById('petition-form');
   const volunteerForm = document.getElementById('volunteer-form');
   const contactForm = document.getElementById('contact-form');
+  const petitionToggle = document.getElementById('petition-form-toggle');
+  const volunteerToggle = document.getElementById('volunteer-form-toggle');
+  const petitionToggleText = document.querySelector('#petition-form-toggle .form-toggle-text');
+  const volunteerToggleText = document.querySelector('#volunteer-form-toggle .form-toggle-text');
+  const petitionTextOverlay = document.querySelector('.petition-text-overlay');
+  const volunteerHeading = document.querySelector('#volunteer .heading-2');
+  const volunteerText = document.querySelector('#volunteer .text-body');
   
   debugLog('Initializing forms');
   debugLog('petitionForm:', petitionForm);
@@ -445,8 +525,6 @@ function initForms() {
   if (contactForm) addTouchEventDebugging(contactForm);
   
   // Add touch event debugging to form toggle buttons
-  const petitionToggle = document.getElementById('petition-form-toggle');
-  const volunteerToggle = document.getElementById('volunteer-form-toggle');
   if (petitionToggle) addTouchEventDebugging(petitionToggle);
   if (volunteerToggle) addTouchEventDebugging(volunteerToggle);
   
@@ -462,6 +540,46 @@ function initForms() {
     
     // Prevent the event from bubbling up to document click handler
     e.stopPropagation();
+    
+    // For Android devices, ensure the form stays expanded
+    if (isAndroid()) {
+      // Set the manually expanded flag
+      formsManuallyExpanded = true;
+      
+      // Check which form this field belongs to
+      let isInPetitionForm = false;
+      let isInVolunteerForm = false;
+      
+      // Check if the target is in the petition form
+      let element = e.target;
+      while (element && !isInPetitionForm && !isInVolunteerForm) {
+        if (element === petitionForm) {
+          isInPetitionForm = true;
+        } else if (element === volunteerForm) {
+          isInVolunteerForm = true;
+        }
+        element = element.parentElement;
+      }
+      
+      // Ensure the petition form stays expanded if the field is in it
+      if (isInPetitionForm && petitionForm) {
+        debugLog('Ensuring petition form stays expanded');
+        petitionForm.classList.add('expanded');
+        if (petitionToggle) petitionToggle.classList.add('active');
+        if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+        if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
+      }
+      
+      // Ensure the volunteer form stays expanded if the field is in it
+      if (isInVolunteerForm && volunteerForm) {
+        debugLog('Ensuring volunteer form stays expanded');
+        volunteerForm.classList.add('expanded');
+        if (volunteerToggle) volunteerToggle.classList.add('active');
+        if (volunteerToggleText) volunteerToggleText.textContent = 'Join Our Movement';
+        if (volunteerHeading) volunteerHeading.style.display = 'none';
+        if (volunteerText) volunteerText.style.display = 'none';
+      }
+    }
   }
   
   if (petitionForm) {
@@ -1037,10 +1155,19 @@ function initExpandableForms() {
   // Special flag to track if we're handling a toggle button click
   let isHandlingToggleClick = false;
   
+  // Flag to track if we're interacting with a form field
+  let isInteractingWithFormField = false;
+  
   // Function to handle form visibility based on screen size
   function handleFormVisibility() {
     const isMobile = window.innerWidth <= 768;
-    debugLog('handleFormVisibility called', { isMobile });
+    debugLog('handleFormVisibility called', { isMobile, formsManuallyExpanded });
+    
+    // If forms have been manually expanded on Android, don't collapse them
+    if (isAndroid() && formsManuallyExpanded && isMobile) {
+      debugLog('Skipping form collapse on Android because forms are manually expanded');
+      return;
+    }
     
     if (!isMobile) {
       // If not mobile, make sure forms are visible and elements are shown
@@ -1052,16 +1179,28 @@ function initExpandableForms() {
       if (petitionToggle) petitionToggle.classList.remove('active');
       if (volunteerToggle) volunteerToggle.classList.remove('active');
     } else {
-      // If mobile, ensure forms are collapsed by default
-      if (petitionForm) petitionForm.classList.remove('expanded');
-      if (volunteerForm) volunteerForm.classList.remove('expanded');
+      // If mobile, ensure forms are collapsed by default (unless manually expanded on Android)
+      if (petitionForm && !(isAndroid() && petitionForm.classList.contains('expanded') && formsManuallyExpanded)) {
+        petitionForm.classList.remove('expanded');
+      }
+      if (volunteerForm && !(isAndroid() && volunteerForm.classList.contains('expanded') && formsManuallyExpanded)) {
+        volunteerForm.classList.remove('expanded');
+      }
       if (petitionTextOverlay) petitionTextOverlay.style.display = '';
       if (volunteerHeading) volunteerHeading.style.display = '';
       if (volunteerText) volunteerText.style.display = '';
-      if (petitionToggle) petitionToggle.classList.remove('active');
-      if (volunteerToggle) volunteerToggle.classList.remove('active');
-      if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
-      if (volunteerToggleText) volunteerToggleText.textContent = 'Volunteer Now';
+      if (petitionToggle && !(isAndroid() && petitionToggle.classList.contains('active') && formsManuallyExpanded)) {
+        petitionToggle.classList.remove('active');
+      }
+      if (volunteerToggle && !(isAndroid() && volunteerToggle.classList.contains('active') && formsManuallyExpanded)) {
+        volunteerToggle.classList.remove('active');
+      }
+      if (petitionToggleText && !(isAndroid() && formsManuallyExpanded && petitionForm.classList.contains('expanded'))) {
+        petitionToggleText.textContent = 'Sign the Petition';
+      }
+      if (volunteerToggleText && !(isAndroid() && formsManuallyExpanded && volunteerForm.classList.contains('expanded'))) {
+        volunteerToggleText.textContent = 'Volunteer Now';
+      }
     }
   }
   
@@ -1071,6 +1210,125 @@ function initExpandableForms() {
   // Listen for window resize events
   window.addEventListener('resize', handleFormVisibility);
   
+  // Add direct event handlers to the form containers
+  if (petitionForm) {
+    petitionForm.addEventListener('click', function(e) {
+      debugLog('Petition form container clicked', { target: e.target, tagName: e.target.tagName });
+      e.stopPropagation(); // Stop event from reaching document
+      
+      // Ensure the form stays expanded
+      if (!petitionForm.classList.contains('expanded')) {
+        debugLog('Re-expanding petition form after container click');
+        petitionForm.classList.add('expanded');
+        petitionToggle.classList.add('active');
+        if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+        if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
+      }
+    }, true); // Use capture phase
+    
+    // Also handle touchstart events on the form container
+    petitionForm.addEventListener('touchstart', function(e) {
+      debugLog('Petition form container touchstart', { target: e.target, tagName: e.target.tagName });
+      isInteractingWithFormField = true;
+      
+      // Reset the flag after a delay
+      setTimeout(() => {
+        isInteractingWithFormField = false;
+      }, 500);
+    }, { passive: false, capture: true });
+    
+    // Add event listeners to individual form fields
+    const petitionFormFields = petitionForm.querySelectorAll('input, textarea, select, label, .form-input, .form-label');
+    petitionFormFields.forEach(field => {
+      field.addEventListener('click', function(e) {
+        debugLog('Petition form field clicked', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+        
+        // Ensure the form stays expanded
+        if (!petitionForm.classList.contains('expanded')) {
+          debugLog('Re-expanding petition form after field click');
+          petitionForm.classList.add('expanded');
+          petitionToggle.classList.add('active');
+          if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+          if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
+        }
+        
+        // Reset the flag after a delay
+        setTimeout(() => {
+          isInteractingWithFormField = false;
+        }, 500);
+      }, true); // Use capture phase
+      
+      // Also handle touchstart events
+      field.addEventListener('touchstart', function(e) {
+        debugLog('Petition form field touchstart', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+      }, { passive: false, capture: true });
+    });
+  }
+  
+  if (volunteerForm) {
+    volunteerForm.addEventListener('click', function(e) {
+      debugLog('Volunteer form container clicked', { target: e.target, tagName: e.target.tagName });
+      e.stopPropagation(); // Stop event from reaching document
+      
+      // Ensure the form stays expanded
+      if (!volunteerForm.classList.contains('expanded')) {
+        debugLog('Re-expanding volunteer form after container click');
+        volunteerForm.classList.add('expanded');
+        volunteerToggle.classList.add('active');
+        if (volunteerToggleText) volunteerToggleText.textContent = 'Join Our Movement';
+        if (volunteerHeading) volunteerHeading.style.display = 'none';
+        if (volunteerText) volunteerText.style.display = 'none';
+      }
+    }, true); // Use capture phase
+    
+    // Also handle touchstart events on the form container
+    volunteerForm.addEventListener('touchstart', function(e) {
+      debugLog('Volunteer form container touchstart', { target: e.target, tagName: e.target.tagName });
+      isInteractingWithFormField = true;
+      
+      // Reset the flag after a delay
+      setTimeout(() => {
+        isInteractingWithFormField = false;
+      }, 500);
+    }, { passive: false, capture: true });
+    
+    // Add event listeners to individual form fields
+    const volunteerFormFields = volunteerForm.querySelectorAll('input, textarea, select, label, .form-input, .form-label');
+    volunteerFormFields.forEach(field => {
+      field.addEventListener('click', function(e) {
+        debugLog('Volunteer form field clicked', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+        
+        // Ensure the form stays expanded
+        if (!volunteerForm.classList.contains('expanded')) {
+          debugLog('Re-expanding volunteer form after field click');
+          volunteerForm.classList.add('expanded');
+          volunteerToggle.classList.add('active');
+          if (volunteerToggleText) volunteerToggleText.textContent = 'Join Our Movement';
+          if (volunteerHeading) volunteerHeading.style.display = 'none';
+          if (volunteerText) volunteerText.style.display = 'none';
+        }
+        
+        // Reset the flag after a delay
+        setTimeout(() => {
+          isInteractingWithFormField = false;
+        }, 500);
+      }, true); // Use capture phase
+      
+      // Also handle touchstart events
+      field.addEventListener('touchstart', function(e) {
+        debugLog('Volunteer form field touchstart', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+      }, { passive: false, capture: true });
+    });
+  }
+  
   // Close forms when clicking outside (only on mobile)
   document.addEventListener('click', function(event) {
     // Log the document click event for debugging
@@ -1079,6 +1337,7 @@ function initExpandableForms() {
       tagName: event.target.tagName,
       className: event.target.className,
       isHandlingToggleClick: isHandlingToggleClick,
+      isInteractingWithFormField: isInteractingWithFormField,
       petitionFormExpanded: petitionForm ? petitionForm.classList.contains('expanded') : false,
       volunteerFormExpanded: volunteerForm ? volunteerForm.classList.contains('expanded') : false,
       isMobile: window.innerWidth <= 768
@@ -1093,6 +1352,12 @@ function initExpandableForms() {
     // Skip if we're handling a toggle button click
     if (isHandlingToggleClick) {
       debugLog('Skipping document click handler - handling toggle click');
+      return;
+    }
+    
+    // Skip if we're interacting with a form field
+    if (isInteractingWithFormField) {
+      debugLog('Skipping document click handler - interacting with form field');
       return;
     }
     
@@ -1156,10 +1421,17 @@ function initExpandableForms() {
       petitionToggle.classList.toggle('active');
       petitionForm.classList.toggle('expanded');
       
+      // Set the manually expanded flag if the form is now expanded
+      if (petitionForm.classList.contains('expanded')) {
+        formsManuallyExpanded = true;
+        debugLog('Set formsManuallyExpanded to true');
+      }
+      
       // Log the form state after toggling
       debugLog('Petition form toggled', {
         formExpanded: petitionForm.classList.contains('expanded'),
-        toggleActive: petitionToggle.classList.contains('active')
+        toggleActive: petitionToggle.classList.contains('active'),
+        formsManuallyExpanded: formsManuallyExpanded
       });
       
       // Change text and toggle visibility of elements
@@ -1216,10 +1488,17 @@ function initExpandableForms() {
       volunteerToggle.classList.toggle('active');
       volunteerForm.classList.toggle('expanded');
       
+      // Set the manually expanded flag if the form is now expanded
+      if (volunteerForm.classList.contains('expanded')) {
+        formsManuallyExpanded = true;
+        debugLog('Set formsManuallyExpanded to true');
+      }
+      
       // Log the form state after toggling
       debugLog('Volunteer form toggled', {
         formExpanded: volunteerForm.classList.contains('expanded'),
-        toggleActive: volunteerToggle.classList.contains('active')
+        toggleActive: volunteerToggle.classList.contains('active'),
+        formsManuallyExpanded: formsManuallyExpanded
       });
       
       // Change text and toggle visibility of elements

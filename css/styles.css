@@ -1862,12 +1862,6 @@ body.volunteer-in-view .volunteer-fixed-background {
     pointer-events: auto;
   }
   
-  /* Prevent scroll issues when focusing on inputs */
-  .form-field {
-    position: relative;
-    z-index: 2;
-  }
-  
   /* Disable scroll snap when interacting with forms */
   .disable-snap {
     scroll-snap-type: none !important;
@@ -2588,5 +2582,39 @@ body.disable-snap,
   /* Ensure checkbox labels remain clickable */
   .checkbox-field label {
     pointer-events: auto;
+  }
+}
+
+/* Android-specific fixes */
+.android-device #petition .form-fields.expanded,
+.android-device #volunteer .form-fields.expanded {
+  display: flex !important; /* Force display on Android */
+  position: relative;
+  z-index: 30;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+.android-device .form-toggle.active {
+  background-color: var(--primary-dark) !important;
+}
+
+/* Add this class via JavaScript when Android is detected */
+@media (max-width: 768px) {
+  .android-device .form-input {
+    min-height: 44px;
+    font-size: 16px;
+    padding: 0.75rem;
+    position: relative;
+    z-index: 5;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.2); /* More visible feedback */
+    touch-action: manipulation;
+  }
+  
+  .android-device .form-container {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    z-index: 20;
   }
 }
