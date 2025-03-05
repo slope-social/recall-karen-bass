@@ -723,7 +723,7 @@ function handlePetitionSubmit(e) {
       
       // Reset the submit button
       submitButton.disabled = false;
-      submitButton.textContent = 'Sign the Petition';
+      submitButton.textContent = 'Request the Petition';
       
       // Reset form on success
       form.reset();
@@ -736,7 +736,7 @@ function handlePetitionSubmit(e) {
       
       // Reset the submit button
       submitButton.disabled = false;
-      submitButton.textContent = 'Sign the Petition';
+      submitButton.textContent = 'Request the Petition';
       
       // Show error message
       showToast('Error', 'There was a problem submitting your petition. Please try again.', 'error');
@@ -1069,7 +1069,7 @@ function initExpandableForms() {
       if (volunteerText) volunteerText.style.display = '';
       if (petitionToggle) petitionToggle.classList.remove('active');
       if (volunteerToggle) volunteerToggle.classList.remove('active');
-      if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+      if (petitionToggleText) petitionToggleText.textContent = 'Request the Petition';
       if (volunteerToggleText) volunteerToggleText.textContent = 'Volunteer Now';
     }
   }
@@ -1247,7 +1247,7 @@ function initExpandableForms() {
       if (!petitionForm.contains(event.target) && event.target !== petitionToggle && !petitionToggle.contains(event.target)) {
         petitionForm.classList.remove('expanded');
         petitionToggle.classList.remove('active');
-        if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+        if (petitionToggleText) petitionToggleText.textContent = 'Request the Petition';
         if (petitionTextOverlay) petitionTextOverlay.style.display = '';
       }
     }
@@ -1302,7 +1302,7 @@ function initExpandableForms() {
         if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
         if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
       } else {
-        if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+        if (petitionToggleText) petitionToggleText.textContent = 'Request the Petition';
         if (petitionTextOverlay) petitionTextOverlay.style.display = '';
       }
       
@@ -1372,7 +1372,7 @@ function initExpandableForms() {
       if (volunteerForm.classList.contains('expanded') && petitionForm && petitionForm.classList.contains('expanded')) {
         petitionToggle.classList.remove('active');
         petitionForm.classList.remove('expanded');
-        if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
+        if (petitionToggleText) petitionToggleText.textContent = 'Request the Petition';
         if (petitionTextOverlay) petitionTextOverlay.style.display = '';
         debugLog('Closed petition form while opening volunteer form');
       }
