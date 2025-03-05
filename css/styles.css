@@ -676,12 +676,22 @@ main {
   line-height: 110%;
 }
 
+#donate-button {
+  background: hsl(40, 100%, 50%);
+  color: black;
+}
+
+#donate-button:hover {
+  background: hsl(40, 95%, 41%);
+  color: black;
+}
+
 .petition-text-overlay span {
   font-family: 'GrungeWall', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
-  color: #ffab00;
+  color: hsl(40, 100%, 50%);
   white-space: nowrap;
 }
 /* When petition section is in view, show the background */
