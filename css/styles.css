@@ -343,7 +343,7 @@ nav {
 .nav-links button:nth-child(1),
 .nav-mobile button:nth-child(1) {
   background-color: var(--primary);
-  color: black;
+  color: white;
   overflow: visible;
   z-index: 2001;
   white-space: nowrap;
@@ -670,9 +670,13 @@ main {
 }
 
 #petition-text-overlay-2 {
-  font-size: 1.67rem !important;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 2.67rem !important;
   letter-spacing: 10%;
   color: white;
+  font-weight: 600;
+  text-transform: uppercase;
+  line-height: 4.5vmin;
 }
 
 #petition-text-overlay-1 {
@@ -694,7 +698,6 @@ main {
 .petition-text-overlay span {
   font-family: 'GrungeWall', sans-serif;
   font-size: 2.5rem;
-  margin-bottom: 1.5rem;
   color: hsl(40, 100%, 50%);
   white-space: nowrap;
   font-weight: unset;
