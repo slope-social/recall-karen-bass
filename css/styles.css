@@ -688,6 +688,7 @@ main {
   font-weight: 700;
   margin-bottom: 1.5rem;
   color: #ffab00;
+  white-space: nowrap;
 }
 /* When petition section is in view, show the background */
 #petition.in-view .petition-background,
@@ -1234,6 +1235,14 @@ text-body {
 
 /* Mobile-specific fixes for Contact form */
 @media (max-width: 768px) {
+#petition-text-overlay-2 {
+    font-size: 1.31rem !important;
+  }
+
+#petition-text-overlay-1 {
+    font-size: 2.1rem !important;
+  }
+
   #contact .section-content {
     width: 100%;
     max-width: 800px;
