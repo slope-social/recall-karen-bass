@@ -2309,6 +2309,11 @@ body.menu-open::before {
 
 /* Mobile styles for expandable forms */
 @media (max-width: 768px) {
+    #volunteer > .section-content > .section-text-overlay,
+    #petition > .section-content > .section-text-overlay {
+        text-align: left;
+    }
+
   .form-toggle {
     display: flex;
     justify-content: space-between;
