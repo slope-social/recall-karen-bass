@@ -22,8 +22,10 @@
   --section-title-color-primary: hsl(40, 100%, 50%);
   --section-title-color-secondary: white;
   --section-title-size-main: 2.55rem;
+  --section-title-size-main-mobile: 8vmin;
   /* --section-title-size-secondary: 2.67rem; */
   --section-title-size-secondary: 2.55rem;
+  --section-title-size-secondary-mobile: 8vmin;
   --section-title-shadow: drop-shadow(0 .75vmin 2vmin rgba(0, 0, 0, 0.2)) drop-shadow(0 0 4vmin rgba(0, 0, 0, 0.1));
   --section-title-margin: 0 auto 2vmin auto;
   --section-title-letter-spacing-main: 5%;
@@ -161,7 +163,7 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.65);
+  background: rgba(0, 0, 0, 0.75);
   z-index: 4;
   pointer-events: none;
 }
@@ -831,7 +833,7 @@ h3.heading-3.text-center {
 @media (max-width: 768px) {
   .section-text-overlay span,
   .petition-text-overlay span {
-    font-size: calc(var(--section-title-size-main) * 0.8);
+    font-size: calc(var(--section-title-size-main) * 0.75);
   }
 
   p#volunteer-text,
@@ -842,6 +844,7 @@ h3.heading-3.text-center {
     letter-spacing: var(--section-title-letter-spacing-secondary);
     font-size: 2.75vmin;
     text-transform: uppercase;
+    text-align: left;
 }
   
   .section-text-overlay .text-part-1,
@@ -850,7 +853,7 @@ h3.heading-3.text-center {
   #donate-text-overlay-1,
   #get-informed-text-overlay-1,
   #contact-text-overlay-1 {
-    font-size: calc(var(--section-title-size-main) * 0.8) !important;
+    font-size: calc(var(--section-title-size-main-mobile) * 0.75) !important;
   }
   
   .section-text-overlay .text-part-2,
@@ -859,7 +862,7 @@ h3.heading-3.text-center {
   #donate-text-overlay-2,
   #get-informed-text-overlay-2,
   #contact-text-overlay-2 {
-    font-size: calc(var(--section-title-size-secondary) * 0.8) !important;
+    font-size: calc(var(--section-title-size-secondary-mobile) * 0.75) !important;
   }
 }
 
@@ -1180,7 +1183,7 @@ input[type="checkbox"] + label {
 }
 
 .heading-3 {
-  font-size: 1.3rem;
+  /* font-size: 2vmin; */
   font-weight: 600;
   margin-bottom: 1rem;
   color: var(--text);
@@ -1221,7 +1224,7 @@ text-body {
   padding: 1.5rem;
   text-align: left;
   font-weight: 600;
-  font-size: 1.125rem;
+  font-size: 1.15rem;
   color: var(--text);
   background: transparent;
   border: none;
@@ -1231,6 +1234,10 @@ text-body {
   align-items: center;
   transition: all 0.2s ease;
   line-height: 1.6;
+      /* line-height: 1.4; */
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: var(--section-title-font-condensed);
+  letter-spacing: var(--section-title-letter-spacing-secondary);
 }
 
 .accordion-trigger:hover {
@@ -1673,11 +1680,20 @@ textarea.form-input {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+#volunteer-text-container {
+  width: 100%;
+}
+
 @media (min-width: 768px) {
   .cookie-banner {
     display: flex;
     flex-direction: column;
     padding: 20px 40px;
+  }
+
+  p#volunteer-text,
+  p#donate-text {
+    line-height: 1.1;
   }
   
   .cookie-actions {
@@ -2810,6 +2826,9 @@ body.disable-snap,
 
 /* Add this class via JavaScript when Android is detected */
 @media (max-width: 768px) {
+  .section:has(.form-fields.expanded) .section-text-overlay {
+    line-height: .5;
+  }
   .android-device .form-input {
     min-height: 44px;
     font-size: 16px;
@@ -2858,8 +2877,4 @@ body.disable-snap,
 
 .volunteer-checkbox-section > label.form-label {
   padding-bottom: 1vmin !important;
-}
-
-.section:has(.form-fields.expanded) .section-text-overlay {
-  line-height: .5;
 }
