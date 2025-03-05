@@ -2618,3 +2618,22 @@ body.disable-snap,
     z-index: 20;
   }
 }
+
+.petition-note {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-top: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .petition-note {
+    font-size: 0.7rem;
+    margin-top: 0.5rem;
+  }
+}
