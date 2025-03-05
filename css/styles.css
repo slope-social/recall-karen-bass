@@ -652,12 +652,6 @@ main {
   position: relative;
   width: 80vmin;
   max-width: 100%;
-  /* height: 13vmin; */
-  /* background-image: url('/assets/recall_Text.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-   */
   text-align: center;
   z-index: 10;
   opacity: 1;
@@ -828,7 +822,8 @@ input[type="checkbox"] + label {
 .form-field {
   flex: 1;
   min-width: 0;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 /* Adjust form input and label sizes */
@@ -1235,71 +1230,71 @@ text-body {
 
 /* Mobile-specific fixes for Contact form */
 @media (max-width: 768px) {
-#petition-text-overlay-2 {
-    font-size: 1.31rem !important;
-  }
+  #petition-text-overlay-2 {
+      font-size: 5.75vmin !important;
+    }
 
-#petition-text-overlay-1 {
-    font-size: 2.1rem !important;
-  }
+  #petition-text-overlay-1 {
+      font-size: 9.2vmin !important;
+    }
 
-  #contact .section-content {
-    width: 100%;
-    max-width: 800px;
-  }
-  
-  #contact .form-container {
-    width: 100%;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-  
-  #contact .form-fields {
-    width: 90%;
-    max-width: 800px;
-    padding: 1.5rem;
-    border-radius: 8px;
-    margin: 0 auto;
-  }
-  
-  #contact-form .form-row {
-    display: flex;
-    flex-direction: row;
-    margin-bottom: 0.5rem;
-    padding: 0;
-    gap: 0.5rem;
-  }
-  
-  #contact-form .form-field {
-    margin-bottom: 1rem;
-  }
-  
-  /* First name and last name fields should be side by side */
-  #contact-form .form-row:first-child {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-  }
-  
-  /* Email and message fields should be full width */
-  #contact-form .form-field:has(#contactEmail),
-  #contact-form .form-field:has(#contactMessage) {
-    width: 100%;
-    flex: 1 1 100%;
-  }
-  
-  /* Style the inputs consistently */
-  #contact-form .form-input {
-    width: 100%;
-    color: white;
-  }
-  
-  /* Ensure the submit button is properly styled */
-  #contact-form .form-submit {
-    width: 100%;
-    margin-top: 1rem;
-    background-color: #e63946;
-  }
+    #contact .section-content {
+      width: 100%;
+      max-width: 800px;
+    }
+    
+    #contact .form-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    #contact .form-fields {
+      width: 90%;
+      max-width: 800px;
+      padding: 1.5rem;
+      border-radius: 8px;
+      margin: 0 auto;
+    }
+    
+    #contact-form .form-row {
+      display: flex;
+      flex-direction: row;
+      margin-bottom: 0.5rem;
+      padding: 0;
+      gap: 0.5rem;
+    }
+    
+    #contact-form .form-field {
+      margin-bottom: 1rem;
+    }
+    
+    /* First name and last name fields should be side by side */
+    #contact-form .form-row:first-child {
+      display: flex;
+      flex-direction: row;
+      gap: 0.5rem;
+    }
+    
+    /* Email and message fields should be full width */
+    #contact-form .form-field:has(#contactEmail),
+    #contact-form .form-field:has(#contactMessage) {
+      width: 100%;
+      flex: 1 1 100%;
+    }
+    
+    /* Style the inputs consistently */
+    #contact-form .form-input {
+      width: 100%;
+      color: white;
+    }
+    
+    /* Ensure the submit button is properly styled */
+    #contact-form .form-submit {
+      width: 100%;
+      margin-top: 1rem;
+      background-color: #e63946;
+    }
 }
 
 /* Ensure consistent form widths across all sections */
