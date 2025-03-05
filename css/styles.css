@@ -865,7 +865,6 @@ h3.heading-3.text-center {
 
 #petition-text-overlay-2 {
   font-family: 'Barlow Condensed', sans-serif;
-  font-size: calc(var(--section-title-size-main)* 0.8) !important;
   letter-spacing: 10%;
   color: white;
   font-weight: 400;
