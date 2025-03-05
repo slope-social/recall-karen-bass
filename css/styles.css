@@ -766,6 +766,9 @@ body.volunteer-in-view .volunteer-fixed-background {
   overflow: visible; /* Ensure content is not cut off */
   backdrop-filter: blur(.3vmin);
   -webkit-backdrop-filter: blur(.3vmin);
+  /* Improve touch interaction */
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 /* Consistent form spacing for all forms */
@@ -824,12 +827,19 @@ input[type="checkbox"] + label {
   max-width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
+  /* Improve touch interaction */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
 }
 
+/* Fix for Android form field focus */
 .form-input:focus {
-  border-color: rgba(255, 255, 255, 0.3);
   outline: none;
+  border-color: var(--primary);
   background: rgba(255, 255, 255, 0.12);
+  /* Ensure the element stays in view */
+  position: relative;
+  z-index: 5;
 }
 
 .form-message {
@@ -1236,11 +1246,6 @@ text-body {
     display: flex;
     flex-direction: row;
     gap: 0.5rem;
-  }
-  
-  #contact-form .form-row:first-child .form-field {
-    width: calc(50% - 0.25rem);
-    flex: 0 0 calc(50% - 0.25rem);
   }
   
   /* Email and message fields should be full width */
@@ -1860,21 +1865,26 @@ body.volunteer-in-view .volunteer-fixed-background {
 
 /* Desktop-specific settings */
 @media (min-width: 769px) {
-  html, body {
-    scroll-snap-type: y proximity;
+  html {
     scroll-behavior: smooth;
-    overflow-y: auto;
-    height: 100vh;
+    /* Enable scroll snapping */
+    scroll-snap-type: y proximity;
     overscroll-behavior: contain;
   }
   
+  body {
+    /* Enable scroll snapping */
+    scroll-snap-type: y proximity;
+  }
+  
   .section {
+    /* Enable scroll snapping */
     scroll-snap-align: start;
     scroll-snap-stop: always;
   }
   
   .site-footer {
-    scroll-snap-align: none; /* Remove snap alignment from footer */
+    scroll-snap-align: none;
     min-height: auto;
     position: absolute;
     z-index: 20;
@@ -2025,6 +2035,9 @@ body.menu-open::before {
   text-align: left;
   position: relative;
   transition: background-color 0.3s ease;
+  z-index: 10; /* Ensure it's above other elements */
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1); /* Better touch feedback */
+  touch-action: manipulation; /* Improve touch behavior */
 }
 
 .form-toggle:hover {
@@ -2057,6 +2070,9 @@ body.menu-open::before {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 0.5rem; /* Add space between toggle and form */
+    position: relative;
+    z-index: 20; /* Higher z-index to ensure clickability */
   }
   
   /* Only apply to petition and volunteer forms, not contact form */
@@ -2092,6 +2108,33 @@ body.menu-open::before {
   .donate-button {
     width: 100%;
     max-width: 100%;
+  }
+  
+  /* Increase touch target size for better mobile interaction */
+  .form-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    padding: 0.75rem;
+  }
+  
+  /* Prevent scroll issues when focusing on inputs */
+  .form-field {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Disable scroll snap when interacting with forms */
+  .disable-snap {
+    scroll-snap-type: none !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    overscroll-behavior: auto !important;
+  }
+  
+  /* Ensure form containers don't interfere with input interaction */
+  .form-container {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -2433,4 +2476,10 @@ body.disable-snap,
     width: 100%;
     max-width: 100%;
   }
-} 
+}
+
+@media (max-width: 582px) {
+  .text-body br {
+    display: none;
+  }
+}

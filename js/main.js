@@ -377,14 +377,47 @@ function initForms() {
   
   if (petitionForm) {
     petitionForm.addEventListener('submit', handlePetitionSubmit);
+    
+    // Fix for Android form field focus issues - only apply to inputs, not the toggle button
+    const petitionInputs = petitionForm.querySelectorAll('input, textarea');
+    petitionInputs.forEach(input => {
+      input.addEventListener('touchstart', function(e) {
+        // Only stop propagation if we're directly interacting with the input
+        if (e.target === input) {
+          e.stopPropagation();
+        }
+      }, { passive: false });
+    });
   }
   
   if (volunteerForm) {
     volunteerForm.addEventListener('submit', handleVolunteerSubmit);
+    
+    // Fix for Android form field focus issues - only apply to inputs, not the toggle button
+    const volunteerInputs = volunteerForm.querySelectorAll('input, textarea');
+    volunteerInputs.forEach(input => {
+      input.addEventListener('touchstart', function(e) {
+        // Only stop propagation if we're directly interacting with the input
+        if (e.target === input) {
+          e.stopPropagation();
+        }
+      }, { passive: false });
+    });
   }
   
   if (contactForm) {
     contactForm.addEventListener('submit', handleContactSubmit);
+    
+    // Fix for Android form field focus issues - only apply to inputs, not the toggle button
+    const contactInputs = contactForm.querySelectorAll('input, textarea');
+    contactInputs.forEach(input => {
+      input.addEventListener('touchstart', function(e) {
+        // Only stop propagation if we're directly interacting with the input
+        if (e.target === input) {
+          e.stopPropagation();
+        }
+      }, { passive: false });
+    });
   }
   
   // Add input validation listeners
@@ -392,6 +425,14 @@ function initForms() {
   formInputs.forEach(input => {
     input.addEventListener('blur', validateInput);
     input.addEventListener('input', clearError);
+    
+    // Additional fix for Android touch events - only apply to the input itself
+    input.addEventListener('touchend', function(e) {
+      // Only stop propagation if we're directly interacting with the input
+      if (e.target === input) {
+        e.stopPropagation();
+      }
+    }, { passive: false });
   });
 }
 
@@ -948,7 +989,15 @@ function initExpandableForms() {
   
   // Toggle petition form
   if (petitionToggle && petitionForm) {
-    petitionToggle.addEventListener('click', function() {
+    // Ensure the toggle button has proper z-index and is clickable
+    petitionToggle.style.position = 'relative';
+    petitionToggle.style.zIndex = '10';
+    
+    petitionToggle.addEventListener('click', function(event) {
+      // Prevent any default behavior
+      event.preventDefault();
+      
+      // Toggle classes
       petitionToggle.classList.toggle('active');
       petitionForm.classList.toggle('expanded');
       
@@ -974,7 +1023,15 @@ function initExpandableForms() {
   
   // Toggle volunteer form
   if (volunteerToggle && volunteerForm) {
-    volunteerToggle.addEventListener('click', function() {
+    // Ensure the toggle button has proper z-index and is clickable
+    volunteerToggle.style.position = 'relative';
+    volunteerToggle.style.zIndex = '10';
+    
+    volunteerToggle.addEventListener('click', function(event) {
+      // Prevent any default behavior
+      event.preventDefault();
+      
+      // Toggle classes
       volunteerToggle.classList.toggle('active');
       volunteerForm.classList.toggle('expanded');
       
