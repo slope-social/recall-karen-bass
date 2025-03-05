@@ -2,6 +2,7 @@
 let isAnimating = false;
 let debugMode = true; // Enable debug mode
 let formsManuallyExpanded = false; // Track if forms have been manually expanded
+let recallText = 'Recall Bass Now';
 
 // App Script URLs for form submissions - Update these with your deployed web app URLs
 const appScriptUrls = {
@@ -835,7 +836,7 @@ function handlePetitionSubmit(e) {
       
       // Reset the submit button
       submitButton.disabled = false;
-      submitButton.textContent = 'Request the Petition';
+      submitButton.textContent = recallText;
       
       // Reset form on success
       form.reset();
@@ -848,7 +849,7 @@ function handlePetitionSubmit(e) {
       
       // Reset the submit button
       submitButton.disabled = false;
-      submitButton.textContent = 'Request the Petition';
+      submitButton.textContent = recallText;
       
       // Show error message
       showToast('Error', 'There was a problem submitting your petition. Please try again.', 'error');
@@ -1201,6 +1202,10 @@ function initExpandableForms() {
       if (volunteerToggleText && !(isAndroid() && formsManuallyExpanded && volunteerForm.classList.contains('expanded'))) {
         volunteerToggleText.textContent = 'Volunteer Now';
       }
+      if (petitionToggle) petitionToggle.classList.remove('active');
+      if (volunteerToggle) volunteerToggle.classList.remove('active');
+      if (petitionToggleText) petitionToggleText.textContent = recallText;
+      if (volunteerToggleText) volunteerToggleText.textContent = 'Volunteer Now';
     }
   }
   
@@ -1221,7 +1226,7 @@ function initExpandableForms() {
         debugLog('Re-expanding petition form after container click');
         petitionForm.classList.add('expanded');
         petitionToggle.classList.add('active');
-        if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+        if (petitionToggleText) petitionToggleText.textContent = recallText;
         if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
       }
     }, true); // Use capture phase
@@ -1250,7 +1255,7 @@ function initExpandableForms() {
           debugLog('Re-expanding petition form after field click');
           petitionForm.classList.add('expanded');
           petitionToggle.classList.add('active');
-          if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+          if (petitionToggleText) petitionToggleText.textContent = recallText;
           if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
         }
         
@@ -1377,7 +1382,7 @@ function initExpandableForms() {
       if (!petitionForm.contains(event.target) && event.target !== petitionToggle && !petitionToggle.contains(event.target)) {
         petitionForm.classList.remove('expanded');
         petitionToggle.classList.remove('active');
-        if (petitionToggleText) petitionToggleText.textContent = 'Request the Petition';
+        if (petitionToggleText) petitionToggleText.textContent = recallText;
         if (petitionTextOverlay) petitionTextOverlay.style.display = '';
       }
     }
@@ -1436,10 +1441,10 @@ function initExpandableForms() {
       
       // Change text and toggle visibility of elements
       if (petitionForm.classList.contains('expanded')) {
-        if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+        if (petitionToggleText) petitionToggleText.textContent = recallText;
         if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
       } else {
-        if (petitionToggleText) petitionToggleText.textContent = 'Request the Petition';
+        if (petitionToggleText) petitionToggleText.textContent = recallText;
         if (petitionTextOverlay) petitionTextOverlay.style.display = '';
       }
       
@@ -1516,7 +1521,7 @@ function initExpandableForms() {
       if (volunteerForm.classList.contains('expanded') && petitionForm && petitionForm.classList.contains('expanded')) {
         petitionToggle.classList.remove('active');
         petitionForm.classList.remove('expanded');
-        if (petitionToggleText) petitionToggleText.textContent = 'Request the Petition';
+        if (petitionToggleText) petitionToggleText.textContent = recallText;
         if (petitionTextOverlay) petitionTextOverlay.style.display = '';
         debugLog('Closed petition form while opening volunteer form');
       }

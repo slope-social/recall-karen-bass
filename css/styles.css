@@ -652,19 +652,43 @@ main {
   position: relative;
   width: 80vmin;
   max-width: 100%;
-  height: 13vmin;
-  background-image: url('/assets/recall_Text.png');
+  /* height: 13vmin; */
+  /* background-image: url('/assets/recall_Text.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+   */
+  text-align: center;
   z-index: 10;
   opacity: 1;
   transition: opacity 0.7s ease;
   display: block;
   margin: 0 auto 2vmin auto;
-  filter: drop-shadow(0 0 2vmin rgba(0, 0, 0, 0.25));
+  filter: drop-shadow(0 2vmin 2vmin rgba(57, 0, 0, 0.3)) drop-shadow(0 0 2vmin rgba(0, 0, 0, 0.25));
 }
 
+#petition .form-fields, #volunteer .form-fields, #contact .form-fields {
+    gap: 0;
+}
+
+#petition-text-overlay-2 {
+  font-size: 1.6rem !important;
+  letter-spacing: 10%;
+}
+
+#petition-text-overlay-1 {
+  font-size: 2.55rem !important;
+  letter-spacing: 5%;
+  line-height: 110%;
+}
+
+.petition-text-overlay span {
+  font-family: 'GrungeWall', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #ffab00;
+}
 /* When petition section is in view, show the background */
 #petition.in-view .petition-background,
 #petition:target .petition-background {
@@ -2088,7 +2112,7 @@ body.menu-open::before {
 #volunteer-form-toggle.active .form-toggle-text,
 #petition-form-toggle.active .form-toggle-text {
   display: inline-block;
-  font-size: 200%;
+  font-size: 120%; /* Reduced from 200% to prevent oversized toggle */
 }
 
 .form-toggle-icon {
@@ -2557,6 +2581,7 @@ body.disable-snap,
   -webkit-backface-visibility: hidden;
   will-change: transform; /* Hint for browser optimization */
   touch-action: pan-y pinch-zoom; /* Allow vertical scrolling but prevent horizontal */
+  align-items: center;
 }
 
 /* Prevent scrolling when interacting with form fields on mobile */
@@ -2617,23 +2642,25 @@ body.disable-snap,
     position: relative;
     z-index: 20;
   }
-}
 
-.petition-note {
-  font-size: 0.8rem;
-  color: rgba(255, 255, 255, 0.8);
-  text-align: center;
-  margin-top: 0.75rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  width: 100%;
-  font-style: italic;
-}
-
-@media (max-width: 768px) {
   .petition-note {
     font-size: 0.7rem;
     margin-top: 0.5rem;
   }
+}
+
+@media (max-width: 700px) {
+.petition-note {
+  white-space: wrap !important;
+}
+}
+
+.petition-note {
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  margin-top: .5rem;
+  white-space: nowrap;
+  width: 100%;
+  font-style: italic;
+  font-size: .65rem;
 }
