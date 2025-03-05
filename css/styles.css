@@ -343,7 +343,7 @@ nav {
 .nav-links button:nth-child(1),
 .nav-mobile button:nth-child(1) {
   background-color: var(--primary);
-  color: white;
+  color: black;
   overflow: visible;
   z-index: 2001;
   white-space: nowrap;
