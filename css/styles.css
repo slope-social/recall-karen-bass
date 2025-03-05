@@ -2595,9 +2595,9 @@ body.disable-snap,
   -webkit-transform: translateZ(0);
 }
 
-.android-device .form-toggle.active {
+/* .android-device .form-toggle.active {
   background-color: var(--primary-dark) !important;
-}
+} */
 
 /* Add this class via JavaScript when Android is detected */
 @media (max-width: 768px) {
