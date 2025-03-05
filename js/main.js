@@ -375,48 +375,42 @@ function initForms() {
   const volunteerForm = document.getElementById('volunteer-form');
   const contactForm = document.getElementById('contact-form');
   
+  // Function to prevent form closing when interacting with form fields
+  function preventFormClosing(e) {
+    // Prevent the event from bubbling up to document click handler
+    e.stopPropagation();
+  }
+  
   if (petitionForm) {
     petitionForm.addEventListener('submit', handlePetitionSubmit);
     
-    // Fix for Android form field focus issues - only apply to inputs, not the toggle button
-    const petitionInputs = petitionForm.querySelectorAll('input, textarea');
-    petitionInputs.forEach(input => {
-      input.addEventListener('touchstart', function(e) {
-        // Only stop propagation if we're directly interacting with the input
-        if (e.target === input) {
-          e.stopPropagation();
-        }
-      }, { passive: false });
+    // Add event listeners to all form elements to prevent form closing
+    petitionForm.querySelectorAll('input, textarea, select, label').forEach(element => {
+      element.addEventListener('click', preventFormClosing);
+      element.addEventListener('touchstart', preventFormClosing, { passive: false });
+      element.addEventListener('touchend', preventFormClosing, { passive: false });
     });
   }
   
   if (volunteerForm) {
     volunteerForm.addEventListener('submit', handleVolunteerSubmit);
     
-    // Fix for Android form field focus issues - only apply to inputs, not the toggle button
-    const volunteerInputs = volunteerForm.querySelectorAll('input, textarea');
-    volunteerInputs.forEach(input => {
-      input.addEventListener('touchstart', function(e) {
-        // Only stop propagation if we're directly interacting with the input
-        if (e.target === input) {
-          e.stopPropagation();
-        }
-      }, { passive: false });
+    // Add event listeners to all form elements to prevent form closing
+    volunteerForm.querySelectorAll('input, textarea, select, label').forEach(element => {
+      element.addEventListener('click', preventFormClosing);
+      element.addEventListener('touchstart', preventFormClosing, { passive: false });
+      element.addEventListener('touchend', preventFormClosing, { passive: false });
     });
   }
   
   if (contactForm) {
     contactForm.addEventListener('submit', handleContactSubmit);
     
-    // Fix for Android form field focus issues - only apply to inputs, not the toggle button
-    const contactInputs = contactForm.querySelectorAll('input, textarea');
-    contactInputs.forEach(input => {
-      input.addEventListener('touchstart', function(e) {
-        // Only stop propagation if we're directly interacting with the input
-        if (e.target === input) {
-          e.stopPropagation();
-        }
-      }, { passive: false });
+    // Add event listeners to all form elements to prevent form closing
+    contactForm.querySelectorAll('input, textarea, select, label').forEach(element => {
+      element.addEventListener('click', preventFormClosing);
+      element.addEventListener('touchstart', preventFormClosing, { passive: false });
+      element.addEventListener('touchend', preventFormClosing, { passive: false });
     });
   }
   
@@ -425,14 +419,6 @@ function initForms() {
   formInputs.forEach(input => {
     input.addEventListener('blur', validateInput);
     input.addEventListener('input', clearError);
-    
-    // Additional fix for Android touch events - only apply to the input itself
-    input.addEventListener('touchend', function(e) {
-      // Only stop propagation if we're directly interacting with the input
-      if (e.target === input) {
-        e.stopPropagation();
-      }
-    }, { passive: false });
   });
 }
 
@@ -927,6 +913,9 @@ function initExpandableForms() {
   const petitionToggleText = document.querySelector('#petition-form-toggle .form-toggle-text');
   const volunteerToggleText = document.querySelector('#volunteer-form-toggle .form-toggle-text');
   
+  // Special flag to track if we're handling a toggle button click
+  let isHandlingToggleClick = false;
+  
   // Function to handle form visibility based on screen size
   function handleFormVisibility() {
     const isMobile = window.innerWidth <= 768;
@@ -965,6 +954,19 @@ function initExpandableForms() {
     // Skip if not mobile
     if (window.innerWidth > 768) return;
     
+    // Skip if we're handling a toggle button click
+    if (isHandlingToggleClick) return;
+    
+    // Skip if the click is on a form input or label (prevent form closing when interacting with form fields)
+    if (event.target.tagName === 'INPUT' || 
+        event.target.tagName === 'TEXTAREA' || 
+        event.target.tagName === 'SELECT' || 
+        event.target.tagName === 'LABEL' ||
+        event.target.classList.contains('form-input') ||
+        event.target.classList.contains('form-label')) {
+      return;
+    }
+    
     // Check if click is outside petition form
     if (petitionForm && petitionForm.classList.contains('expanded')) {
       if (!petitionForm.contains(event.target) && event.target !== petitionToggle && !petitionToggle.contains(event.target)) {
@@ -994,8 +996,12 @@ function initExpandableForms() {
     petitionToggle.style.zIndex = '10';
     
     petitionToggle.addEventListener('click', function(event) {
+      // Set flag to prevent document click handler from closing the form
+      isHandlingToggleClick = true;
+      
       // Prevent any default behavior
       event.preventDefault();
+      event.stopPropagation();
       
       // Toggle classes
       petitionToggle.classList.toggle('active');
@@ -1018,6 +1024,11 @@ function initExpandableForms() {
         if (volunteerHeading) volunteerHeading.style.display = '';
         if (volunteerText) volunteerText.style.display = '';
       }
+      
+      // Reset flag after a short delay
+      setTimeout(() => {
+        isHandlingToggleClick = false;
+      }, 100);
     });
   }
   
@@ -1028,8 +1039,12 @@ function initExpandableForms() {
     volunteerToggle.style.zIndex = '10';
     
     volunteerToggle.addEventListener('click', function(event) {
+      // Set flag to prevent document click handler from closing the form
+      isHandlingToggleClick = true;
+      
       // Prevent any default behavior
       event.preventDefault();
+      event.stopPropagation();
       
       // Toggle classes
       volunteerToggle.classList.toggle('active');
@@ -1053,6 +1068,11 @@ function initExpandableForms() {
         if (petitionToggleText) petitionToggleText.textContent = 'Sign the Petition';
         if (petitionTextOverlay) petitionTextOverlay.style.display = '';
       }
+      
+      // Reset flag after a short delay
+      setTimeout(() => {
+        isHandlingToggleClick = false;
+      }, 100);
     });
   }
 }

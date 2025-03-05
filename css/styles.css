@@ -1826,17 +1826,60 @@ body.volunteer-in-view .volunteer-fixed-background {
 /* Mobile-specific settings */
 @media (max-width: 768px) {
   html, body {
-    scroll-snap-type: y proximity;
-    scroll-behavior: smooth;
-    overflow-y: auto;
-    height: 100vh;
-    overscroll-behavior: contain;
+    /* Completely disable scroll snapping */
+    scroll-snap-type: none !important;
+    overflow-y: auto !important;
+    height: auto !important;
   }
   
   .section {
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
+    /* Completely disable scroll snapping */
+    scroll-snap-align: none !important;
+    scroll-snap-stop: normal !important;
     min-height: 100vh;
+  }
+  
+  /* Improve form field interaction on Android */
+  .form-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    padding: 0.75rem;
+    position: relative;
+    z-index: 5;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  /* Prevent form field label from triggering unwanted events */
+  .form-label {
+    position: relative;
+    z-index: 5;
+    pointer-events: none; /* Prevent label from capturing clicks */
+  }
+  
+  /* Ensure checkbox labels remain clickable */
+  .checkbox-field label {
+    pointer-events: auto;
+  }
+  
+  /* Prevent scroll issues when focusing on inputs */
+  .form-field {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Disable scroll snap when interacting with forms */
+  .disable-snap {
+    scroll-snap-type: none !important;
+    overflow-y: auto !important;
+    height: auto !important;
+    overscroll-behavior: auto !important;
+  }
+  
+  /* Ensure form containers don't interfere with input interaction */
+  .form-container {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -2110,31 +2153,27 @@ body.menu-open::before {
     max-width: 100%;
   }
   
-  /* Increase touch target size for better mobile interaction */
+  /* Improve form field interaction on Android */
   .form-input {
     min-height: 44px;
     font-size: 16px; /* Prevent iOS zoom on focus */
     padding: 0.75rem;
-  }
-  
-  /* Prevent scroll issues when focusing on inputs */
-  .form-field {
     position: relative;
-    z-index: 2;
+    z-index: 5;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
   }
   
-  /* Disable scroll snap when interacting with forms */
-  .disable-snap {
-    scroll-snap-type: none !important;
-    overflow-y: auto !important;
-    height: auto !important;
-    overscroll-behavior: auto !important;
+  /* Prevent form field label from triggering unwanted events */
+  .form-label {
+    position: relative;
+    z-index: 5;
+    pointer-events: none; /* Prevent label from capturing clicks */
   }
   
-  /* Ensure form containers don't interfere with input interaction */
-  .form-container {
-    touch-action: pan-y;
-    -webkit-overflow-scrolling: touch;
+  /* Ensure checkbox labels remain clickable */
+  .checkbox-field label {
+    pointer-events: auto;
   }
 }
 
@@ -2158,19 +2197,47 @@ body.menu-open::before {
 }
 
 @media (max-width: 768px) {
-  /* Adjust scroll behavior for mobile */
-  html, body {
-    /* Completely disable scroll snapping */
+  /* Improve form field interaction on Android */
+  .form-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    padding: 0.75rem;
+    position: relative;
+    z-index: 5;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  /* Prevent form field label from triggering unwanted events */
+  .form-label {
+    position: relative;
+    z-index: 5;
+    pointer-events: none; /* Prevent label from capturing clicks */
+  }
+  
+  /* Ensure checkbox labels remain clickable */
+  .checkbox-field label {
+    pointer-events: auto;
+  }
+  
+  /* Prevent scroll issues when focusing on inputs */
+  .form-field {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Disable scroll snap when interacting with forms */
+  .disable-snap {
     scroll-snap-type: none !important;
     overflow-y: auto !important;
     height: auto !important;
+    overscroll-behavior: auto !important;
   }
   
-  .section {
-    /* Completely disable scroll snapping */
-    scroll-snap-align: none !important;
-    scroll-snap-stop: normal !important;
-    min-height: 100vh;
+  /* Ensure form containers don't interfere with input interaction */
+  .form-container {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -2481,5 +2548,45 @@ body.disable-snap,
 @media (max-width: 582px) {
   .text-body br {
     display: none;
+  }
+}
+
+/* Form fields expanded state - prevent scrolling issues on Android */
+#petition .form-fields.expanded,
+#volunteer .form-fields.expanded {
+  display: flex; /* Show when expanded */
+  position: relative;
+  z-index: 30; /* Higher than toggle button */
+  transform: translateZ(0); /* Force hardware acceleration */
+  -webkit-transform: translateZ(0);
+  backface-visibility: hidden; /* Prevent flickering */
+  -webkit-backface-visibility: hidden;
+  will-change: transform; /* Hint for browser optimization */
+  touch-action: pan-y pinch-zoom; /* Allow vertical scrolling but prevent horizontal */
+}
+
+/* Prevent scrolling when interacting with form fields on mobile */
+@media (max-width: 768px) {
+  /* Improve form field interaction on Android */
+  .form-input {
+    min-height: 44px;
+    font-size: 16px; /* Prevent iOS zoom on focus */
+    padding: 0.75rem;
+    position: relative;
+    z-index: 5;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
+  }
+  
+  /* Prevent form field label from triggering unwanted events */
+  .form-label {
+    position: relative;
+    z-index: 5;
+    pointer-events: none; /* Prevent label from capturing clicks */
+  }
+  
+  /* Ensure checkbox labels remain clickable */
+  .checkbox-field label {
+    pointer-events: auto;
   }
 }
