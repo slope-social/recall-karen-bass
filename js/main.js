@@ -36,6 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
     debugLog('Window Height:', window.innerHeight);
   }
   
+  // Add Android-specific class to body if needed
+  if (isAndroid()) {
+    document.body.classList.add('android-device');
+    debugLog('Added android-device class to body');
+  }
+  
   // Initialize background images
   initBackgroundImages();
   
@@ -1037,6 +1043,9 @@ function initExpandableForms() {
   // Special flag to track if we're handling a toggle button click
   let isHandlingToggleClick = false;
   
+  // Flag to track if we're interacting with a form field
+  let isInteractingWithFormField = false;
+  
   // Function to handle form visibility based on screen size
   function handleFormVisibility() {
     const isMobile = window.innerWidth <= 768;
@@ -1071,6 +1080,125 @@ function initExpandableForms() {
   // Listen for window resize events
   window.addEventListener('resize', handleFormVisibility);
   
+  // Add direct event handlers to the form containers
+  if (petitionForm) {
+    petitionForm.addEventListener('click', function(e) {
+      debugLog('Petition form container clicked', { target: e.target, tagName: e.target.tagName });
+      e.stopPropagation(); // Stop event from reaching document
+      
+      // Ensure the form stays expanded
+      if (!petitionForm.classList.contains('expanded')) {
+        debugLog('Re-expanding petition form after container click');
+        petitionForm.classList.add('expanded');
+        petitionToggle.classList.add('active');
+        if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+        if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
+      }
+    }, true); // Use capture phase
+    
+    // Also handle touchstart events on the form container
+    petitionForm.addEventListener('touchstart', function(e) {
+      debugLog('Petition form container touchstart', { target: e.target, tagName: e.target.tagName });
+      isInteractingWithFormField = true;
+      
+      // Reset the flag after a delay
+      setTimeout(() => {
+        isInteractingWithFormField = false;
+      }, 500);
+    }, { passive: false, capture: true });
+    
+    // Add event listeners to individual form fields
+    const petitionFormFields = petitionForm.querySelectorAll('input, textarea, select, label, .form-input, .form-label');
+    petitionFormFields.forEach(field => {
+      field.addEventListener('click', function(e) {
+        debugLog('Petition form field clicked', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+        
+        // Ensure the form stays expanded
+        if (!petitionForm.classList.contains('expanded')) {
+          debugLog('Re-expanding petition form after field click');
+          petitionForm.classList.add('expanded');
+          petitionToggle.classList.add('active');
+          if (petitionToggleText) petitionToggleText.textContent = 'Recall Bass Now';
+          if (petitionTextOverlay) petitionTextOverlay.style.display = 'none';
+        }
+        
+        // Reset the flag after a delay
+        setTimeout(() => {
+          isInteractingWithFormField = false;
+        }, 500);
+      }, true); // Use capture phase
+      
+      // Also handle touchstart events
+      field.addEventListener('touchstart', function(e) {
+        debugLog('Petition form field touchstart', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+      }, { passive: false, capture: true });
+    });
+  }
+  
+  if (volunteerForm) {
+    volunteerForm.addEventListener('click', function(e) {
+      debugLog('Volunteer form container clicked', { target: e.target, tagName: e.target.tagName });
+      e.stopPropagation(); // Stop event from reaching document
+      
+      // Ensure the form stays expanded
+      if (!volunteerForm.classList.contains('expanded')) {
+        debugLog('Re-expanding volunteer form after container click');
+        volunteerForm.classList.add('expanded');
+        volunteerToggle.classList.add('active');
+        if (volunteerToggleText) volunteerToggleText.textContent = 'Join Our Movement';
+        if (volunteerHeading) volunteerHeading.style.display = 'none';
+        if (volunteerText) volunteerText.style.display = 'none';
+      }
+    }, true); // Use capture phase
+    
+    // Also handle touchstart events on the form container
+    volunteerForm.addEventListener('touchstart', function(e) {
+      debugLog('Volunteer form container touchstart', { target: e.target, tagName: e.target.tagName });
+      isInteractingWithFormField = true;
+      
+      // Reset the flag after a delay
+      setTimeout(() => {
+        isInteractingWithFormField = false;
+      }, 500);
+    }, { passive: false, capture: true });
+    
+    // Add event listeners to individual form fields
+    const volunteerFormFields = volunteerForm.querySelectorAll('input, textarea, select, label, .form-input, .form-label');
+    volunteerFormFields.forEach(field => {
+      field.addEventListener('click', function(e) {
+        debugLog('Volunteer form field clicked', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+        
+        // Ensure the form stays expanded
+        if (!volunteerForm.classList.contains('expanded')) {
+          debugLog('Re-expanding volunteer form after field click');
+          volunteerForm.classList.add('expanded');
+          volunteerToggle.classList.add('active');
+          if (volunteerToggleText) volunteerToggleText.textContent = 'Join Our Movement';
+          if (volunteerHeading) volunteerHeading.style.display = 'none';
+          if (volunteerText) volunteerText.style.display = 'none';
+        }
+        
+        // Reset the flag after a delay
+        setTimeout(() => {
+          isInteractingWithFormField = false;
+        }, 500);
+      }, true); // Use capture phase
+      
+      // Also handle touchstart events
+      field.addEventListener('touchstart', function(e) {
+        debugLog('Volunteer form field touchstart', { target: e.target, tagName: e.target.tagName });
+        isInteractingWithFormField = true;
+        e.stopPropagation(); // Stop event from reaching document
+      }, { passive: false, capture: true });
+    });
+  }
+  
   // Close forms when clicking outside (only on mobile)
   document.addEventListener('click', function(event) {
     // Log the document click event for debugging
@@ -1079,6 +1207,7 @@ function initExpandableForms() {
       tagName: event.target.tagName,
       className: event.target.className,
       isHandlingToggleClick: isHandlingToggleClick,
+      isInteractingWithFormField: isInteractingWithFormField,
       petitionFormExpanded: petitionForm ? petitionForm.classList.contains('expanded') : false,
       volunteerFormExpanded: volunteerForm ? volunteerForm.classList.contains('expanded') : false,
       isMobile: window.innerWidth <= 768
@@ -1093,6 +1222,12 @@ function initExpandableForms() {
     // Skip if we're handling a toggle button click
     if (isHandlingToggleClick) {
       debugLog('Skipping document click handler - handling toggle click');
+      return;
+    }
+    
+    // Skip if we're interacting with a form field
+    if (isInteractingWithFormField) {
+      debugLog('Skipping document click handler - interacting with form field');
       return;
     }
     
