@@ -665,9 +665,14 @@ main {
     gap: 0;
 }
 
+.volunteer-checkbox-section > label.form-label {
+  padding-bottom: 1vmin !important;
+}
+
 #petition-text-overlay-2 {
-  font-size: 1.6rem !important;
+  font-size: 1.67rem !important;
   letter-spacing: 10%;
+  color: white;
 }
 
 #petition-text-overlay-1 {
@@ -692,6 +697,7 @@ main {
   margin-bottom: 1.5rem;
   color: hsl(40, 100%, 50%);
   white-space: nowrap;
+  font-weight: unset;
 }
 /* When petition section is in view, show the background */
 #petition.in-view .petition-background,
@@ -1644,7 +1650,7 @@ textarea.form-input {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: .5vmin;
 }
 
 .footer-links {
@@ -1682,7 +1688,7 @@ textarea.form-input {
 }
 
 .footer-disclaimer {
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   margin-bottom: 0.5rem;
   text-align: center;
 }
