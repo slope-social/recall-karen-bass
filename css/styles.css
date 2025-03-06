@@ -21,15 +21,17 @@
   --section-title-font-condensed: 'Barlow Condensed', sans-serif;
   --section-title-color-primary: hsl(40, 100%, 50%);
   --section-title-color-secondary: white;
-  --section-title-size-main: 2.55rem;
-  --section-title-size-main-mobile: 8vmin;
-  /* --section-title-size-secondary: 2.67rem; */
-  --section-title-size-secondary: 2.55rem;
-  --section-title-size-secondary-mobile: 8vmin;
-  --section-title-shadow: drop-shadow(0 .75vmin 2vmin rgba(0, 0, 0, 0.2)) drop-shadow(0 0 4vmin rgba(0, 0, 0, 0.1));
-  --section-title-margin: 0 auto 2vmin auto;
-  --section-title-letter-spacing-main: 5%;
-  --section-title-letter-spacing-secondary: 10%;
+  --section-title-size-main: 5.5vmin; /* Changed from rem to vmin for better scaling */
+  --section-title-size-main-mobile: 6vmin; /* Adjusted for mobile */
+  --section-title-size-secondary: 5.5vmin; /* Changed from rem to vmin for better scaling */
+  --section-title-size-secondary-mobile: 6vmin; /* Adjusted for mobile */
+  --section-title-shadow: drop-shadow(0 .75vmin 2vmin rgba(0, 0, 0, 0.3)) drop-shadow(0 0 4vmin rgba(0, 0, 0, 0.2));
+  --section-title-margin: 0 auto 2.5rem auto;
+  --section-title-letter-spacing-main: 0.05em;
+  --section-title-letter-spacing-secondary: 0.1em;
+  --section-title-spacing: 0.35rem;
+  --section-title-line-height: 1; /* Standardized line height */
+  --section-title-vertical-align: baseline; /* Standardized vertical alignment */
 }
 
 html {
@@ -605,19 +607,23 @@ main {
 /* Section content */
 .section-content {
   position: relative;
-  z-index: 20;
-  border-radius: 8px;
-  padding: 2rem;
+  z-index: 10;
+  width: 100%;
   max-width: 800px;
-  /* width: 90%; */
   margin: 0 auto;
-  overflow-x: hidden;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  pointer-events: auto;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+}
+
+#petition .section-content,
+#volunteer .section-content,
+#donate .section-content,
+#get-informed .section-content,
+#contact .section-content {
+  padding-top: 3rem;
 }
 
 /* Petition section specific styles */
@@ -680,9 +686,52 @@ main {
   z-index: 10;
   opacity: 1;
   transition: opacity 0.7s ease;
-  display: block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: var(--section-title-vertical-align);
+  margin: var(--section-title-margin);
   filter: var(--section-title-shadow);
-  text-shadow: 0 .25vmin 6vmin rgba(0, 0, 0, .3);
+  overflow: visible;
+  transform-origin: center center;
+  margin-bottom: 1.5rem; /* Reduced from 2rem for more compact spacing */
+}
+
+/* Specific adjustments for each section */
+#petition .section-text-overlay,
+#volunteer .section-text-overlay,
+#donate .section-text-overlay,
+#get-informed .section-text-overlay,
+#contact .section-text-overlay {
+  padding-top: 0.5rem; /* Further reduced padding for all sections */
+  margin-bottom: 0.75rem; /* Further reduced margin for all sections */
+  gap: 0.75vmin;
+}
+
+/* Additional specific adjustment for volunteer section */
+#volunteer .section-text-overlay {
+  margin-bottom: 0.1rem; /* Minimal margin for volunteer section */
+  padding-top: 0.3rem; /* Minimal padding for volunteer section */
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .section-text-overlay {
+    padding: 0.25rem 0.5rem;
+    margin: 0 auto 0.75rem auto; /* Further reduced margin */
+    gap: 0.25rem;
+    align-items: var(--section-title-vertical-align);
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible; /* Ensure text doesn't get cut off on mobile */
+  }
+  
+  /* Get Informed and Volunteer specific mobile adjustments */
+  #get-informed .section-text-overlay,
+  #volunteer .section-text-overlay {
+    padding-top: 0.3rem; /* Minimal padding */
+    margin-bottom: 0.1rem; /* Minimal margin for more compact spacing */
+  }
 }
 
 .section-text-overlay span {
@@ -691,6 +740,12 @@ main {
   color: var(--section-title-color-primary);
   white-space: nowrap;
   font-weight: unset;
+  line-height: var(--section-title-line-height);
+  display: inline-block;
+  vertical-align: var(--section-title-vertical-align);
+  padding-bottom: 0;
+  margin-bottom: 0;
+  transform-origin: center center; /* Ensure scaling happens from the center */
 }
 
 .section-text-overlay .text-part-1 {
@@ -716,9 +771,13 @@ main {
   z-index: 10;
   opacity: 1;
   transition: opacity 0.7s ease;
-  display: block;
+  display: inline-flex;
+  justify-content: center;
+  align-items: var(--section-title-vertical-align);
   margin: var(--section-title-margin);
   filter: var(--section-title-shadow);
+  overflow: visible;
+  transform-origin: center center;
 }
 
 .petition-text-overlay span {
@@ -727,61 +786,17 @@ main {
   color: var(--section-title-color-primary);
   white-space: nowrap;
   font-weight: unset;
+  line-height: var(--section-title-line-height);
+  vertical-align: var(--section-title-vertical-align);
 }
-
-#petition-text-overlay-1 {
-  font-size: var(--section-title-size-main);
-  letter-spacing: var(--section-title-letter-spacing-main);
-}
-
-#petition-text-overlay-2 {
-  font-family: var(--section-title-font-condensed);
-  letter-spacing: var(--section-title-letter-spacing-secondary);
-  color: var(--section-title-color-secondary);
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
-p#donate-text {
-  margin-bottom: 0;
-}
-
-p#volunteer-text {
-  margin-bottom: 1.1rem !important;
-}
-
-p#volunteer-text,
-p#donate-text {
-    line-height: 1.4;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: var(--section-title-font-condensed);
-    letter-spacing: var(--section-title-letter-spacing-secondary);
-    font-size: 2.1vmin;
-    text-transform: uppercase;
-}
-
-/* Volunteer section text overlay */
-#volunteer-text-overlay-1 {
-  font-size: var(--section-title-size-main) !important;
-  letter-spacing: var(--section-title-letter-spacing-main);
-}
-
-#volunteer-text-overlay-2 {
-  font-family: var(--section-title-font-condensed);
-  font-size: var(--section-title-size-secondary) !important;
-  letter-spacing: var(--section-title-letter-spacing-secondary);
-  color: var(--section-title-color-secondary);
-  font-weight: 400;
-  text-transform: uppercase;
-}
-
 
 h3.heading-3.text-center {
   line-height: 1.4;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   font-family: var(--section-title-font-condensed);
   letter-spacing: var(--section-title-letter-spacing-secondary);
-  margin-bottom: 1.1rem !important;
+  margin-top: 0.5rem; /* Reduced from 1rem */
+  margin-bottom: 1rem !important; /* Reduced from 1.5rem */
 }
 
 /* Donate section text overlay */
@@ -831,21 +846,23 @@ h3.heading-3.text-center {
 
 /* Media queries for responsive text overlays */
 @media (max-width: 768px) {
+  .section-text-overlay {
+    padding: 0.25rem 0.5rem;
+    margin: 0 auto 1.5rem auto;
+    gap: 0.25rem;
+    align-items: var(--section-title-vertical-align);
+    flex-wrap: nowrap;
+    width: 100%;
+    max-width: 100%;
+    overflow: visible; /* Ensure text doesn't get cut off on mobile */
+  }
+  
   .section-text-overlay span,
   .petition-text-overlay span {
-    font-size: calc(var(--section-title-size-main) * 0.75);
+    font-size: var(--section-title-size-main-mobile); /* Use the mobile size directly */
+    line-height: var(--section-title-line-height);
+    transform-origin: center center; /* Ensure scaling happens from the center */
   }
-
-  p#volunteer-text,
-  p#donate-text {
-    line-height: 1.4;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-family: var(--section-title-font-condensed);
-    letter-spacing: var(--section-title-letter-spacing-secondary);
-    font-size: 2.75vmin;
-    text-transform: uppercase;
-    text-align: left;
-}
   
   .section-text-overlay .text-part-1,
   #petition-text-overlay-1,
@@ -853,7 +870,8 @@ h3.heading-3.text-center {
   #donate-text-overlay-1,
   #get-informed-text-overlay-1,
   #contact-text-overlay-1 {
-    font-size: calc(var(--section-title-size-main-mobile) * 0.75) !important;
+    font-size: var(--section-title-size-main-mobile) !important; /* Use the mobile size directly */
+    vertical-align: var(--section-title-vertical-align);
   }
   
   .section-text-overlay .text-part-2,
@@ -862,7 +880,29 @@ h3.heading-3.text-center {
   #donate-text-overlay-2,
   #get-informed-text-overlay-2,
   #contact-text-overlay-2 {
-    font-size: calc(var(--section-title-size-secondary-mobile) * 0.75) !important;
+    font-size: var(--section-title-size-secondary-mobile) !important; /* Use the mobile size directly */
+    vertical-align: var(--section-title-vertical-align);
+  }
+  
+  p#volunteer-text,
+  p#donate-text {
+    line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    font-family: var(--section-title-font-condensed);
+    letter-spacing: var(--section-title-letter-spacing-secondary);
+    font-size: 2.75vmin;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 1rem !important;
+    padding: 0 1rem;
+  }
+  
+  h3.heading-3.text-center {
+    font-size: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1.5rem !important;
+    padding: 0 1rem;
   }
 }
 
@@ -1248,7 +1288,7 @@ input[type="checkbox"] + label {
   width: 100%;
   padding: 1.5rem;
   text-align: left;
-  font-weight: 600;
+  font-weight: 500;
   font-size: clamp(1.1rem, 2.5vmin, 1.25rem);
   color: var(--text);
   background: transparent;
@@ -1706,6 +1746,84 @@ textarea.form-input {
 
 #volunteer-text-container {
   width: 100%;
+  max-width: 600px;
+  margin: 0.25rem auto 0.25rem; /* Further reduced top and bottom margins */
+  text-align: center;
+  padding: 0.25rem; /* Reduced padding */
+}
+
+@media (max-width: 768px) {
+  #volunteer-text-container {
+    margin: 0.1rem auto 0.1rem; /* Minimal margins for mobile */
+    padding: 0.1rem; /* Minimal padding for mobile */
+    max-width: 90%;
+  }
+  
+  p#volunteer-text {
+    font-size: 0.9rem;
+    margin: 0 0 0.1rem 0 !important; /* Minimal bottom margin for mobile */
+    line-height: 1.2;
+  }
+  
+  #volunteer-form-toggle {
+    max-width: 90%;
+    margin: 0.1rem auto 0; /* Minimal top margin */
+  }
+}
+
+p#volunteer-text {
+  line-height: 1.3;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+  font-family: var(--font-family-sans);
+  letter-spacing: normal;
+  font-size: 1rem;
+  text-transform: none;
+  text-align: center;
+  margin: 0 0 0.25rem 0 !important; /* Reduced bottom margin */
+  color: white;
+  font-weight: 400;
+}
+
+/* Media query for mobile responsiveness */
+@media (max-width: 768px) {
+  #volunteer-text-container {
+    margin: 0.1rem auto 0.1rem; /* Minimal margins for mobile */
+    padding: 0.1rem; /* Minimal padding for mobile */
+    max-width: 90%;
+  }
+  
+  p#volunteer-text {
+    font-size: 0.9rem;
+    margin: 0 0 0.1rem 0 !important; /* Minimal bottom margin for mobile */
+    line-height: 1.2;
+  }
+  
+  #volunteer-form-toggle {
+    max-width: 90%;
+    margin: 0.1rem auto 0; /* Minimal top margin */
+  }
+}
+
+/* Make the volunteer form toggle button match the donate button styling */
+#volunteer-form-toggle {
+  width: 100%;
+  max-width: 600px;
+  margin: 0.25rem auto 0; /* Reduced top margin */
+}
+
+@media (max-width: 768px) {
+  #volunteer-text-container {
+    max-width: 90%;
+    padding: 1.25rem;
+  }
+  
+  p#volunteer-text {
+    font-size: 2.75vmin;
+  }
+  
+  #volunteer-form-toggle {
+    max-width: 90%;
+  }
 }
 
 @media (min-width: 768px) {
@@ -2808,7 +2926,8 @@ body.disable-snap,
   color: white;
 }
 
-#donate .text-body {
+#donate .text-body,
+#volunteer .text-body {
   font-size: clamp(1rem, 2vmin, 1.25rem);
   max-width: 600px;
   margin-left: auto;
@@ -2981,7 +3100,7 @@ body.disable-snap,
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.03em;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem; /* Reduced from 1.5rem */
   line-height: 1.4;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
   color: var(--section-title-color-secondary);
@@ -3030,5 +3149,69 @@ body.disable-snap,
 /* Hide scroll helper when contact section is in view */
 body.contact-in-view.is-mobile-device::after {
   display: none;
+}
+
+#petition-text-overlay-1,
+#volunteer-text-overlay-1,
+#donate-text-overlay-1,
+#get-informed-text-overlay-1,
+#contact-text-overlay-1 {
+  font-size: var(--section-title-size-main) !important;
+  letter-spacing: var(--section-title-letter-spacing-main);
+  color: var(--section-title-color-primary);
+  line-height: var(--section-title-line-height); /* Use the variable */
+  vertical-align: var(--section-title-vertical-align); /* Use the variable */
+}
+
+#petition-text-overlay-2,
+#volunteer-text-overlay-2,
+#donate-text-overlay-2,
+#get-informed-text-overlay-2,
+#contact-text-overlay-2 {
+  font-family: var(--section-title-font-condensed);
+  font-size: var(--section-title-size-secondary) !important;
+  letter-spacing: var(--section-title-letter-spacing-secondary);
+  color: var(--section-title-color-secondary);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: var(--section-title-line-height); /* Use the variable */
+  vertical-align: var(--section-title-vertical-align); /* Use the variable */
+}
+
+p#volunteer-text,
+p#donate-text {
+  line-height: 1.4;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  font-family: var(--section-title-font-condensed);
+  letter-spacing: var(--section-title-letter-spacing-secondary);
+  font-size: 2.75vmin;
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 1rem;
+  margin-bottom: 1rem !important;
+  /* padding: 0 1rem; */
+}
+
+h3.heading-3.text-center {
+  line-height: 1.4;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: var(--section-title-font-condensed);
+  letter-spacing: var(--section-title-letter-spacing-secondary);
+  margin-top: 0.5rem; /* Reduced from 1rem */
+  margin-bottom: 1rem !important; /* Reduced from 1.5rem */
+}
+
+/* Specific adjustments for volunteer and get-informed sections */
+#volunteer .section-text-overlay,
+#get-informed .section-text-overlay {
+  padding-top: 1rem; /* Reduced from default to match Get Informed */
+}
+
+@media (max-width: 768px) {
+  #volunteer .section-text-overlay,
+  #get-informed .section-text-overlay {
+    margin-bottom: 0.5rem; /* Keep the same for mobile */
+    padding-top: 1rem; /* Keep the same for mobile */
+  }
 }
 

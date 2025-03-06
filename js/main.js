@@ -1751,8 +1751,33 @@ function initFooterToggle() {
   }
   
   footerToggle.addEventListener('click', () => {
+    // Store the current scroll position
+    const initialScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    
+    // Temporarily disable scroll snapping during the toggle
+    document.documentElement.classList.add('disable-snap');
+    document.body.classList.add('disable-snap');
+    
+    // Toggle the collapsed state
     isCollapsed = !isCollapsed;
     updateFooterState();
+    
+    // Wait for the animation to complete before triggering layout recalculation
+    // Footer transition typically takes about 300ms
+    setTimeout(() => {
+      // Restore the original scroll position to prevent jumping
+      window.scrollTo(0, initialScrollTop);
+      
+      // Force a layout recalculation by accessing offsetHeight
+      document.body.offsetHeight;
+      
+      // Dispatch a custom event for other scripts to listen for
+      const footerToggledEvent = new CustomEvent('footerToggled');
+      document.dispatchEvent(footerToggledEvent);
+      
+      // Also dispatch a resize event to trigger any resize handlers
+      window.dispatchEvent(new Event('resize'));
+    }, 350); // Wait slightly longer than the CSS transition time
   });
   
   // Handle window resize events

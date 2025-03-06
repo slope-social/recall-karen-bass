@@ -365,4 +365,111 @@ document.addEventListener('DOMContentLoaded', function() {
             snapToNearestSection();
         }, 60); // Shorter timeout (reduced from 80ms)
     }, { passive: true });
+    
+    // Listen for footer toggle events
+    document.addEventListener('footerToggled', function() {
+        // IMPORTANT: We need to prevent any scroll snapping during the entire process
+        // This flag will be used to prevent snap scrolling for a longer period
+        window.preventSnapScrolling = true;
+        
+        // First, capture the current scroll position and section BEFORE any changes
+        const initialScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Determine which section we're currently in
+        const sections = document.querySelectorAll('.section');
+        let currentSection = null;
+        let bestVisibility = 0;
+        
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // Calculate how much of the section is visible in the viewport
+            const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
+            const visibilityRatio = visibleHeight / section.offsetHeight;
+            
+            if (visibilityRatio > bestVisibility) {
+                bestVisibility = visibilityRatio;
+                currentSection = section;
+            }
+        });
+        
+        // Store the section ID and its relative position in the viewport
+        const currentSectionId = currentSection ? currentSection.id : null;
+        const isContactSection = currentSectionId === 'contact';
+        
+        // Calculate the relative position of the section in the viewport
+        // This will help us maintain the same relative position after the footer toggle
+        let sectionRelativePosition = 0;
+        if (currentSection) {
+            const rect = currentSection.getBoundingClientRect();
+            sectionRelativePosition = rect.top / window.innerHeight;
+        }
+        
+        // Disable scroll snapping and animations
+        document.documentElement.classList.add('disable-snap');
+        document.body.classList.add('disable-snap');
+        
+        // Temporarily disable scrolling to prevent any automatic browser adjustments
+        const originalOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        
+        // Update the vh variable
+        setVhVariable();
+        
+        // Wait for the footer animation to complete
+        setTimeout(function() {
+            // For mobile devices, we need special handling
+            if (window.innerWidth <= 768) {
+                // Restore scrolling
+                document.body.style.overflow = originalOverflow;
+                
+                // Force a complete layout recalculation
+                document.body.style.opacity = '0.99';
+                void document.body.offsetHeight; // Force reflow
+                document.body.style.opacity = '';
+                
+                if (currentSection && !isContactSection) {
+                    // Calculate the new position of the section
+                    const newRect = currentSection.getBoundingClientRect();
+                    
+                    // Calculate the new scroll position that would maintain the same relative position
+                    const targetPosition = window.pageYOffset + newRect.top - (sectionRelativePosition * window.innerHeight);
+                    
+                    // Scroll directly to the calculated position
+                    window.scrollTo(0, targetPosition);
+                } else if (isContactSection) {
+                    // For contact section, just restore the original scroll position
+                    window.scrollTo(0, initialScrollTop);
+                }
+                
+                // Keep snap scrolling disabled for a longer period on mobile
+                setTimeout(function() {
+                    document.documentElement.classList.remove('disable-snap');
+                    document.body.classList.remove('disable-snap');
+                    window.preventSnapScrolling = false;
+                }, 1000); // Keep snap disabled for 1 second after scrolling
+            } else {
+                // For desktop, just restore settings and original scroll position
+                document.body.style.overflow = originalOverflow;
+                window.scrollTo(0, initialScrollTop);
+                
+                // Re-enable snap after a delay
+                setTimeout(function() {
+                    document.documentElement.classList.remove('disable-snap');
+                    document.body.classList.remove('disable-snap');
+                    window.preventSnapScrolling = false;
+                }, 500);
+            }
+        }, 500); // Wait for footer animation to complete
+    });
+    
+    // Modify the snapToNearestSection function to respect the preventSnapScrolling flag
+    const originalSnapToNearestSection = snapToNearestSection;
+    snapToNearestSection = function() {
+        if (window.preventSnapScrolling) {
+            return; // Skip snapping if we're in a prevention period
+        }
+        originalSnapToNearestSection();
+    };
 }); 
