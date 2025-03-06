@@ -1650,6 +1650,7 @@ function initFooterToggle() {
   const footerToggle = document.getElementById('footer-toggle');
   const footerDetails = document.querySelector('.footer-details');
   const siteFooter = document.querySelector('.site-footer');
+  const contactSection = document.getElementById('contact');
   
   if (!footerToggle || !footerDetails || !siteFooter) {
     debugLog('Footer toggle elements not found');
@@ -1666,6 +1667,47 @@ function initFooterToggle() {
   siteFooter.style.width = '100%';
   siteFooter.style.zIndex = '1000'; // Ensure footer is above form content
   
+  // Function to calculate and apply the appropriate padding to ensure footer visibility
+  function ensureFooterVisibility() {
+    if (!contactSection) return;
+    
+    // Get the current dimensions
+    const footerHeight = siteFooter.offsetHeight;
+    const viewportHeight = window.innerHeight;
+    const contactRect = contactSection.getBoundingClientRect();
+    const contactHeight = contactSection.offsetHeight;
+    const contactBottom = contactRect.bottom;
+    
+    // Calculate how much of the footer might be out of view
+    const visibleFooterHeight = viewportHeight - contactBottom;
+    const hiddenFooterHeight = footerHeight - Math.max(0, visibleFooterHeight);
+    
+    // Only add padding if the footer would be partially hidden
+    if (hiddenFooterHeight > 0) {
+      // Calculate the ratio of viewport to document to account for mobile browser UI
+      const viewportRatio = viewportHeight / document.documentElement.clientHeight;
+      // Apply padding with a small buffer that scales with the viewport
+      const bufferFactor = Math.max(0.02, Math.min(0.1, 1 - viewportRatio)); // Between 2% and 10% based on viewport ratio
+      const dynamicPadding = hiddenFooterHeight + (viewportHeight * bufferFactor);
+      
+      contactSection.style.paddingBottom = `${dynamicPadding}px`;
+      
+      debugLog('Adjusted contact padding', {
+        footerHeight,
+        viewportHeight,
+        contactBottom,
+        hiddenFooterHeight,
+        dynamicPadding,
+        viewportRatio,
+        bufferFactor
+      });
+    } else {
+      // Reset padding if not needed, but maintain a minimal padding for aesthetics
+      const minPadding = Math.max(footerHeight * 0.1, 5); // At least 5px or 10% of footer height
+      contactSection.style.paddingBottom = `${minPadding}px`;
+    }
+  }
+  
   // Function to update footer position and padding based on state
   function updateFooterState() {
     if (isCollapsed) {
@@ -1677,33 +1719,14 @@ function initFooterToggle() {
       siteFooter.style.paddingTop = '0.5rem';
       siteFooter.style.paddingBottom = '0.5rem';
       
-      // Ensure footer stays at bottom in mobile view
-      if (window.innerWidth <= 768) {
-        // Calculate the available space
-        const windowHeight = window.innerHeight;
-        const footerHeight = siteFooter.offsetHeight;
-        
-        // Use absolute positioning for consistent behavior
-        siteFooter.style.position = 'absolute';
-        siteFooter.style.bottom = '0';
-        siteFooter.style.left = '0';
-        siteFooter.style.width = '100%';
-        siteFooter.style.zIndex = '1000'; // Maintain high z-index
-        
-        debugLog('Footer collapsed (mobile)', {
-          windowHeight,
-          footerHeight,
-          position: siteFooter.style.position
-        });
-      } else {
-        // Desktop view
-        siteFooter.style.position = 'absolute';
-        siteFooter.style.bottom = '0';
-        siteFooter.style.left = '0';
-        siteFooter.style.width = '100%';
-        siteFooter.style.zIndex = '1000'; // Maintain high z-index
-        debugLog('Footer collapsed (desktop)');
-      }
+      // Ensure footer stays at bottom with consistent positioning
+      siteFooter.style.position = 'absolute';
+      siteFooter.style.bottom = '0';
+      siteFooter.style.left = '0';
+      siteFooter.style.width = '100%';
+      siteFooter.style.zIndex = '1000'; // Maintain high z-index
+      
+      debugLog('Footer collapsed');
     } else {
       footerToggle.classList.remove('collapsed');
       footerDetails.classList.remove('collapsed');
@@ -1722,6 +1745,9 @@ function initFooterToggle() {
       
       debugLog('Footer expanded');
     }
+    
+    // Ensure footer is visible after state change
+    ensureFooterVisibility();
   }
   
   footerToggle.addEventListener('click', () => {
@@ -1730,10 +1756,35 @@ function initFooterToggle() {
   });
   
   // Handle window resize events
+  let resizeTimeout;
   window.addEventListener('resize', () => {
-    updateFooterState();
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      updateFooterState();
+    }, 100); // Debounce resize events
+  });
+  
+  // Handle scroll events to ensure footer visibility
+  let scrollTimeout;
+  window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+      ensureFooterVisibility();
+    }, 50); // Debounce scroll events
+  });
+  
+  // Handle orientation change explicitly
+  window.addEventListener('orientationchange', () => {
+    setTimeout(() => {
+      updateFooterState();
+    }, 200); // Delay to allow browser UI to settle
   });
   
   // Initialize footer state
   updateFooterState();
+  
+  // Force a refresh after layout is complete
+  window.addEventListener('load', () => {
+    setTimeout(updateFooterState, 300);
+  });
 } 
