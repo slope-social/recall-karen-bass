@@ -84,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset all background states
         document.body.classList.remove('petition-in-view');
         document.body.classList.remove('volunteer-in-view');
+        document.body.classList.remove('contact-in-view');
         
         const slantedBackground = document.querySelector('.slanted-background');
         const petitionFixedBackground = document.querySelector('.petition-fixed-background');
@@ -122,6 +123,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             document.body.classList.add('volunteer-in-view');
             console.log('Volunteer section in view, updated backgrounds');
+        } else if (sectionId === 'contact') {
+            document.body.classList.add('contact-in-view');
+            console.log('Contact section in view, hiding scroll helper');
         }
         
         // Update current section
