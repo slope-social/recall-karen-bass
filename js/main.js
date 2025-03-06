@@ -1807,11 +1807,12 @@ function initFooterToggle() {
   // Footer is expanded by default
   let isCollapsed = false;
   
-  // Set initial footer position to absolute bottom
+  // Set initial footer position to absolute bottom with high z-index
   siteFooter.style.position = 'absolute';
   siteFooter.style.bottom = '0';
   siteFooter.style.left = '0';
   siteFooter.style.width = '100%';
+  siteFooter.style.zIndex = '1000'; // Ensure footer is above form content
   
   // Function to update footer position and padding based on state
   function updateFooterState() {
@@ -1835,6 +1836,7 @@ function initFooterToggle() {
         siteFooter.style.bottom = '0';
         siteFooter.style.left = '0';
         siteFooter.style.width = '100%';
+        siteFooter.style.zIndex = '1000'; // Maintain high z-index
         
         debugLog('Footer collapsed (mobile)', {
           windowHeight,
@@ -1847,6 +1849,7 @@ function initFooterToggle() {
         siteFooter.style.bottom = '0';
         siteFooter.style.left = '0';
         siteFooter.style.width = '100%';
+        siteFooter.style.zIndex = '1000'; // Maintain high z-index
         debugLog('Footer collapsed (desktop)');
       }
     } else {
@@ -1863,6 +1866,7 @@ function initFooterToggle() {
       siteFooter.style.bottom = '0';
       siteFooter.style.left = '0';
       siteFooter.style.width = '100%';
+      siteFooter.style.zIndex = '1000'; // Maintain high z-index
       
       debugLog('Footer expanded');
     }
