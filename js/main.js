@@ -1084,12 +1084,7 @@ function initPrivacyPolicyAndCookies() {
         cookieBanner.style.opacity = '1';
       }, 1000); // Show banner after 1 second
       
-      // Auto-accept cookies after 5 seconds if user doesn't interact
-      setTimeout(() => {
-        if (localStorage.getItem('cookiesAccepted') !== 'true') {
-          acceptCookies();
-        }
-      }, 5000);
+      // Remove auto-accept functionality - cookie banner will remain until user interaction
     }
   }
   
@@ -1599,6 +1594,172 @@ function closeThankYouPetitionModal() {
   }, 300);
 }
 
+/**
+ * Clears the browser cache of all site files except for those in the 'assets' directory
+ * Uses the Cache API to selectively delete cached resources
+ * @param {boolean} showConfirmation - Whether to show a confirmation dialog before clearing
+ * @returns {Promise<void>} - A promise that resolves when the cache clearing is complete
+ */
+function clearCacheExceptAssets(showConfirmation = true) {
+  return new Promise((resolve, reject) => {
+    // Show confirmation dialog if requested
+    if (showConfirmation) {
+      if (!confirm('Clear site cache? This will refresh all site files except images.')) {
+        debugLog('Cache clearing cancelled by user');
+        resolve();
+        return;
+      }
+    }
+    
+    debugLog('Starting cache clearing process');
+    
+    // Check if Cache API is available
+    if (!('caches' in window)) {
+      const message = 'Cache API not supported in this browser';
+      debugLog(message);
+      // Only show toast for user-initiated cache clearing
+      if (showConfirmation) {
+        showToast('Cache Clearing Failed', message, 'error');
+      }
+      reject(new Error(message));
+      return;
+    }
+    
+    // Get all cache storage names
+    caches.keys().then(cacheNames => {
+      debugLog('Found caches:', cacheNames);
+      
+      // Process each cache storage
+      const cachePromises = cacheNames.map(cacheName => {
+        return caches.open(cacheName).then(cache => {
+          // Get all cached requests
+          return cache.keys().then(requests => {
+            debugLog(`Processing ${requests.length} items in cache: ${cacheName}`);
+            
+            // Filter requests to delete (everything except assets)
+            const deletionPromises = requests.map(request => {
+              const url = request.url;
+              
+              // Keep assets directory files
+              if (url.includes('/assets/')) {
+                debugLog(`Keeping asset: ${url}`);
+                return Promise.resolve();
+              } else {
+                debugLog(`Deleting from cache: ${url}`);
+                return cache.delete(request);
+              }
+            });
+            
+            // Wait for all deletions to complete
+            return Promise.all(deletionPromises);
+          });
+        });
+      });
+      
+      // Wait for all caches to be processed
+      return Promise.all(cachePromises);
+    })
+    .then(() => {
+      const message = 'Cache cleared successfully (assets preserved)';
+      debugLog(message);
+      // Only show toast for user-initiated cache clearing
+      if (showConfirmation) {
+        showToast('Cache Cleared', message, 'success');
+      }
+      resolve();
+    })
+    .catch(error => {
+      const message = `Error clearing cache: ${error.message}`;
+      debugLog(message, error);
+      // Only show toast for user-initiated cache clearing
+      if (showConfirmation) {
+        showToast('Cache Clearing Failed', message, 'error');
+      }
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Silently clears the browser cache of all site files except for those in the 'assets' directory
+ * This version is used for automatic cache clearing and never shows any UI notifications
+ * @returns {Promise<void>} - A promise that resolves when the cache clearing is complete
+ * @private - This function is meant to be used internally only
+ */
+function _silentCacheClear() {
+  return new Promise((resolve, reject) => {
+    debugLog('Starting silent cache clearing process');
+    
+    // Check if Cache API is available
+    if (!('caches' in window)) {
+      const message = 'Cache API not supported in this browser';
+      debugLog(message);
+      reject(new Error(message));
+      return;
+    }
+    
+    // Get all cache storage names
+    caches.keys().then(cacheNames => {
+      debugLog('Found caches:', cacheNames);
+      
+      // Process each cache storage
+      const cachePromises = cacheNames.map(cacheName => {
+        return caches.open(cacheName).then(cache => {
+          // Get all cached requests
+          return cache.keys().then(requests => {
+            debugLog(`Processing ${requests.length} items in cache: ${cacheName}`);
+            
+            // Filter requests to delete (everything except assets)
+            const deletionPromises = requests.map(request => {
+              const url = request.url;
+              
+              // Keep assets directory files
+              if (url.includes('/assets/')) {
+                debugLog(`Keeping asset: ${url}`);
+                return Promise.resolve();
+              } else {
+                debugLog(`Deleting from cache: ${url}`);
+                return cache.delete(request);
+              }
+            });
+            
+            // Wait for all deletions to complete
+            return Promise.all(deletionPromises);
+          });
+        });
+      });
+      
+      // Wait for all caches to be processed
+      return Promise.all(cachePromises);
+    })
+    .then(() => {
+      debugLog('Cache cleared successfully (assets preserved)');
+      resolve();
+    })
+    .catch(error => {
+      debugLog(`Error clearing cache: ${error.message}`, error);
+      reject(error);
+    });
+  });
+}
+
+/**
+ * Initializes the cache clearing functionality
+ * Automatically clears cache on page load to ensure users have the latest version
+ */
+function initCacheClearing() {
+  debugLog('Initializing automatic cache clearing');
+  
+  // Use the silent cache clearing function that never shows UI notifications
+  _silentCacheClear()
+    .then(() => {
+      debugLog('Automatic cache clearing completed successfully');
+    })
+    .catch(error => {
+      console.error('Automatic cache clearing failed:', error);
+    });
+}
+
 // Initialize everything when the DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {
   // Thank you petition modal close buttons
@@ -1621,4 +1782,102 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-}); 
+  
+  // Initialize footer toggle functionality
+  initFooterToggle();
+  
+  // Initialize cache clearing functionality
+  initCacheClearing();
+});
+
+/**
+ * Initializes the footer toggle functionality
+ * Allows users to collapse/expand the footer details
+ */
+function initFooterToggle() {
+  const footerToggle = document.getElementById('footer-toggle');
+  const footerDetails = document.querySelector('.footer-details');
+  const siteFooter = document.querySelector('.site-footer');
+  
+  if (!footerToggle || !footerDetails || !siteFooter) {
+    debugLog('Footer toggle elements not found');
+    return;
+  }
+  
+  // Footer is expanded by default
+  let isCollapsed = false;
+  
+  // Set initial footer position to absolute bottom
+  siteFooter.style.position = 'absolute';
+  siteFooter.style.bottom = '0';
+  siteFooter.style.left = '0';
+  siteFooter.style.width = '100%';
+  
+  // Function to update footer position and padding based on state
+  function updateFooterState() {
+    if (isCollapsed) {
+      footerToggle.classList.add('collapsed');
+      footerDetails.classList.add('collapsed');
+      footerToggle.setAttribute('aria-expanded', 'false');
+      
+      // Adjust padding to keep footer compact when collapsed
+      siteFooter.style.paddingTop = '0.5rem';
+      siteFooter.style.paddingBottom = '0.5rem';
+      
+      // Ensure footer stays at bottom in mobile view
+      if (window.innerWidth <= 768) {
+        // Calculate the available space
+        const windowHeight = window.innerHeight;
+        const footerHeight = siteFooter.offsetHeight;
+        
+        // Use absolute positioning for consistent behavior
+        siteFooter.style.position = 'absolute';
+        siteFooter.style.bottom = '0';
+        siteFooter.style.left = '0';
+        siteFooter.style.width = '100%';
+        
+        debugLog('Footer collapsed (mobile)', {
+          windowHeight,
+          footerHeight,
+          position: siteFooter.style.position
+        });
+      } else {
+        // Desktop view
+        siteFooter.style.position = 'absolute';
+        siteFooter.style.bottom = '0';
+        siteFooter.style.left = '0';
+        siteFooter.style.width = '100%';
+        debugLog('Footer collapsed (desktop)');
+      }
+    } else {
+      footerToggle.classList.remove('collapsed');
+      footerDetails.classList.remove('collapsed');
+      footerToggle.setAttribute('aria-expanded', 'true');
+      
+      // Restore original padding when expanded
+      siteFooter.style.paddingTop = '1.5rem';
+      siteFooter.style.paddingBottom = '1rem';
+      
+      // Keep the footer at the bottom of the page
+      siteFooter.style.position = 'absolute';
+      siteFooter.style.bottom = '0';
+      siteFooter.style.left = '0';
+      siteFooter.style.width = '100%';
+      
+      debugLog('Footer expanded');
+    }
+  }
+  
+  footerToggle.addEventListener('click', () => {
+    isCollapsed = !isCollapsed;
+    updateFooterState();
+  });
+  
+  // Handle window resize events
+  window.addEventListener('resize', () => {
+    updateFooterState();
+  });
+  
+  // Initialize footer state
+  updateFooterState();
+} 
